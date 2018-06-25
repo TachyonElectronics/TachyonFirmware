@@ -1,0 +1,25 @@
+C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\TachyonFirmware.cpp.o: \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\TachyonFirmware.cpp \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/arduino.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/binary.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/WCharacter.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/WString.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/HardwareSerial.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Stream.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Print.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Printable.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/USBAPI.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Arduino.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\variants\standard/pins_arduino.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\libraries\Wire\src/Wire.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Stream.h \
+ C:\Users\DELTA-PC\Documents\Arduino\libraries\Adafruit-ST7735-Library-master/Adafruit_ST7735.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Arduino.h \
+ C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Print.h \
+ C:\Users\DELTA-PC\Documents\Arduino\libraries\Adafruit-GFX-Library-master/Adafruit_GFX.h \
+ C:\Users\DELTA-PC\Documents\Arduino\libraries\Adafruit-GFX-Library-master/gfxfont.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\Bitmaps.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\Conf.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\UI.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Debug\RTC.h \
+ C:\Program\ Files\ (x86)\Atmel\Studio\7.0\Extensions\wtjzc3si.eia\Micro\ Platforms\default\debuggers\VM_DBG/VM_DBG.h
