@@ -21,6 +21,21 @@ Written by Limor Fried/Ladyada for Adafruit Industries.
 MIT license, all text above must be included in any redistribution
 ****************************************************/
 
+/*===================================================
+This library has been heavily modified for use with the Tachyon firmware
+Replacing this library with a different version of the Adafruit library will break the functionality of the firmware!
+
+Modified by Martin Hrehor
+
+
+Available rotations (in degrees):
+0 = 0
+1 = 90
+2 = 180
+3 = 270
+===================================================
+*/
+
 #ifndef _ADAFRUIT_ST7735H_
 #define _ADAFRUIT_ST7735H_
 
@@ -150,18 +165,13 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	invertDisplay(boolean i);
 	uint16_t Color565(uint8_t r, uint8_t g, uint8_t b);
 	
+	//void drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
 	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color),
-	drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg),
 	//Displays a bitmap that is cropped on the side(s)
-	drawFastCroppedBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
+	drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX = 0, int16_t cropY = 0);
 
-	/* These are not for current use, 8-bit protocol only!
-	uint8_t  readdata(void),
-	readcommand8(uint8_t);
-	uint16_t readcommand16(uint8_t);
-	uint32_t readcommand32(uint8_t);
-	void     dummyclock(void);
-	*/
+//Fills the window on the specified position with the inputted data
+	//void writeWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h,uint8_t* data, uint16_t length);
 
 	private:
 	uint8_t  tabcolor;

@@ -21,4 +21,5 @@ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Ta
  C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Bitmaps.h \
  C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Conf.h \
  C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\UI.h \
- C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\RTC.h
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\RTC.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Strings.h

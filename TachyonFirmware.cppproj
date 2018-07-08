@@ -42,98 +42,256 @@
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
       <AvrGccCpp>
-        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-          </ListValues>
-        </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
-        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-        <avrgcc.compiler.miscellaneous.OtherFlags>
-        </avrgcc.compiler.miscellaneous.OtherFlags>
-        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcccpp.compiler.symbols.DefSymbols>
-          <ListValues>
-          </ListValues>
-        </avrgcccpp.compiler.symbols.DefSymbols>
-        <avrgcccpp.compiler.directories.IncludePaths>
-          <ListValues>
-          </ListValues>
-        </avrgcccpp.compiler.directories.IncludePaths>
-        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
-        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
-        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
-        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
-        <avrgcccpp.compiler.miscellaneous.OtherFlags>-include=arduino.h</avrgcccpp.compiler.miscellaneous.OtherFlags>
-        <avrgcccpp.linker.memorysettings.Comment>&lt;segmentname&gt;=&lt;address&gt;, for example  .boot=0xff</avrgcccpp.linker.memorysettings.Comment>
-        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
-      </AvrGccCpp>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=10805</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=20000000L</Value>
+      <Value>__AVR__</Value>
+      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
+      <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
+      <Value>../../../TachyonFirmware</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=10805</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=20000000L</Value>
+      <Value>__AVR__</Value>
+      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
+      <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
+      <Value>../../../TachyonFirmware</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
     </ToolchainSettings>
+    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;</VMSETTING_IncludePaths>
+    <VisualMicroSettings>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM8</arduino.upload.port>
+      </VisualMicroSettings>
+    </VisualMicroSettings>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <ToolchainSettings>
       <AvrGccCpp>
-        <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
-        <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
-        <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
-        <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
-        <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcc.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </avrgcc.compiler.symbols.DefSymbols>
-        <avrgcc.compiler.directories.IncludePaths>
-          <ListValues>
-          </ListValues>
-        </avrgcc.compiler.directories.IncludePaths>
-        <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
-        <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
-        <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
-        <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
-        <avrgcc.compiler.miscellaneous.OtherFlags>-std=gnu99 -include=arduino.h</avrgcc.compiler.miscellaneous.OtherFlags>
-        <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
-        <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
-        <avrgcccpp.compiler.symbols.DefSymbols>
-          <ListValues>
-            <Value>NDEBUG</Value>
-          </ListValues>
-        </avrgcccpp.compiler.symbols.DefSymbols>
-        <avrgcccpp.compiler.directories.IncludePaths>
-          <ListValues>
-          </ListValues>
-        </avrgcccpp.compiler.directories.IncludePaths>
-        <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
-        <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
-        <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
-        <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
-        <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
-        <avrgcccpp.compiler.miscellaneous.OtherFlags>-include=arduino.h</avrgcccpp.compiler.miscellaneous.OtherFlags>
-        <avrgcccpp.linker.memorysettings.Comment>&lt;segmentname&gt;=&lt;address&gt;, for example  .boot=0xff</avrgcccpp.linker.memorysettings.Comment>
-        <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
-      </AvrGccCpp>
+  <avrgcc.common.outputfiles.hex>True</avrgcc.common.outputfiles.hex>
+  <avrgcc.common.outputfiles.lss>True</avrgcc.common.outputfiles.lss>
+  <avrgcc.common.outputfiles.eep>True</avrgcc.common.outputfiles.eep>
+  <avrgcc.common.outputfiles.srec>True</avrgcc.common.outputfiles.srec>
+  <avrgcc.common.outputfiles.usersignatures>False</avrgcc.common.outputfiles.usersignatures>
+  <avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcc.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcc.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcc.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=10805</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=20000000L</Value>
+      <Value>__AVR__</Value>
+      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+    </ListValues>
+  </avrgcc.compiler.symbols.DefSymbols>
+  <avrgcc.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
+      <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
+      <Value>../../../TachyonFirmware</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+    </ListValues>
+  </avrgcc.compiler.directories.IncludePaths>
+  <avrgcc.compiler.optimization.level>Optimize (-O1)</avrgcc.compiler.optimization.level>
+  <avrgcc.compiler.optimization.PackStructureMembers>True</avrgcc.compiler.optimization.PackStructureMembers>
+  <avrgcc.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcc.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcc.compiler.optimization.DebugLevel>Default (-g2)</avrgcc.compiler.optimization.DebugLevel>
+  <avrgcc.compiler.warnings.AllWarnings>True</avrgcc.compiler.warnings.AllWarnings>
+  <avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultCharTypeUnsigned>
+  <avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>True</avrgcccpp.compiler.general.ChangeDefaultBitFieldUnsigned>
+  <avrgcccpp.compiler.symbols.DefSymbols>
+    <ListValues>
+      <Value>__AVR_ATmega328p__</Value>
+      <Value>__AVR_ATmega328P__</Value>
+      <Value>ARDUINO=10805</Value>
+      <Value>ARDUINO_MAIN</Value>
+      <Value>F_CPU=20000000L</Value>
+      <Value>__AVR__</Value>
+      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_ARCH_AVR</Value>
+    </ListValues>
+  </avrgcccpp.compiler.symbols.DefSymbols>
+  <avrgcccpp.compiler.directories.IncludePaths>
+    <ListValues>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility</Value>
+      <Value>C:/Program Files (x86)/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
+      <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
+      <Value>../../../TachyonFirmware</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+    </ListValues>
+  </avrgcccpp.compiler.directories.IncludePaths>
+  <avrgcccpp.compiler.optimization.level>Optimize (-O1)</avrgcccpp.compiler.optimization.level>
+  <avrgcccpp.compiler.optimization.PackStructureMembers>True</avrgcccpp.compiler.optimization.PackStructureMembers>
+  <avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>True</avrgcccpp.compiler.optimization.AllocateBytesNeededForEnum>
+  <avrgcccpp.compiler.optimization.DebugLevel>Default (-g2)</avrgcccpp.compiler.optimization.DebugLevel>
+  <avrgcccpp.compiler.warnings.AllWarnings>True</avrgcccpp.compiler.warnings.AllWarnings>
+  <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
+</AvrGccCpp>
     </ToolchainSettings>
+    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;</VMSETTING_IncludePaths>
+    <VisualMicroSettings>
+      <VisualMicroSettings xmlns="">
+        <arduino.upload.port>COM8</arduino.upload.port>
+      </VisualMicroSettings>
+    </VisualMicroSettings>
   </PropertyGroup>
   <ItemGroup>
+    <None Include="Adafruit-GFX\library.properties">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Adafruit-GFX\license.txt">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Adafruit-GFX\README.md">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Adafruit-ST7735\library.properties">
+      <SubType>compile</SubType>
+    </None>
+    <None Include="Adafruit-ST7735\README.txt">
+      <SubType>compile</SubType>
+    </None>
     <None Include="TachyonFirmware.ino">
       <SubType>compile</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Adafruit-GFX\" />
+    <Folder Include="Adafruit-ST7735\" />
+    <Folder Include="__vm\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Adafruit-GFX\Adafruit_GFX.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\Adafruit_GFX.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\Adafruit_SPITFT.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\Adafruit_SPITFT.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\Adafruit_SPITFT_Macros.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\gfxfont.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-GFX\glcdfont.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-ST7735\Adafruit_ST7735.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Adafruit-ST7735\Adafruit_ST7735.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Bitmaps.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Conf.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RTC.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="RTC.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Strings.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UI.cpp">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="__vm\.TachyonFirmware.vsarduino.h">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

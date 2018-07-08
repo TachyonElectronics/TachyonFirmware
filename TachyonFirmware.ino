@@ -1,8 +1,8 @@
 /*
-	OFFICIAL TACHYON FIRMWARE
-	Version 1.x
-	
-	(c) Martin Hrehor 2018
+OFFICIAL TACHYON FIRMWARE
+Version 1.x
+
+(c) Martin Hrehor 2018
 
 */
 
@@ -14,6 +14,7 @@
 #include "Conf.h"
 #include "UI.h"
 #include "RTC.h"
+#include "Strings.h"
 
 #define SUP b.updating = 1
 #define EUP b.updating = 0
@@ -58,6 +59,7 @@ struct
 	uint16_t uiColor, bgColor, ctrColor1, ctrColor2, ctrColor3;
 	int16_t presets[6];
 	uint8_t reloadMode;
+	uint8_t rotation;
 } settings;
 
 RTC Rtc = RTC();
@@ -98,9 +100,10 @@ inline void openTimeSetup();
 inline void openSettingsScreen();
 inline void updateAmmo();
 inline void openColorEditor(uint16_t* target);
+
 //=======================UI========================
 void onList1Select(uint8_t);
-UIList list1 = UIList(&disp,&onList1Select,112,12,4,&settings.uiColor,&settings.bgColor,List1Contents,7);
+UIList settings1 = UIList(&disp,&onList1Select,112,12,4,&settings.uiColor,&settings.bgColor,SettingsLabels,7);
 
 void onEditPreset(uint8_t);
 UIList presetList = UIList(&disp,&onEditPreset,66,12,4,&settings.uiColor,&settings.bgColor,PresetLabels,7);
@@ -110,7 +113,7 @@ UIInvisibleSlider presetSlider = UIInvisibleSlider(&disp,&onAcceptPreset,&onChan
 UIList reloadModeList = UIList(&disp,[settings](uint8_t val){settings.reloadMode = val;openSettingsScreen();},102,12,4,&settings.uiColor,&settings.bgColor,ReloadModeLabels,5);
 
 void onUISetupSelect(uint8_t);
-UIList uiSetupList = UIList(&disp,&onUISetupSelect,112,12,4,&settings.uiColor,&settings.bgColor,UISetupLabels,6);
+UIList uiSetupList = UIList(&disp,&onUISetupSelect,112,12,4,&settings.uiColor,&settings.bgColor,UISetupLabels,7);
 
 uint8_t selectedColorChannel;
 uint16_t testColor;
@@ -127,7 +130,7 @@ void acceptTime();
 UIInvisibleSlider minuteSlider = UIInvisibleSlider(&disp,&acceptTime,[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
 UIInvisibleSlider hourSlider = UIInvisibleSlider(&disp,[minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);
 
-
+//Macros
 #define openSimpleListScreen(_list, title, _screen) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(8,12); focusedUiElement = &_list;
 #define openSimpleListScreen_xy(_list, title, _screen,_x,_y) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(_x,_y); focusedUiElement = &_list;
 //=================================================
@@ -161,7 +164,7 @@ void setup()
 	SPSR |= 1 << SPI2X;
 	//SPCR = 0b11010000;
 	SPCR &= ~0b00000011;
-	
+	disp.setRotation(settings.rotation);
 	disp.fillScreen(settings.bgColor);
 	disp.drawFastBitmap(14,14,Logo,settings.uiColor,settings.bgColor);
 	setBrightness(brightness);
@@ -369,8 +372,8 @@ void updateAmmoBar()
 	if(crop > 42) ammoColor = settings.ctrColor3;
 	else if(crop > 21) ammoColor = settings.ctrColor2;
 	else ammoColor = settings.ctrColor1;
-	disp.drawFastCroppedBitmap(0,112,AmmoBar1L,ammoColor,settings.bgColor,crop,0);
-	disp.drawFastCroppedBitmap(64,112,AmmoBar1R,ammoColor,settings.bgColor,-crop,0);
+	disp.drawFastBitmap(0,112,AmmoBar1L,ammoColor,settings.bgColor,crop,0);
+	disp.drawFastBitmap(64,112,AmmoBar1R,ammoColor,settings.bgColor,-crop,0);
 }
 
 void updateAmmoCount()
@@ -482,8 +485,8 @@ void openSettingsScreen()
 	disp.setTextColor(settings.uiColor);
 	disp.setCursor(40,0);
 	disp.print("Settings");
-	list1.draw(8,12);
-	focusedUiElement = &list1;
+	settings1.draw(8,12);
+	focusedUiElement = &settings1;
 }
 
 //=============
@@ -529,7 +532,7 @@ void onList1Select(uint8_t item)
 		eeprom_busy_wait();
 		eeprom_update_byte(EA_BRIGHTNESS,brightness);
 		disp.setTextColor(settings.bgColor,settings.uiColor);
-		disp.setCursor(105,2+list1.y+(list1.itemHeight+list1.spacing)*5);
+		disp.setCursor(105,2+settings1.y+(settings1.itemHeight+settings1.spacing)*5);
 		disp.print("OK");
 		return;
 		
@@ -708,21 +711,26 @@ void onUISetupSelect(uint8_t item)
 		openSettingsScreen();
 		return;
 		
-		case 1:
+		case 2:
 		openColorEditor(&settings.uiColor);
 		return;
-		case 2:
+		case 3:
 		openColorEditor(&settings.bgColor);
 		return;
-		case 3:
+		case 4:
 		openColorEditor(&settings.ctrColor1);
 		return;
-		case 4:
+		case 5:
 		openColorEditor(&settings.ctrColor2);
 		return;
-		case 5:
+		case 6:
 		openColorEditor(&settings.ctrColor3);
 		return;
+		
+		case 1:
+		settings.rotation = settings.rotation >= 3 ? 0 : settings.rotation + 1;
+		disp.setRotation(settings.rotation);
+		openSimpleListScreen(uiSetupList,"UI Settings",SCREEN_UISETUP);
 	}
 }
 

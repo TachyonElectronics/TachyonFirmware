@@ -25,6 +25,7 @@ MIT license, all text above must be included in any redistribution
 #include <limits.h>
 #include "pins_arduino.h"
 #include "wiring_private.h"
+#include "../Conf.h"
 #include <SPI.h>
 
 inline uint16_t swapcolor(uint16_t x) {
@@ -326,6 +327,9 @@ void Adafruit_ST7735::commandList(const uint8_t *addr) {
 void Adafruit_ST7735::commonInit(const uint8_t *cmdList) {
 	ystart = xstart = colstart  = rowstart = 0; // May be overridden in init func
 
+	_height = ST7735_TFTHEIGHT_128;
+	_width  = ST7735_TFTWIDTH_128;
+
 	pinMode(_dc, OUTPUT);
 	pinMode(_cs, OUTPUT);
 
@@ -415,12 +419,6 @@ void Adafruit_ST7735::initR(uint8_t options) {
 		commandList(Rcmd2red);
 	}
 	commandList(Rcmd3);
-
-	// if black, change MADCTL color filter
-	if ((options == INITR_BLACKTAB) || (options == INITR_MINI160x80)) {
-		writecommand(ST7735_MADCTL);
-		writedata(0xC0);
-	}
 
 	tabcolor = options;
 
@@ -662,54 +660,77 @@ void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[],  
 		else{ xPos = 0; yPos++;}
 	}
 }
+/*
 void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
 {
-	int8_t w,  h;
-	w = pgm_read_byte(&bitmap[0]);
-	h = pgm_read_byte(&bitmap[1]);
-	
-	setAddrWindow(x, y, x+w-1, y+h-1);
-	
-	uint8_t xPos = 0, yPos = 0, bitPos = 0;
-	uint8_t byte = pgm_read_byte(&bitmap[2]);
+int8_t w,  h;
+w = pgm_read_byte(&bitmap[0]);
+h = pgm_read_byte(&bitmap[1]);
 
-	uint8_t cH = color >> 8,
-	cL = color,
-	bgH = bg >> 8,
-	bgL = bg;
-	
-	CS_LOW();
-	for(uint16_t i = 0; i < w * h; i++)
-	{
-		bool b = byte & (0x80 >> bitPos);
-		
-		DC_HIGH();
-		spiwrite(b? cH: bgH);
-		DC_HIGH();
-		spiwrite(b? cL : bgL);
+setAddrWindow(x, y, x+w-1, y+h-1);
 
-		
-		if(bitPos < 7)bitPos++;
-		else
-		{
-			bitPos = 0;
-			byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
-		}
+uint8_t xPos = 0, yPos = 0, bitPos = 0;
+uint8_t byte = pgm_read_byte(&bitmap[2]);
 
-		if(xPos < w -1 )xPos++;
-		else{ xPos = 0; yPos++;}
-	}
-	CS_HIGH();
+uint8_t cH = color >> 8,
+cL = color,
+bgH = bg >> 8,
+bgL = bg;
+
+CS_LOW();
+for(uint16_t i = 0; i < w * h; i++)
+{
+bool b = byte & (0x80 >> bitPos);
+
+DC_HIGH();
+spiwrite(b? cH: bgH);
+DC_HIGH();
+spiwrite(b? cL : bgL);
+
+
+if(bitPos < 7)bitPos++;
+else
+{
+bitPos = 0;
+byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
 }
 
+if(xPos < w -1 )xPos++;
+else{ xPos = 0; yPos++;}
+}
+CS_HIGH();
+}
+*/
 
-void Adafruit_ST7735::drawFastCroppedBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
+void Adafruit_ST7735::drawFastBitmap(int16_t x_in, int16_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
 {
-	int8_t w,  h;
-	w = pgm_read_byte(&bitmap[0]);
-	h = pgm_read_byte(&bitmap[1]);
-	
-	setAddrWindow(x, y, x+w-1, y+h-1);
+	int8_t w, h, w_cropped, h_cropped, x, y, cropLeft, cropRight, cropTop, cropBottom;
+	w = pgm_read_byte(&bitmap[1]);
+	h = pgm_read_byte(&bitmap[0]);
+	h_cropped = w - abs(cropY);
+	w_cropped = h - abs(cropX);
+
+	if(sign16(cropX)){
+		cropLeft = -cropX;
+		cropRight = 0;
+	}
+	else{
+		cropRight = cropX;
+		cropLeft = 0;
+	}
+	if(sign16(cropY)){
+		cropTop = -cropY;
+		cropBottom = 0;
+	}
+	else{
+		cropBottom = cropX;
+		cropTop = 0;
+	}
+
+	x = x_in + cropLeft;
+	y = y_in + cropTop;
+
+	setAddrWindow(x, y, x+w_cropped-1, y+h_cropped-1);
 	
 	uint8_t xPos = 0, yPos = 0, bitPos = 0;
 	uint8_t byte = pgm_read_byte(&bitmap[2]);
@@ -722,11 +743,14 @@ void Adafruit_ST7735::drawFastCroppedBitmap(int16_t x, int16_t y, const uint8_t 
 	CS_LOW();
 	for(uint16_t i = 0; i < w * h; i++)
 	{
-		bool b = (((sign16(cropX) && xPos >= -cropX) || (!sign16(cropX) && xPos <= w-cropX-1)) && ((sign16(cropY) && yPos >= -cropY) || (!sign16(cropY) && yPos <= h-cropY-1))) && (byte & (0x80 >> bitPos));
-		DC_HIGH();
-		spiwrite(b? cH : bgH);
-		DC_HIGH();
-		spiwrite(b? cL : bgL);
+		if(!(xPos < cropLeft || xPos > w-cropRight || yPos < cropTop || yPos > h-cropBottom)) //if the current position is withing the cropped part(s) of the image, skip display write
+		{
+			bool b = byte & (0x80 >> bitPos);
+			DC_HIGH();
+			spiwrite(b? cH : bgH);
+			DC_HIGH();
+			spiwrite(b? cL : bgL);
+		}
 		
 		if(bitPos < 7)bitPos++;
 		else
@@ -751,89 +775,31 @@ void Adafruit_ST7735::drawFastCroppedBitmap(int16_t x, int16_t y, const uint8_t 
 #define MADCTL_MH  0x04
 
 void Adafruit_ST7735::setRotation(uint8_t m) {
-
+	
 	writecommand(ST7735_MADCTL);
-	rotation = m % 4; // can't be higher than 3
+	rotation = m;
 	switch (rotation) {
 		case 0:
-		if ((tabcolor == INITR_BLACKTAB) || (tabcolor == INITR_MINI160x80)) {
-			writedata(MADCTL_MX | MADCTL_MY | MADCTL_RGB);
-			} else {
-			writedata(MADCTL_MX | MADCTL_MY | MADCTL_BGR);
-		}
+		writedata(MADCTL_MX | MADCTL_MY | MADCTL_BGR);
 
-		if (tabcolor == INITR_144GREENTAB) {
-			_height = ST7735_TFTHEIGHT_128;
-			_width  = ST7735_TFTWIDTH_128;
-			} else if (tabcolor == INITR_MINI160x80)  {
-			_height = ST7735_TFTHEIGHT_160;
-			_width = ST7735_TFTWIDTH_80;
-			} else {
-			_height = ST7735_TFTHEIGHT_160;
-			_width  = ST7735_TFTWIDTH_128;
-		}
 		xstart = colstart;
 		ystart = rowstart;
 		break;
 		case 1:
-		if ((tabcolor == INITR_BLACKTAB) || (tabcolor == INITR_MINI160x80)) {
-			writedata(MADCTL_MY | MADCTL_MV | MADCTL_RGB);
-			} else {
-			writedata(MADCTL_MY | MADCTL_MV | MADCTL_BGR);
-		}
-
-		if (tabcolor == INITR_144GREENTAB)  {
-			_width = ST7735_TFTHEIGHT_128;
-			_height = ST7735_TFTWIDTH_128;
-			} else if (tabcolor == INITR_MINI160x80)  {
-			_width = ST7735_TFTHEIGHT_160;
-			_height = ST7735_TFTWIDTH_80;
-			} else {
-			_width = ST7735_TFTHEIGHT_160;
-			_height = ST7735_TFTWIDTH_128;
-		}
+		writedata(MADCTL_MY | MADCTL_MV | MADCTL_BGR);
+		
 		ystart = colstart;
 		xstart = rowstart;
 		break;
 		case 2:
-		if ((tabcolor == INITR_BLACKTAB) || (tabcolor == INITR_MINI160x80)) {
-			writedata(MADCTL_RGB);
-			} else {
-			writedata(MADCTL_BGR);
-		}
-
-		if (tabcolor == INITR_144GREENTAB) {
-			_height = ST7735_TFTHEIGHT_128;
-			_width  = ST7735_TFTWIDTH_128;
-			} else if (tabcolor == INITR_MINI160x80)  {
-			_height = ST7735_TFTHEIGHT_160;
-			_width = ST7735_TFTWIDTH_80;
-			} else {
-			_height = ST7735_TFTHEIGHT_160;
-			_width  = ST7735_TFTWIDTH_128;
-		}
+		writedata(MADCTL_MH | MADCTL_BGR);
 		xstart = colstart;
-		ystart = rowstart;
+		ystart = rowstart-2;
 		break;
 		case 3:
-		if ((tabcolor == INITR_BLACKTAB) || (tabcolor == INITR_MINI160x80)) {
-			writedata(MADCTL_MX | MADCTL_MV | MADCTL_RGB);
-			} else {
-			writedata(MADCTL_MX | MADCTL_MV | MADCTL_BGR);
-		}
-
-		if (tabcolor == INITR_144GREENTAB)  {
-			_width = ST7735_TFTHEIGHT_128;
-			_height = ST7735_TFTWIDTH_128;
-			} else if (tabcolor == INITR_MINI160x80)  {
-			_width = ST7735_TFTHEIGHT_160;
-			_height = ST7735_TFTWIDTH_80;
-			} else {
-			_width = ST7735_TFTHEIGHT_160;
-			_height = ST7735_TFTWIDTH_128;
-		}
+		writedata(MADCTL_MX | MADCTL_MV | MADCTL_BGR);
 		ystart = colstart;
-		xstart = rowstart;
+		xstart = rowstart-2;
 		break;
 	}
 }
