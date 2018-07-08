@@ -40,7 +40,7 @@ DECLARE_BUTTON(BTN_RLD)
 //MOSI = 11; SCK = 13
 
 //Buttons: L=PC1	C=PC2	R=PC3
-bool updateAmmoNextLoop;
+uint8_t updateAmmoNextLoop;
 uint8_t currentScreen;
 UIElement* focusedUiElement;
 bool spiTransferStatus;
@@ -247,54 +247,7 @@ void loop()
 		updateAmmo();
 		queuedUpdate = 0;
 	}
-	if(updateAmmoNextLoop)
-	{
-		if(settings.presets[currentPreset] < 100)
-		{
-			uint8_t _10 = abs(ammo) / 10;
-			uint8_t _1 = abs(ammo) - (10 * _10);
-			
-			if(_1 == 1)
-			disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
-			else if (b.magOut)
-			disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
-			else
-			disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
-			
-			if(ammo < 0 || b.magOut)
-			disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
-			else
-			disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
-			
-
-		}
-		else if(settings.presets[currentPreset] < 1000)
-		{
-			uint8_t _100 = abs(ammo) / 100;
-			uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
-			uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
-			
-			if(_1 == 1)
-			disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
-			else if (b.magOut)
-			disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
-			else
-			disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
-			
-			if(b.magOut)
-			disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
-			else
-			disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
-			
-			if(_100 == 1)
-			disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
-			else if (b.magOut || ammo < 0)
-			disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
-			else
-			disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
-		}
-		updateAmmoNextLoop = false;
-	}
+	
 	
 	HANDLE_BUTTON_LOOP(BTN_LEFT);
 	HANDLE_BUTTON_LOOP(BTN_RIGHT);
@@ -305,6 +258,60 @@ void loop()
 	//Main screen loop
 	if(currentScreen == SCREEN_MAIN)
 	{
+		//Ammo counter updates
+		if(updateAmmoNextLoop)
+		{
+			if(updateAmmoNextLoop == 2)
+			{
+				disp.fillRect(1,49,126,48,settings.bgColor);
+				updateAmmoBar();
+			}
+			if(settings.presets[currentPreset] < 100)
+			{
+				uint8_t _10 = abs(ammo) / 10;
+				uint8_t _1 = abs(ammo) - (10 * _10);
+				
+				if(_1 == 1)
+				disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
+				else if (b.magOut)
+				disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
+				else
+				disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
+				
+				if(ammo < 0 || b.magOut)
+				disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
+				else
+				disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
+				
+
+			}
+			else if(settings.presets[currentPreset] < 1000)
+			{
+				uint8_t _100 = abs(ammo) / 100;
+				uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
+				uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
+				
+				if(_1 == 1)
+				disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
+				else if (b.magOut)
+				disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
+				else
+				disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
+				
+				if(b.magOut)
+				disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
+				else
+				disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
+				
+				if(_100 == 1)
+				disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
+				else if (b.magOut || ammo < 0)
+				disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
+				else
+				disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
+			}
+			updateAmmoNextLoop = 0;
+		}
 		
 		if(!b.changingPreset)
 		{
@@ -435,11 +442,7 @@ void loop()
 }
 void reload(){
 	ammo = settings.presets[currentPreset];
-	if(currentScreen == SCREEN_MAIN){
-		disp.fillRect(1,49,126,48,settings.bgColor);
-		updateAmmoBar();
-		updateAmmoCount();
-	}
+	updateAmmoNextLoop = 2;
 }
 
 
