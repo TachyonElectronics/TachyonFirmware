@@ -165,12 +165,13 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	invertDisplay(boolean i);
 	uint16_t Color565(uint8_t r, uint8_t g, uint8_t b);
 	
-	//void drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
-	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color),
-	//Displays a bitmap that is cropped on the side(s)
-	drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX = 0, int16_t cropY = 0);
 
-//Fills the window on the specified position with the inputted data
+	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color);
+	void drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
+	//Displays a bitmap that is cropped on the side(s)
+	void drawFastBitmapCropped(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
+
+	//Fills the window on the specified position with the inputted data
 	//void writeWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h,uint8_t* data, uint16_t length);
 
 	private:

@@ -49,7 +49,7 @@ const PROGMEM char Str_BGColor[] = "Background color";
 const PROGMEM char Str_CtrColor1[] = "Ammo color (Full)";
 const PROGMEM char Str_CtrColor2[] = "Ammo color (2/3)";
 const PROGMEM char Str_CtrColor3[] = "Ammo color (1/3)";
-const PROGMEM char Str_RotateUI[] = "Rotate UI by 90dgs";
+const PROGMEM char Str_RotateUI[] = "Rotate UI 90 dgrs";
 const PROGMEM char* const UISetupLabels[] = {Str_Back,Str_RotateUI, Str_UIColor,Str_BGColor,Str_CtrColor1,Str_CtrColor2,Str_CtrColor3};
 
 

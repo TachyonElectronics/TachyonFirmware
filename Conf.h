@@ -18,6 +18,29 @@
 #define BATT_MEASURMENT_INTERVAL 1000 //Interval between battery voltage sampling (in ms)
 #define BUTTON_DEBOUNCE_INTERVAL 4 
 
+
+//Empty magazine flash setup
+
+//Uncomment lines to enable, comment lines to disable
+
+//Comment this line to completely disable this function
+#define EMPTY_MAGAZINE_FLASH_INTERVAL 200 
+
+//Flashes the numeric counter
+#define EMF_STYLE_NUMBER_FLASH
+
+// >> can be combined with >>
+
+//Flashes the graphical counter
+//Use only ONE of the following
+//#define EMF_STYLE_BOTTOM_BAR
+//#define EMF_STYLE_HAZARDLIGHTS
+
+//Uncomment to make the flashing of the numeric and graphical counter in sync, otherwise, the flashes will be inverted
+//#define EMF_SYNC_NUM_AND_BARS
+
+
+
 #define _PRESET_COUNT 6
 
 

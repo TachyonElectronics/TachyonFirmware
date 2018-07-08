@@ -40,6 +40,7 @@ DECLARE_BUTTON(BTN_RLD)
 //MOSI = 11; SCK = 13
 
 //Buttons: L=PC1	C=PC2	R=PC3
+bool updateAmmoNextLoop;
 uint8_t currentScreen;
 UIElement* focusedUiElement;
 bool spiTransferStatus;
@@ -66,12 +67,11 @@ RTC Rtc = RTC();
 bool updatingAmmo, queuedUpdate, queuedTimeSave;
 uint8_t currentPreset, changedPreset;
 int16_t ammo;
-
 uint16_t ammoColor;
-
 uint8_t brightness;
-
 uint16_t* editedColor;
+uint16_t emptyFlashCtr = 0;
+bool emptyFlashState = 0;
 
 void displayMainScreen(),
 updateAmmoBar(),
@@ -176,7 +176,6 @@ void setup()
 	//PCMSK2 |= _BV(PCINT17);
 	
 
-
 	ammo = settings.presets[currentPreset];
 
 
@@ -248,38 +247,71 @@ void loop()
 		updateAmmo();
 		queuedUpdate = 0;
 	}
+	if(updateAmmoNextLoop)
+	{
+		if(settings.presets[currentPreset] < 100)
+		{
+			uint8_t _10 = abs(ammo) / 10;
+			uint8_t _1 = abs(ammo) - (10 * _10);
+			
+			if(_1 == 1)
+			disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
+			else if (b.magOut)
+			disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
+			else
+			disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
+			
+			if(ammo < 0 || b.magOut)
+			disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
+			else
+			disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
+			
+
+		}
+		else if(settings.presets[currentPreset] < 1000)
+		{
+			uint8_t _100 = abs(ammo) / 100;
+			uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
+			uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
+			
+			if(_1 == 1)
+			disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
+			else if (b.magOut)
+			disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
+			else
+			disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
+			
+			if(b.magOut)
+			disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
+			else
+			disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
+			
+			if(_100 == 1)
+			disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
+			else if (b.magOut || ammo < 0)
+			disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
+			else
+			disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
+		}
+		updateAmmoNextLoop = false;
+	}
 	
-	//Brightness adjustment
-	if(currentScreen == SCREEN_MAIN){
-		
-		//Center button at main screen
-		if(!BTN_CENTER_isPressed && !b.mainCenterBtnReleased)
-		{
-			b.mainCenterBtnReleased = 1;
-			updateCurrentPreset();
-			centerBtnMillis = millis();
-		}
-		if(currentMillis >  centerBtnMillis + CENTER_HOLD_TIME)
-		{
-			if(b.mainCenterBtnReleased)
-			{
-				b.changingPreset = 0;
-				b.mainCenterBtnReleased = 0;
-				if(changedPreset != currentPreset)
-				{
-					currentPreset = changedPreset;
-					reload();
-				}
-			}
-			else if(BTN_CENTER_isPressed)
-			{
-				openSettingsScreen();
-				//openSimpleListScreen(list1,"Settings",SCREEN_SETTINGS);
-			}
-		}
+	HANDLE_BUTTON_LOOP(BTN_LEFT);
+	HANDLE_BUTTON_LOOP(BTN_RIGHT);
+	HANDLE_BUTTON_LOOP(BTN_CENTER);
+	HANDLE_BUTTON_LOOP(BTN_RLD)
+	
+	
+	//Main screen loop
+	if(currentScreen == SCREEN_MAIN)
+	{
 		
 		if(!b.changingPreset)
 		{
+			//Brightness adjustment
+			//NOTE: brightness is NOT SAVED AUTOMATICALLY DELIBERATELY to preserve the EEPROM memory, which has a limited number of possible erase/write cycles! The user can only save brightness manually to keep EEPROM load at minimum
+			//****				  ************************************
+			
 			if(BTN_RIGHT_isPressed)
 			{
 				if(currentMillis > incrementMillis + INCREMENT_TIME)
@@ -313,31 +345,93 @@ void loop()
 				b.adjustingBrightness = 0;
 			}
 		}
-	}
-	
-	HANDLE_BUTTON_LOOP(BTN_LEFT);
-	HANDLE_BUTTON_LOOP(BTN_RIGHT);
-	HANDLE_BUTTON_LOOP(BTN_CENTER);
-	HANDLE_BUTTON_LOOP(BTN_RLD)
-	
-	//Battery measurement
-	if(currentScreen == SCREEN_MAIN && currentMillis > battMeasurementMillis + BATT_MEASURMENT_INTERVAL){
-		updateBattery();
-		disp.setCursor(0,0);
-		if(queuedTimeSave)
+		
+		//Empty Magazine Flash
+		#ifdef EMPTY_MAGAZINE_FLASH_INTERVAL
+		if(ammo <= 0){
+			emptyFlashCtr += deltaMillis;
+			if(emptyFlashCtr >= EMPTY_MAGAZINE_FLASH_INTERVAL)
+			{
+				emptyFlashCtr = 0;
+				emptyFlashState ^= 1;
+
+				#ifdef EMF_STYLE_NUMBER_FLASH
+				#ifdef EMF_SYNC_NUM_AND_BARS
+				ammoColor = !emptyFlashState? settings.bgColor : settings.ctrColor3;
+				#else
+				ammoColor = emptyFlashState? settings.bgColor : settings.ctrColor3;
+				#endif
+				updateAmmoCount();
+				#endif
+				#ifdef EMF_STYLE_HAZARDLIGHTS
+				if(emptyFlashState){
+					disp.drawFastBitmap(64,112,AmmoBar1R, settings.ctrColor3, settings.bgColor);
+					disp.fillRect(0,112,64,16,settings.bgColor);
+				}
+				else
+				{
+					disp.drawFastBitmap(0,112,AmmoBar1L, settings.ctrColor3, settings.bgColor);
+					disp.fillRect(64,112,64,16,settings.bgColor);
+				}
+				#elif defined(EMF_STYLE_BOTTOM_BAR)
+				if(emptyFlashState){
+					disp.drawFastBitmap(64,112,AmmoBar1R, settings.ctrColor3, settings.bgColor);
+					disp.drawFastBitmap(0,112,AmmoBar1L, settings.ctrColor3, settings.bgColor);
+				}
+				else
+				{
+					disp.fillRect(0,112,128,16,settings.bgColor);
+				}
+				#endif
+			}
+		}
+		#endif // EMPTY_MAGAZINE_FLASH_INTERVAL
+		
+		//Battery measurement
+		if(currentMillis > battMeasurementMillis + BATT_MEASURMENT_INTERVAL){
+			updateBattery();
+			disp.setCursor(0,0);
+			if(queuedTimeSave)
+			{
+				disp.print("FAIL");
+				Rtc.SetTime();
+				queuedTimeSave = 0;
+			}else
+			Rtc.Update();
+			disp.setCursor(0,0);
+			printTime();
+		}
+		
+		//Center button at main screen
+		if(!BTN_CENTER_isPressed && !b.mainCenterBtnReleased)
 		{
-			disp.print("FAIL");
-			Rtc.SetTime();
-			queuedTimeSave = 0;
-		}else
-		Rtc.Update();
-		disp.setCursor(0,0);
-		printTime();
+			b.mainCenterBtnReleased = 1;
+			updateCurrentPreset();
+			centerBtnMillis = millis();
+		}
+		if(currentMillis >  centerBtnMillis + CENTER_HOLD_TIME)
+		{
+			if(b.mainCenterBtnReleased)
+			{
+				b.changingPreset = 0;
+				b.mainCenterBtnReleased = 0;
+				if(changedPreset != currentPreset)
+				{
+					currentPreset = changedPreset;
+					reload();
+				}
+			}
+			else if(BTN_CENTER_isPressed)
+			{
+				openSettingsScreen();
+				//openSimpleListScreen(list1,"Settings",SCREEN_SETTINGS);
+			}
+		}
 	}
-	
+
 	if(currentScreen == SCREEN_COLOR)
 	if(selectedColorChannel != colorEditorMenu.selectedItem) updateColorEditorSelection();
-	
+
 }
 void reload(){
 	ammo = settings.presets[currentPreset];
@@ -366,64 +460,63 @@ void displayMainScreen()
 }
 void updateAmmoBar()
 {
-	uint8_t crop = ammo > 0 ? 64-map(ammo,0,settings.presets[currentPreset],0,64) : 0;
-
+	uint8_t crop = ammo > 0 ? 64-map(ammo,0,settings.presets[currentPreset],0,64) : 64;
 	
 	if(crop > 42) ammoColor = settings.ctrColor3;
 	else if(crop > 21) ammoColor = settings.ctrColor2;
 	else ammoColor = settings.ctrColor1;
-	disp.drawFastBitmap(0,112,AmmoBar1L,ammoColor,settings.bgColor,crop,0);
-	disp.drawFastBitmap(64,112,AmmoBar1R,ammoColor,settings.bgColor,-crop,0);
+	
+	disp.drawFastBitmapCropped(0,112,AmmoBar1L,ammoColor,settings.bgColor,crop,0);
+	disp.drawFastBitmapCropped(64,112,AmmoBar1R,ammoColor,settings.bgColor,-crop,0);
 }
 
 void updateAmmoCount()
 {
-	if(settings.presets[currentPreset] < 100)
+	updateAmmoNextLoop = true;
+	/*if(settings.presets[currentPreset] < 100)
 	{
-		uint8_t _10 = abs(ammo) / 10;
-		uint8_t _1 = abs(ammo) - (10 * _10);
-		
-		if(_1 == 1)
-		disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
-		else if (b.magOut)
-		disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
-		else
-		disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
-		
-		if(ammo < 0 || b.magOut)
-		disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
-		else
-		disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
-		
+	uint8_t _10 = abs(ammo) / 10;
+	uint8_t _1 = abs(ammo) - (10 * _10);
+	
+	if(_1 == 1)
+	disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
+	else if (b.magOut)
+	disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
+	else
+	disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
+	
+	if(ammo < 0 || b.magOut)
+	disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
+	else
+	disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
+	
 
 	}
 	else if(settings.presets[currentPreset] < 1000)
 	{
-		uint8_t _100 = abs(ammo) / 100;
-		uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
-		uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
-		
-		if(_1 == 1)
-		disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
-		else if (b.magOut)
-		disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
-		else
-		disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
-		
-		if(b.magOut)
-		disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
-		else
-		disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
-		
-		if(_100 == 1)
-		disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
-		else if (b.magOut || ammo < 0)
-		disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
-		else
-		disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
-		
-		
-	}
+	uint8_t _100 = abs(ammo) / 100;
+	uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
+	uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
+	
+	if(_1 == 1)
+	disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
+	else if (b.magOut)
+	disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
+	else
+	disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
+	
+	if(b.magOut)
+	disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
+	else
+	disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
+	
+	if(_100 == 1)
+	disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
+	else if (b.magOut || ammo < 0)
+	disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
+	else
+	disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
+	}*/
 }
 void setBrightness(uint8_t newBrightness)
 {
