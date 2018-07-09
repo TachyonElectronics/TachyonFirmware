@@ -57,13 +57,12 @@ Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, 
 
 // Constructor when using hardware SPI.  Faster, but must use SPI pins
 // specific to each board type (e.g. 11,13 for Uno, 51,52 for Mega, etc.)
-Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc,bool* _spiState, int8_t rst)
+Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t rst)
 : Adafruit_GFX(ST7735_TFTWIDTH_128, ST7735_TFTHEIGHT_160) {
 	_cs   = cs;
 	_dc   = dc;
 	_rst  = rst;
 	hwSPI = true;
-	spiState = _spiState;
 	_sid  = _sclk = -1;
 }
 

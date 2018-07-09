@@ -16,10 +16,6 @@ Version 1.x
 #include "RTC.h"
 #include "Strings.h"
 
-#define SUP b.updating = 1
-#define EUP b.updating = 0
-#define UP b.updating
-
 uint16_t buttonCtrs[_BTN_COUNT];
 #define DECLARE_BUTTON(name) bool name##_isPressed; uint16_t _##name##_debounceCtr;
 #define HANDLE_BUTTON_INTERRUPT(name, port, pin) if(bit_is_clear(port,pin)) { if(!name##_isPressed && _##name##_debounceCtr >= BUTTON_DEBOUNCE_INTERVAL) {buttonPressed(name);name##_isPressed=1;buttonCtrs[name]=0; _##name##_debounceCtr = 0; } } else if(name##_isPressed){name##_isPressed = 0; _##name##_debounceCtr = 0;}
@@ -38,23 +34,9 @@ DECLARE_BUTTON(BTN_RIGHT)
 DECLARE_BUTTON(BTN_RLD)
 
 //MOSI = 11; SCK = 13
-
 //Buttons: L=PC1	C=PC2	R=PC3
-uint8_t updateAmmoNextLoop;
-uint8_t currentScreen;
-UIElement* focusedUiElement;
-bool spiTransferStatus;
-Adafruit_ST7735 disp = Adafruit_ST7735(DSP_CS,11,&spiTransferStatus,DSP_RST);
-unsigned long currentMillis,incrementMillis, hideBrightnessMillis, centerBtnMillis, battMeasurementMillis;
-unsigned long deltaMillis;
-struct
-{
-	uint8_t updating:1;
-	uint8_t magOut:1;
-	uint8_t changingPreset:1;
-	uint8_t mainCenterBtnReleased:1;
-	uint8_t adjustingBrightness:1;
-} b;
+
+
 struct
 {
 	uint16_t uiColor, bgColor, ctrColor1, ctrColor2, ctrColor3;
@@ -62,10 +44,18 @@ struct
 	uint8_t reloadMode;
 	uint8_t rotation;
 	uint8_t batteryType;
+	bool counterDirection;
 } settings;
 
+//Variables
+uint8_t updateAmmoNextLoop;
+uint8_t currentScreen;
+UIElement* focusedUiElement;
+Adafruit_ST7735 disp = Adafruit_ST7735(DSP_CS,11,DSP_RST);
+unsigned long currentMillis,incrementMillis, hideBrightnessMillis, centerBtnMillis, battMeasurementMillis;
+unsigned long deltaMillis;
 RTC Rtc = RTC();
-bool updatingAmmo, queuedUpdate, queuedTimeSave;
+//bool queuedTimeSave;
 uint8_t currentPreset, changedPreset;
 int16_t ammo;
 uint16_t ammoColor;
@@ -73,40 +63,51 @@ uint8_t brightness;
 uint16_t* editedColor;
 uint16_t emptyFlashCtr = 0;
 bool emptyFlashState = 0;
+bool magOut;
+bool changingPreset;
+bool mainCenterBtnReleased;
+bool adjustingBrightness;
+bool queuedTimeSave;
 
+
+//Functions
 void displayMainScreen(),
+loadSettings(),
 updateAmmoBar(),
-updateAmmoCount(),
 showBrightnessBar(),
 updateBrightnessBar(),
 updateCurrentPreset(),
 hideBrightnessBar(),
 updateBattery(),
 //openSettingsScreen(),
-openSysInfoScreen(),
+//openSysInfoScreen(),
 openPresetList(),
 buttonPressed(uint8_t),
 buttonHeld(uint8_t),
 reload(),
-loadSettings(),
 saveSettings(),
 factoryReset(),
 fire(),
 executeCommand(uint8_t cmd),
 reloadInterrupt();
-
 uint8_t calculateBatteryPrecentage(float voltage, float a, float k, float offset);
 
 //inline void soft_reset();
-inline void printTime();
-inline void openTimeSetup();
-inline void openSettingsScreen();
-inline void updateAmmo();
-inline void openColorEditor(uint16_t* target);
+inline void printTime(),
+openTimeSetup(),
+openSettingsScreen(),
+updateAmmo(),
+openColorEditor(uint16_t* target),
+updateAmmoCount();
+
+//Macros
+#define openSimpleListScreen(_list, title, _screen) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(8,12); focusedUiElement = &_list;
+#define openSimpleListScreen_xy(_list, title, _screen,_x,_y) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(_x,_y); focusedUiElement = &_list;
+
 
 //=======================UI========================
-void onList1Select(uint8_t);
-UIList settings1 = UIList(&disp,&onList1Select,112,12,4,&settings.uiColor,&settings.bgColor,SettingsLabels,7);
+void onSettings1Select(uint8_t);
+UIList settings1 = UIList(&disp,&onSettings1Select,112,12,4,&settings.uiColor,&settings.bgColor,SettingsLabels,7);
 
 void onEditPreset(uint8_t);
 UIList presetList = UIList(&disp,&onEditPreset,66,12,4,&settings.uiColor,&settings.bgColor,PresetLabels,7);
@@ -133,9 +134,11 @@ void acceptTime();
 UIInvisibleSlider minuteSlider = UIInvisibleSlider(&disp,&acceptTime,[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
 UIInvisibleSlider hourSlider = UIInvisibleSlider(&disp,[minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);
 
-//Macros
-#define openSimpleListScreen(_list, title, _screen) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(8,12); focusedUiElement = &_list;
-#define openSimpleListScreen_xy(_list, title, _screen,_x,_y) currentScreen = _screen; disp.fillScreen(settings.bgColor); disp.setTextColor(settings.uiColor); disp.setCursor(40,0); disp.print(title); _list.draw(_x,_y); focusedUiElement = &_list;
+void onSettings2Select(uint8_t);
+
+UIList settings2 = UIList(&disp,&onSettings2Select,112,12,4,&settings.uiColor,&settings.bgColor,Settings2Labels,3);
+
+UIList btList = UIList(&disp,[settings](uint8_t val){settings.batteryType = val;openSimpleListScreen(settings2,"Settings 2",SCREEN_SETTINGS2);},102,12,4,&settings.uiColor,&settings.bgColor,BTLabels,6);
 //=================================================
 
 
@@ -148,9 +151,6 @@ inline void updateColorEditorSelection();
 void setup()
 {
 	loadSettings();
-	//Setup ADC
-	/*ADMUX = 0b11000111; //Setup adc ref voltage, left adjust and select channel
-	ADCSRA = 0b00001110; //Enable ADC interrupt, setup prescaler to divide by 64*/
 	analogReference(INTERNAL);
 	
 	pinMode(DSP_BL, OUTPUT);
@@ -158,27 +158,24 @@ void setup()
 	
 	//Set MOSI and SCK as output (we will need to use them manually for display D/C transmission
 	DDRB |= ((1 << PINB3) | (1 << PINB5));
-	spiTransferStatus = 0;
 	
 	analogWrite(DSP_BL, 0); //Turn off display until initialization is comlete
 	disp.initR(INITR_144GREENTAB);
-	delay(100);
+	delay(20);
 	//	disp.fillScreen(ST7735_RED);
 	SPSR |= 1 << SPI2X;
 	//SPCR = 0b11010000;
 	SPCR &= ~0b00000011;
-	disp.setRotation(settings.rotation);
 	disp.fillScreen(settings.bgColor);
-	disp.drawFastBitmap(14,14,Logo,settings.uiColor,settings.bgColor);
+	disp.setRotation(settings.rotation);
+	delay(10);
 	setBrightness(brightness);
-	delay(250);
 	
 	//Setup pin change interrupt
 	PCICR |= _BV(PCIE1);// | _BV(PCIE2); //Enable pc interrupt 1 (pins PCINT8-14)
 	PCMSK1 |= _BV(PCINT8) | _BV(PCINT9) | _BV(PCINT10); //Mask PC interrupt pins so inly buttons are enabled
 	//PCMSK2 |= _BV(PCINT17);
 	
-	settings.batteryType = BT_NIMH_8CELL;
 	ammo = settings.presets[currentPreset];
 
 
@@ -221,7 +218,8 @@ void fire()
 		if(!fireDebounce)
 		{
 			ammo--;
-			queuedUpdate = 1;
+			//updateAmmo();
+			updateAmmoNextLoop = 1;
 			fireDebounce = 1;
 		}
 	}
@@ -233,8 +231,9 @@ void fire()
 }
 void updateAmmo()
 {
-	updateAmmoBar();
-	updateAmmoCount();
+	//updateAmmoBar();
+	//updateAmmoCount();
+	updateAmmoNextLoop = 1;
 	//updatingAmmo = 0;
 }
 void loop()
@@ -244,13 +243,6 @@ void loop()
 	
 	if(Serial.available())
 	executeCommand(Serial.read());
-	
-	if(queuedUpdate)
-	{
-		updateAmmo();
-		queuedUpdate = 0;
-	}
-	
 	
 	HANDLE_BUTTON_LOOP(BTN_LEFT);
 	HANDLE_BUTTON_LOOP(BTN_RIGHT);
@@ -267,8 +259,8 @@ void loop()
 			if(updateAmmoNextLoop == 2)
 			{
 				disp.fillRect(1,49,126,48,settings.bgColor);
-				updateAmmoBar();
 			}
+			updateAmmoBar();
 			if(settings.presets[currentPreset] < 100)
 			{
 				uint8_t _10 = abs(ammo) / 10;
@@ -276,12 +268,12 @@ void loop()
 				
 				if(_1 == 1)
 				disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
-				else if (b.magOut)
+				else if (magOut)
 				disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
 				else
 				disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
 				
-				if(ammo < 0 || b.magOut)
+				if(ammo < 0 || magOut)
 				disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
 				else
 				disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
@@ -296,19 +288,19 @@ void loop()
 				
 				if(_1 == 1)
 				disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
-				else if (b.magOut)
+				else if (magOut)
 				disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
 				else
 				disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
 				
-				if(b.magOut)
+				if(magOut)
 				disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
 				else
 				disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
 				
 				if(_100 == 1)
 				disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
-				else if (b.magOut || ammo < 0)
+				else if (magOut || ammo < 0)
 				disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
 				else
 				disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
@@ -316,7 +308,7 @@ void loop()
 			updateAmmoNextLoop = 0;
 		}
 		
-		if(!b.changingPreset)
+		if(!changingPreset)
 		{
 			//Brightness adjustment
 			//NOTE: brightness is NOT SAVED AUTOMATICALLY DELIBERATELY to preserve the EEPROM memory, which has a limited number of possible erase/write cycles! The user can only save brightness manually to keep EEPROM load at minimum
@@ -329,8 +321,8 @@ void loop()
 					incrementMillis = millis();
 					setBrightness(brightness < 255? brightness+1 : 255);
 					hideBrightnessMillis = millis();
-					if(!b.adjustingBrightness){
-						b.adjustingBrightness = 1;
+					if(!adjustingBrightness){
+						adjustingBrightness = 1;
 						showBrightnessBar();
 					}
 					updateBrightnessBar();
@@ -343,16 +335,16 @@ void loop()
 					incrementMillis = millis();
 					setBrightness(brightness > MIN_BRIGHTNESS? brightness-1  : MIN_BRIGHTNESS);
 					hideBrightnessMillis = millis();
-					if(!b.adjustingBrightness){
-						b.adjustingBrightness = 1;
+					if(!adjustingBrightness){
+						adjustingBrightness = 1;
 						showBrightnessBar();
 					}
 					updateBrightnessBar();
 				}
 			}
-			else if(b.adjustingBrightness && currentMillis > hideBrightnessMillis + BRIGHTNESS_STAY_TIME){
+			else if(adjustingBrightness && currentMillis > hideBrightnessMillis + BRIGHTNESS_STAY_TIME){
 				hideBrightnessBar();
-				b.adjustingBrightness = 0;
+				adjustingBrightness = 0;
 			}
 		}
 		
@@ -413,18 +405,18 @@ void loop()
 		}
 		
 		//Center button at main screen
-		if(!BTN_CENTER_isPressed && !b.mainCenterBtnReleased)
+		if(!BTN_CENTER_isPressed && !mainCenterBtnReleased)
 		{
-			b.mainCenterBtnReleased = 1;
+			mainCenterBtnReleased = 1;
 			updateCurrentPreset();
 			centerBtnMillis = millis();
 		}
 		if(currentMillis >  centerBtnMillis + CENTER_HOLD_TIME)
 		{
-			if(b.mainCenterBtnReleased)
+			if(mainCenterBtnReleased)
 			{
-				b.changingPreset = 0;
-				b.mainCenterBtnReleased = 0;
+				changingPreset = 0;
+				mainCenterBtnReleased = 0;
 				if(changedPreset != currentPreset)
 				{
 					currentPreset = changedPreset;
@@ -480,6 +472,7 @@ void updateAmmoCount()
 {
 	updateAmmoNextLoop = true;
 }
+
 void setBrightness(uint8_t newBrightness)
 {
 	brightness = newBrightness;
@@ -510,7 +503,7 @@ void updateBattery()
 
 	disp.setCursor(102,3);
 	disp.setFont();
-	disp.setTextSize(1);
+	//disp.setTextSize(1);
 	disp.setTextColor(settings.uiColor,settings.bgColor);
 	
 	if(settings.batteryType)
@@ -540,10 +533,10 @@ void updateCurrentPreset()
 	disp.setTextColor(settings.uiColor, settings.bgColor);
 	disp.setCursor(105,13);
 	disp.setTextSize(2);
-	disp.print(b.changingPreset? changedPreset+1 : currentPreset+1);
+	disp.print(changingPreset? changedPreset+1 : currentPreset+1);
 	disp.setTextSize(1);
 	
-	disp.setTextColor(b.changingPreset? settings.uiColor : settings.bgColor);
+	disp.setTextColor(changingPreset? settings.uiColor : settings.bgColor);
 	disp.setCursor(95,22);
 	disp.print('<');
 	disp.setCursor(119,22);
@@ -555,7 +548,7 @@ void updateCurrentPreset()
 
 void openSettingsScreen()
 {
-	currentScreen = SCREEN_SETTINGS;
+	currentScreen = SCREEN_SETTINGS1;
 	disp.fillScreen(settings.bgColor);
 	disp.setTextColor(settings.uiColor);
 	disp.setCursor(40,0);
@@ -567,7 +560,7 @@ void openSettingsScreen()
 //=============
 //Settings menu
 //=============
-void onList1Select(uint8_t item)
+void onSettings1Select(uint8_t item)
 {
 	switch(item)
 	{
@@ -611,8 +604,8 @@ void onList1Select(uint8_t item)
 		disp.print("OK");
 		return;
 		
-		case 6: //sysinfo
-		openSysInfoScreen();
+		case 6: //next page
+		openSimpleListScreen(settings2, "Settings 2",SCREEN_SETTINGS2);
 		return;
 	}
 }
@@ -631,7 +624,7 @@ void buttonPressed(uint8_t button)
 		{
 			case SCREEN_MAIN:
 			changedPreset = currentPreset;
-			b.changingPreset = 1;
+			changingPreset = 1;
 			updateCurrentPreset();
 			centerBtnMillis = millis();
 			break;
@@ -643,7 +636,7 @@ void buttonPressed(uint8_t button)
 		return;
 		
 		case BTN_LEFT:
-		if(currentScreen == SCREEN_MAIN && b.changingPreset){
+		if(currentScreen == SCREEN_MAIN && changingPreset){
 			do
 			{
 				if(changedPreset)
@@ -656,7 +649,7 @@ void buttonPressed(uint8_t button)
 		return;
 		
 		case BTN_RIGHT:
-		if(currentScreen == SCREEN_MAIN && b.changingPreset){
+		if(currentScreen == SCREEN_MAIN && changingPreset){
 			do
 			{
 				if(changedPreset < _PRESET_COUNT-1)
@@ -680,17 +673,18 @@ void buttonHeld(uint8_t button)
 		return;
 	}
 }
+/*
 void openSysInfoScreen()
 {
-	currentScreen = SCREEN_SYSINFO;
-	focusedUiElement = nullptr;
-	//disp.drawFastBitmap(0,0,SysInfoScreenBg, settings.uiColor, settings.bgColor);
-	disp.setTextColor(settings.uiColor,settings.bgColor);
-	disp.setCursor(0,32);
-	disp.print("FW Version: ");
-	disp.println(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&StringList[0]));
-	disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&StringList[1]));
-}
+currentScreen = SCREEN_SYSINFO;
+focusedUiElement = nullptr;
+//disp.drawFastBitmap(0,0,SysInfoScreenBg, settings.uiColor, settings.bgColor);
+disp.setTextColor(settings.uiColor,settings.bgColor);
+disp.setCursor(0,32);
+disp.print("FW Version: ");
+disp.println(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&StringList[0]));
+disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&StringList[1]));
+}*/
 
 //==============================Preset edit==============================
 
@@ -981,3 +975,29 @@ uint8_t calculateBatteryPrecentage(float voltage, float a, float k, float offset
 	return min(100,(uint8_t)(100*percent));
 }
 
+void onSettings2Select(uint8_t selection)
+{
+	switch (selection)
+	{
+		case 0:
+		openSettingsScreen();
+		break;
+		
+		case 1:
+		btList.selectedItem = settings.batteryType;
+		openSimpleListScreen_xy(btList,"Battery Types",SCREEN_BTSELECT,18,12);
+		disp.setTextColor(settings.uiColor,settings.bgColor);
+		disp.setCursor(8,btList.y+2+(btList.itemHeight+btList.spacing)*settings.batteryType);
+		disp.print('>');
+		break;
+		
+		case 2:
+		settings.counterDirection ^= 1;
+		disp.setCursor(10,46);
+		disp.setTextColor(settings.bgColor, settings.uiColor);
+		disp.print(">Current dir:");
+		disp.print(settings.counterDirection? "Dn" : "Up");
+		disp.setTextColor(settings.uiColor,settings.bgColor);
+		break;
+	}
+}

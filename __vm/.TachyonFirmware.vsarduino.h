@@ -22,6 +22,7 @@
 //
 void reloadInterrupt();
 void fire();
+void updateAmmo();
 //
 void reload();
 void displayMainScreen();
@@ -33,10 +34,10 @@ void updateBrightnessBar();
 void hideBrightnessBar();
 void updateBattery();
 void updateCurrentPreset();
-void onList1Select(uint8_t item);
+void openSettingsScreen();
+void onSettings1Select(uint8_t item);
 void buttonPressed(uint8_t button);
 void buttonHeld(uint8_t button);
-void openSysInfoScreen();
 void onEditPreset(uint8_t preset);
 void onChangePresetVal(uint16_t value);
 void onAcceptPreset(uint16_t value);
@@ -44,9 +45,13 @@ void loadSettings();
 void saveSettings();
 void factoryReset();
 void onUISetupSelect(uint8_t item);
+void openColorEditor(uint16_t* target);
 void updateTestColor(int16_t value);
 void acceptColorChannel(int16_t _color_UNUSED);
+void openTimeSetup();
+void printTime();
 void executeCommand(uint8_t cmd);
+void onSettings2Select(uint8_t selection);
 
 #include "pins_arduino.h" 
 #include "arduino.h"

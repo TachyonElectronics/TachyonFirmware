@@ -25,7 +25,7 @@
 //Uncomment lines to enable, comment lines to disable
 
 //Comment this line to completely disable this function
-#define EMPTY_MAGAZINE_FLASH_INTERVAL 200 
+#define EMPTY_MAGAZINE_FLASH_INTERVAL 150 
 
 //Flashes the numeric counter
 //Beware, this feature is a bit buggy and on rare occasions can cause the counter not to be displayed correctly after reload 
@@ -65,12 +65,14 @@
 
 //====================Screens====================
 #define SCREEN_MAIN 0
-#define SCREEN_SETTINGS 1
+#define SCREEN_SETTINGS1 1
 #define SCREEN_PRESETS 2
 #define SCREEN_COLOR 3
 #define SCREEN_RELOADMODES 4
 #define SCREEN_UISETUP 5
 #define SCREEN_TIME 6
+#define SCREEN_SETTINGS2 7
+#define SCREEN_BTSELECT 8
 #define SCREEN_SYSINFO 255
 //===============================================
 
@@ -92,9 +94,9 @@
 #define FACT_PRESET1 30
 #define FACT_PRESET2 350
 #define FACT_UICOLOR 0xFFE0 //Yellow
-#define FACT_CTRCOLOR1 0xFFE0 //Yellow
-#define FACT_CTRCOLOR2 0xFFE0 //Yellow
-#define FACT_CTRCOLOR3 0xFFE0 //Yellow
+#define FACT_CTRCOLOR1 0x07E0 //Green
+#define FACT_CTRCOLOR2 0xFFA0 //Orange
+#define FACT_CTRCOLOR3 0xF800 //Red
 #define FACT_BRIGHTNESS 100
 #define FACT_RLM 0
 #define FACT_UIROTATION 0

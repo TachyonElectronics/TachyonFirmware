@@ -149,7 +149,7 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	public:
 
 	Adafruit_ST7735(int8_t CS, int8_t RS, int8_t SID, int8_t SCLK, int8_t RST = -1);
-	Adafruit_ST7735(int8_t CS, int8_t RS,bool* _spiState, int8_t RST = -1);
+	Adafruit_ST7735(int8_t CS, int8_t RS, int8_t RST = -1);
 
 	void     initB(void),                             // for ST7735B displays
 	initR(uint8_t options = INITR_GREENTAB), // for ST7735R
@@ -176,7 +176,6 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 
 	private:
 	uint8_t  tabcolor;
-	bool* spiState;
 	void     spiwrite(uint8_t),
 	writecommand(uint8_t c),
 	writedata(uint8_t d),

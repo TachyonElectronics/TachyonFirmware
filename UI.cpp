@@ -32,8 +32,8 @@ void UIList::draw(int16_t _x, int16_t _y)
 	x = _x;
 	y = _y;
 	
-	disp->setFont();
-	disp->setTextSize(1);
+	//disp->setFont();
+	//disp->setTextSize(1);
 	for (uint8_t i = 0; i < itemCount; i++)
 	{
 		if(i == selectedItem)
