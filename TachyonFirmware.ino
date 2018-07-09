@@ -61,6 +61,7 @@ struct
 	int16_t presets[6];
 	uint8_t reloadMode;
 	uint8_t rotation;
+	uint8_t batteryType;
 } settings;
 
 RTC Rtc = RTC();
@@ -93,6 +94,8 @@ factoryReset(),
 fire(),
 executeCommand(uint8_t cmd),
 reloadInterrupt();
+
+uint8_t calculateBatteryPrecentage(float voltage, float a, float k, float offset);
 
 //inline void soft_reset();
 inline void printTime();
@@ -175,7 +178,7 @@ void setup()
 	PCMSK1 |= _BV(PCINT8) | _BV(PCINT9) | _BV(PCINT10); //Mask PC interrupt pins so inly buttons are enabled
 	//PCMSK2 |= _BV(PCINT17);
 	
-
+	settings.batteryType = BT_NIMH_8CELL;
 	ammo = settings.presets[currentPreset];
 
 
@@ -476,50 +479,6 @@ void updateAmmoBar()
 void updateAmmoCount()
 {
 	updateAmmoNextLoop = true;
-	/*if(settings.presets[currentPreset] < 100)
-	{
-	uint8_t _10 = abs(ammo) / 10;
-	uint8_t _1 = abs(ammo) - (10 * _10);
-	
-	if(_1 == 1)
-	disp.drawFastBitmap(66,49,C_L1R,ammoColor,settings.bgColor);
-	else if (b.magOut)
-	disp.drawFastBitmap(66,49,C_Ldash,ammoColor,settings.bgColor);
-	else
-	disp.drawFastBitmap(66,49,C_Lnums[_1],ammoColor,settings.bgColor);
-	
-	if(ammo < 0 || b.magOut)
-	disp.drawFastBitmap(14,49,C_Ldash,ammoColor,settings.bgColor);
-	else
-	disp.drawFastBitmap(14,49,C_Lnums[_10],ammoColor,settings.bgColor);
-	
-
-	}
-	else if(settings.presets[currentPreset] < 1000)
-	{
-	uint8_t _100 = abs(ammo) / 100;
-	uint8_t _10 = (abs(ammo) - _100 * 100) / 10;
-	uint8_t _1 = abs(ammo) - (10 * _10) - (_100 * 100);
-	
-	if(_1 == 1)
-	disp.drawFastBitmap(89,54,C_S1R,ammoColor,settings.bgColor);
-	else if (b.magOut)
-	disp.drawFastBitmap(89,54,C_Sdash,ammoColor,settings.bgColor);
-	else
-	disp.drawFastBitmap(89,54,C_Snums[_1],ammoColor,settings.bgColor);
-	
-	if(b.magOut)
-	disp.drawFastBitmap(45,54,C_Sdash,ammoColor,settings.bgColor);
-	else
-	disp.drawFastBitmap(45,54,C_Snums[_10],ammoColor,settings.bgColor);
-	
-	if(_100 == 1)
-	disp.drawFastBitmap(1,54,C_S1L,ammoColor,settings.bgColor);
-	else if (b.magOut || ammo < 0)
-	disp.drawFastBitmap(1,54,C_Sdash,ammoColor,settings.bgColor);
-	else
-	disp.drawFastBitmap(1,54,C_Snums[_100],ammoColor,settings.bgColor);
-	}*/
 }
 void setBrightness(uint8_t newBrightness)
 {
@@ -553,7 +512,27 @@ void updateBattery()
 	disp.setFont();
 	disp.setTextSize(1);
 	disp.setTextColor(settings.uiColor,settings.bgColor);
-	disp.print(voltage,1);
+	
+	if(settings.batteryType)
+	{
+		uint8_t percentage = 255;
+		switch(settings.batteryType)
+		{
+			case BT_NIMH_7CELL:
+			percentage = calculateBatteryPrecentage(voltage/7,NIMH_A,NIMH_K,NIMH_OFFSET);
+			break;
+			case BT_NIMH_8CELL:
+			percentage = calculateBatteryPrecentage(voltage/8,NIMH_A,NIMH_K,NIMH_OFFSET);
+			break;
+		}
+		disp.print(percentage,DEC);
+		disp.print('%');
+		disp.fillRect(disp.getCursorX(),disp.getCursorY(),5,7,settings.bgColor);
+	}
+	else
+	disp.print(voltage,1); //Raw voltage
+	
+	
 	battMeasurementMillis = millis();
 }
 void updateCurrentPreset()
@@ -995,3 +974,10 @@ void executeCommand(uint8_t cmd)
 		break;
 	}
 }
+
+uint8_t calculateBatteryPrecentage(float voltage, float a, float k, float offset)
+{
+	float percent = 1/(pow(MATH_e,(a - voltage/k)) + 1) + offset;
+	return min(100,(uint8_t)(100*percent));
+}
+
