@@ -52,7 +52,7 @@ Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, 
 	_sid  = sid;
 	_sclk = sclk;
 	_rst  = rst;
-	hwSPI = false;
+	//hwSPI = false;
 }
 
 // Constructor when using hardware SPI.  Faster, but must use SPI pins
@@ -62,79 +62,43 @@ Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t rst)
 	_cs   = cs;
 	_dc   = dc;
 	_rst  = rst;
-	hwSPI = true;
+	//hwSPI = true;
 	_sid  = _sclk = -1;
 }
-
+/*
 inline void Adafruit_ST7735::spiwrite(uint8_t c) {
-
-	//Serial.println(c, HEX);
-
-	//if (hwSPI) {
-	#if defined (SPI_HAS_TRANSACTION)
-	SPI.transfer(c);
-	#elif defined (__AVR__) || defined(CORE_TEENSY)
-	//SPCRbackup = SPCR;
-	//SPCR = mySPCR;
-	SPI.transfer(c);
-	//while(*spiState){} //Wait until SPI has finished any transfers
-	//SPCR |= (1 << SPIE);
-	//*spiState = 1;
-	//SPDR = c;
-	//SPCR = SPCRbackup;
-	#elif defined (__arm__)
-	SPI.setClockDivider(21); //4MHz
-	SPI.setDataMode(SPI_MODE0);
-	SPI.transfer(c);
-	#endif
-	/*	} else {
-
-	// Fast SPI bitbang swiped from LPD8806 library
-	for(uint8_t bit = 0x80; bit; bit >>= 1) {
-	#if defined(USE_FAST_IO)
-	if(c & bit) *dataport |=  datapinmask;
-	else        *dataport &= ~datapinmask;
-	*clkport |=  clkpinmask;
-	*clkport &= ~clkpinmask;
-	#else
-	if(c & bit) digitalWrite(_sid, HIGH);
-	else        digitalWrite(_sid, LOW);
-	digitalWrite(_sclk, HIGH);
-	digitalWrite(_sclk, LOW);
-	#endif
-	}
-	}*/
-}
+SPI.transfer(c);
+}*/
 
 
 void Adafruit_ST7735::writecommand(uint8_t c) {
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 	CS_LOW();
 	DC_LOW();
-	spiwrite(c);
+	SPI.transfer(c);
 
 	CS_HIGH();
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
 
 void Adafruit_ST7735::writedata(uint8_t c) {
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 	CS_LOW();
 	DC_HIGH();
-	spiwrite(c);
+	SPI.transfer(c);
 
 	CS_HIGH();
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -144,72 +108,13 @@ void Adafruit_ST7735::writedata(uint8_t c) {
 // formatting -- storage-wise this is hundreds of bytes more compact
 // than the equivalent code.  Companion function follows.
 #define DELAY 0x80
-static const uint8_t PROGMEM
-Bcmd[] = {                  // Initialization commands for 7735B screens
-	18,                       // 18 commands in list:
-	ST7735_SWRESET,   DELAY,  //  1: Software reset, no args, w/delay
-	50,                     //     50 ms delay
-	ST7735_SLPOUT ,   DELAY,  //  2: Out of sleep mode, no args, w/delay
-	255,                    //     255 = 500 ms delay
-	ST7735_COLMOD , 1+DELAY,  //  3: Set color mode, 1 arg + delay:
-	0x05,                   //     16-bit color
-	10,                     //     10 ms delay
-	ST7735_FRMCTR1, 3+DELAY,  //  4: Frame rate control, 3 args + delay:
-	0x00,                   //     fastest refresh
-	0x06,                   //     6 lines front porch
-	0x03,                   //     3 lines back porch
-	10,                     //     10 ms delay
-	ST7735_MADCTL , 1      ,  //  5: Memory access ctrl (directions), 1 arg:
-	0x08,                   //     Row addr/col addr, bottom to top refresh
-	ST7735_DISSET5, 2      ,  //  6: Display settings #5, 2 args, no delay:
-	0x15,                   //     1 clk cycle nonoverlap, 2 cycle gate
-	//     rise, 3 cycle osc equalize
-	0x02,                   //     Fix on VTL
-	ST7735_INVCTR , 1      ,  //  7: Display inversion control, 1 arg:
-	0x0,                    //     Line inversion
-	ST7735_PWCTR1 , 2+DELAY,  //  8: Power control, 2 args + delay:
-	0x02,                   //     GVDD = 4.7V
-	0x70,                   //     1.0uA
-	10,                     //     10 ms delay
-	ST7735_PWCTR2 , 1      ,  //  9: Power control, 1 arg, no delay:
-	0x05,                   //     VGH = 14.7V, VGL = -7.35V
-	ST7735_PWCTR3 , 2      ,  // 10: Power control, 2 args, no delay:
-	0x01,                   //     Opamp current small
-	0x02,                   //     Boost frequency
-	ST7735_VMCTR1 , 2+DELAY,  // 11: Power control, 2 args + delay:
-	0x3C,                   //     VCOMH = 4V
-	0x38,                   //     VCOML = -1.1V
-	10,                     //     10 ms delay
-	ST7735_PWCTR6 , 2      ,  // 12: Power control, 2 args, no delay:
-	0x11, 0x15,
-	ST7735_GMCTRP1,16      ,  // 13: Magical unicorn dust, 16 args, no delay:
-	0x09, 0x16, 0x09, 0x20, //     (seriously though, not sure what
-	0x21, 0x1B, 0x13, 0x19, //      these config values represent)
-	0x17, 0x15, 0x1E, 0x2B,
-	0x04, 0x05, 0x02, 0x0E,
-	ST7735_GMCTRN1,16+DELAY,  // 14: Sparkles and rainbows, 16 args + delay:
-	0x0B, 0x14, 0x08, 0x1E, //     (ditto)
-	0x22, 0x1D, 0x18, 0x1E,
-	0x1B, 0x1A, 0x24, 0x2B,
-	0x06, 0x06, 0x02, 0x0F,
-	10,                     //     10 ms delay
-	ST7735_CASET  , 4      ,  // 15: Column addr set, 4 args, no delay:
-	0x00, 0x02,             //     XSTART = 2
-	0x00, 0x81,             //     XEND = 129
-	ST7735_RASET  , 4      ,  // 16: Row addr set, 4 args, no delay:
-	0x00, 0x02,             //     XSTART = 1
-	0x00, 0x81,             //     XEND = 160
-	ST7735_NORON  ,   DELAY,  // 17: Normal display on, no args, w/delay
-	10,                     //     10 ms delay
-	ST7735_DISPON ,   DELAY,  // 18: Main screen turn on, no args, w/delay
-255 },                  //     255 = 500 ms delay
-
-Rcmd1[] = {                 // Init for 7735R, part 1 (red or green tab)
-	15,                       // 15 commands in list:
+static const uint8_t PROGMEM CmdList[] =
+{
+	21,                       // 21 commands in list:
 	ST7735_SWRESET,   DELAY,  //  1: Software reset, 0 args, w/delay
 	150,                    //     150 ms delay
 	ST7735_SLPOUT ,   DELAY,  //  2: Out of sleep mode, 0 args, w/delay
-	255,                    //     500 ms delay
+	250,                    //     250 ms delay
 	ST7735_FRMCTR1, 3      ,  //  3: Frame rate ctrl - normal mode, 3 args:
 	0x01, 0x2C, 0x2D,       //     Rate = fosc/(1x2+40) * (LINE+2C+2D)
 	ST7735_FRMCTR2, 3      ,  //  4: Frame rate control - idle mode, 3 args:
@@ -239,61 +144,31 @@ Rcmd1[] = {                 // Init for 7735R, part 1 (red or green tab)
 	ST7735_MADCTL , 1      ,  // 14: Memory access control (directions), 1 arg:
 	0xC8,                   //     row addr/col addr, bottom to top refresh
 	ST7735_COLMOD , 1      ,  // 15: set color mode, 1 arg, no delay:
-0x05 },                 //     16-bit color
+	0x05,					//     16-bit color
 
-Rcmd2green[] = {            // Init for 7735R, part 2 (green tab only)
-	2,                        //  2 commands in list:
-	ST7735_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
-	0x00, 0x02,             //     XSTART = 0
-	0x00, 0x7F+0x02,        //     XEND = 127
-	ST7735_RASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
-	0x00, 0x01,             //     XSTART = 0
-0x00, 0x9F+0x01 },      //     XEND = 159
-
-Rcmd2red[] = {              // Init for 7735R, part 2 (red tab only)
-	2,                        //  2 commands in list:
-	ST7735_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
+	ST7735_CASET  , 4      ,  //  16: Column addr set, 4 args, no delay:
 	0x00, 0x00,             //     XSTART = 0
 	0x00, 0x7F,             //     XEND = 127
-	ST7735_RASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
+	ST7735_RASET  , 4      ,  //  17: Row addr set, 4 args, no delay:
 	0x00, 0x00,             //     XSTART = 0
-0x00, 0x9F },           //     XEND = 159
+	0x00, 0x7F,				//     XEND = 127
 
-Rcmd2green144[] = {              // Init for 7735R, part 2 (green 1.44 tab)
-	2,                        //  2 commands in list:
-	ST7735_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
-	0x00, 0x00,             //     XSTART = 0
-	0x00, 0x7F,             //     XEND = 127
-	ST7735_RASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
-	0x00, 0x00,             //     XSTART = 0
-0x00, 0x7F },           //     XEND = 127
-
-Rcmd2green160x80[] = {              // Init for 7735R, part 2 (mini 160x80)
-	2,                        //  2 commands in list:
-	ST7735_CASET  , 4      ,  //  1: Column addr set, 4 args, no delay:
-	0x00, 0x00,             //     XSTART = 0
-	0x00, 0x7F,             //     XEND = 79
-	ST7735_RASET  , 4      ,  //  2: Row addr set, 4 args, no delay:
-	0x00, 0x00,             //     XSTART = 0
-0x00, 0x9F },           //     XEND = 159
-
-
-Rcmd3[] = {                 // Init for 7735R, part 3 (red or green tab)
-	4,                        //  4 commands in list:
-	ST7735_GMCTRP1, 16      , //  1: Magical unicorn dust, 16 args, no delay:
+	ST7735_GMCTRP1, 16      , //  18: Gamma correction positive, 16 args, no delay:
 	0x02, 0x1c, 0x07, 0x12,
 	0x37, 0x32, 0x29, 0x2d,
 	0x29, 0x25, 0x2B, 0x39,
 	0x00, 0x01, 0x03, 0x10,
-	ST7735_GMCTRN1, 16      , //  2: Sparkles and rainbows, 16 args, no delay:
+	ST7735_GMCTRN1, 16      , //  19: Gamma correction negative, 16 args, no delay:
 	0x03, 0x1d, 0x07, 0x06,
 	0x2E, 0x2C, 0x29, 0x2D,
 	0x2E, 0x2E, 0x37, 0x3F,
 	0x00, 0x00, 0x02, 0x10,
-	ST7735_NORON  ,    DELAY, //  3: Normal display on, no args, w/delay
+	
+	ST7735_NORON  ,    DELAY, //  20: Normal display on, no args, w/delay
 	10,                     //     10 ms delay
-	ST7735_DISPON ,    DELAY, //  4: Main screen turn on, no args w/delay
-100 };                  //     100 ms delay
+	ST7735_DISPON ,    DELAY, //  21: Main screen turn on, no args w/delay
+	100						//     100 ms delay
+};
 
 
 // Companion code to the above tables.  Reads and issues
@@ -321,11 +196,9 @@ void Adafruit_ST7735::commandList(const uint8_t *addr) {
 	}
 }
 
-
-// Initialization code common to both 'B' and 'R' type displays
-void Adafruit_ST7735::commonInit(const uint8_t *cmdList) {
-	ystart = xstart = colstart  = rowstart = 0; // May be overridden in init func
-
+void Adafruit_ST7735::init()
+{
+	ystart = xstart = 0;
 	_height = ST7735_TFTHEIGHT_128;
 	_width  = ST7735_TFTWIDTH_128;
 
@@ -339,91 +212,36 @@ void Adafruit_ST7735::commonInit(const uint8_t *cmdList) {
 	dcpinmask = digitalPinToBitMask(_dc);
 	#endif
 
-	if(hwSPI) { // Using hardware SPI
-		#if defined (SPI_HAS_TRANSACTION)
-		SPI.begin();
-		mySPISettings = SPISettings(8000000, MSBFIRST, SPI_MODE0);
-		#elif defined (__AVR__) || defined(CORE_TEENSY)
-		//SPCRbackup = SPCR;
-		SPI.begin();
-		SPI.setClockDivider(SPI_CLOCK_DIV4);
-		SPI.setDataMode(SPI_MODE0);
-		//mySPCR = SPCR; // save our preferred state
-		//Serial.print("mySPCR = 0x"); Serial.println(SPCR, HEX);
-		//SPCR = SPCRbackup;  // then restore
-		#elif defined (__SAM3X8E__)
-		SPI.begin();
-		SPI.setClockDivider(21); //4MHz
-		SPI.setDataMode(SPI_MODE0);
-		#endif
-		} else {
-		pinMode(_sclk, OUTPUT);
-		pinMode(_sid , OUTPUT);
-		digitalWrite(_sclk, LOW);
-		digitalWrite(_sid, LOW);
-
-		#if defined(USE_FAST_IO)
-		clkport     = portOutputRegister(digitalPinToPort(_sclk));
-		dataport    = portOutputRegister(digitalPinToPort(_sid));
-		clkpinmask  = digitalPinToBitMask(_sclk);
-		datapinmask = digitalPinToBitMask(_sid);
-		#endif
-	}
+	#if defined (SPI_HAS_TRANSACTION)
+	SPI.begin();
+	mySPISettings = SPISettings(8000000, MSBFIRST, SPI_MODE0);
+	#elif defined (__AVR__) || defined(CORE_TEENSY)
+	//SPCRbackup = SPCR;
+	SPI.begin();
+	SPI.setClockDivider(SPI_CLOCK_DIV4);
+	SPI.setDataMode(SPI_MODE0);
+	#elif defined (__SAM3X8E__)
+	SPI.begin();
+	SPI.setClockDivider(21); //4MHz
+	SPI.setDataMode(SPI_MODE0);
+	#endif
 
 	// toggle RST low to reset; CS low so it'll listen to us
-	CS_LOW();
+	/*CS_LOW();
 	if (_rst != -1) {
-		pinMode(_rst, OUTPUT);
-		digitalWrite(_rst, HIGH);
-		delay(500);
-		digitalWrite(_rst, LOW);
-		delay(500);
-		digitalWrite(_rst, HIGH);
-		delay(500);
-	}
+	pinMode(_rst, OUTPUT);
+	digitalWrite(_rst, HIGH);
+	delay(500);
+	digitalWrite(_rst, LOW);
+	delay(500);
+	digitalWrite(_rst, HIGH);
+	delay(500);
+	}*/
 
-	if(cmdList) commandList(cmdList);
+	colstart = 2;
+	rowstart = 3;
+	commandList(CmdList);
 }
-
-
-// Initialization for ST7735B screens
-void Adafruit_ST7735::initB(void) {
-	commonInit(Bcmd);
-
-	setRotation(0);
-}
-
-
-// Initialization for ST7735R screens (green or red tabs)
-void Adafruit_ST7735::initR(uint8_t options) {
-	commonInit(Rcmd1);
-	if(options == INITR_GREENTAB) {
-		commandList(Rcmd2green);
-		colstart = 2;
-		rowstart = 1;
-		} else if(options == INITR_144GREENTAB) {
-		_height = ST7735_TFTHEIGHT_128;
-		_width = ST7735_TFTWIDTH_128;
-		commandList(Rcmd2green144);
-		colstart = 2;
-		rowstart = 3;
-		} else if(options == INITR_MINI160x80) {
-		_height = ST7735_TFTHEIGHT_160;
-		_width = ST7735_TFTWIDTH_80;
-		commandList(Rcmd2green160x80);
-		colstart = 24;
-		rowstart = 0;
-		} else {
-		// colstart, rowstart left at default '0' values
-		commandList(Rcmd2red);
-	}
-	commandList(Rcmd3);
-
-	tabcolor = options;
-
-	setRotation(0);
-}
-
 
 void Adafruit_ST7735::setAddrWindow(uint8_t x0, uint8_t y0, uint8_t x1,
 uint8_t y1) {
@@ -446,19 +264,19 @@ uint8_t y1) {
 
 void Adafruit_ST7735::pushColor(uint16_t color) {
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 
 	CS_LOW();
 	DC_HIGH();
-	spiwrite(color >> 8);
+	SPI.transfer(color >> 8);
 	DC_HIGH();
-	spiwrite(color);
+	SPI.transfer(color);
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)    SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -469,19 +287,19 @@ void Adafruit_ST7735::drawPixel(int16_t x, int16_t y, uint16_t color) {
 	setAddrWindow(x,y,x+1,y+1);
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)     SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 
 	CS_LOW();
 	DC_HIGH();
-	spiwrite(color >> 8);
+	SPI.transfer(color >> 8);
 	DC_HIGH();
-	spiwrite(color);
+	SPI.transfer(color);
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)     SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -497,7 +315,7 @@ uint16_t color) {
 	uint8_t hi = color >> 8, lo = color;
 	
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 
@@ -505,14 +323,14 @@ uint16_t color) {
 
 	while (h--) {
 		DC_HIGH();
-		spiwrite(hi);
+		SPI.transfer(hi);
 		DC_HIGH();
-		spiwrite(lo);
+		SPI.transfer(lo);
 	}
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -528,20 +346,20 @@ uint16_t color) {
 	uint8_t hi = color >> 8, lo = color;
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 	CS_LOW();
 	while (w--) {
 		DC_HIGH();
-		spiwrite(hi);
+		SPI.transfer(hi);
 		DC_HIGH();
-		spiwrite(lo);
+		SPI.transfer(lo);
 	}
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -567,7 +385,7 @@ uint16_t color) {
 	uint8_t hi = color >> 8, lo = color;
 	
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 	CS_LOW();
@@ -575,15 +393,15 @@ uint16_t color) {
 	for(y=h; y>0; y--) {
 		for(x=w; x>0; x--) {
 			DC_HIGH();
-			spiwrite(hi);
+			SPI.transfer(hi);
 			DC_HIGH();
-			spiwrite(lo);
+			SPI.transfer(lo);
 		}
 	}
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -600,7 +418,7 @@ uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
 	uint8_t hi = color >> 8, lo = color, bgH = bg >> 8, bgL = bg;
 	
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.beginTransaction(mySPISettings);
+	SPI.beginTransaction(mySPISettings);
 	#endif
 
 	CS_LOW();
@@ -609,9 +427,9 @@ uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
 		for(x=w; x>0; x--) {
 			bool b = ((sign16(cropX) && xPos >= -cropX) || (!sign16(cropX) && xPos <= w-cropX-1)) && ((sign16(cropY) && yPos >= -cropY) || (!sign16(cropY) && yPos <= h-cropY-1));
 			DC_HIGH();
-			spiwrite(b? hi : bgH);
+			SPI.transfer(b? hi : bgH);
 			DC_HIGH();
-			spiwrite(b? lo : bgL);
+			SPI.transfer(b? lo : bgL);
 			xPos++;
 		}
 		xPos = 0;
@@ -620,7 +438,7 @@ uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
 	CS_HIGH();
 
 	#if defined (SPI_HAS_TRANSACTION)
-	if (hwSPI)      SPI.endTransaction();
+	SPI.endTransaction();
 	#endif
 }
 
@@ -629,36 +447,36 @@ uint16_t Adafruit_ST7735::Color565(uint8_t r, uint8_t g, uint8_t b) {
 	return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
 }
 
-
+/*
 void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[],  uint16_t color)
 {
-	int8_t w,  h;
-	w = pgm_read_byte(&bitmap[0]);
-	h = pgm_read_byte(&bitmap[1]);
-	
-	setAddrWindow(x, y, x+w-1, y+h-1);
-	
-	uint8_t xPos = 0, yPos = 0, bitPos = 0;
-	uint8_t byte = pgm_read_byte(&bitmap[2]);
-	
-	for(uint16_t i = 0; i < w * h; i++)
-	{
-		if(byte & (0x80 >> bitPos))
-		{
-			drawPixel(x+xPos,y+yPos,color);
-		}
-		
-		if(bitPos < 7)bitPos++;
-		else
-		{
-			bitPos = 0;
-			byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
-		}
+int8_t w,  h;
+w = pgm_read_byte(&bitmap[0]);
+h = pgm_read_byte(&bitmap[1]);
 
-		if(xPos < w -1 )xPos++;
-		else{ xPos = 0; yPos++;}
-	}
+setAddrWindow(x, y, x+w-1, y+h-1);
+
+uint8_t xPos = 0, yPos = 0, bitPos = 0;
+uint8_t byte = pgm_read_byte(&bitmap[2]);
+
+for(uint16_t i = 0; i < w * h; i++)
+{
+if(byte & (0x80 >> bitPos))
+{
+drawPixel(x+xPos,y+yPos,color);
 }
+
+if(bitPos < 7)bitPos++;
+else
+{
+bitPos = 0;
+byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
+}
+
+if(xPos < w -1 )xPos++;
+else{ xPos = 0; yPos++;}
+}
+}*/
 
 void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
 {
@@ -682,9 +500,9 @@ void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[
 		bool b = byte & (0x80 >> bitPos);
 
 		DC_HIGH();
-		spiwrite(b? cH: bgH);
+		SPI.transfer(b? cH: bgH);
 		DC_HIGH();
-		spiwrite(b? cL : bgL);
+		SPI.transfer(b? cL : bgL);
 
 
 		if(bitPos < 7)bitPos++;
@@ -744,9 +562,9 @@ void Adafruit_ST7735::drawFastBitmapCropped(int16_t x_in, int16_t y_in, const ui
 	{
 		bool b = (byte & (0x80 >> bitPos)) && !(xPos < cropLeft || xPos >= w-cropRight || yPos < cropTop || yPos >= h-cropBottom);
 		DC_HIGH();
-		spiwrite(b? cH : bgH);
+		SPI.transfer(b? cH : bgH);
 		DC_HIGH();
-		spiwrite(b? cL : bgL);
+		SPI.transfer(b? cL : bgL);
 
 		if(bitPos < 7)bitPos++;
 		else
@@ -813,7 +631,7 @@ inline void Adafruit_ST7735::CS_HIGH(void) {
 	#if defined(USE_FAST_IO)
 	*csport |= cspinmask;
 	#else
-	digitalWrite(_cs, HIGH);
+	 //digitalWrite(_cs, HIGH);
 	#endif
 }
 
@@ -821,7 +639,8 @@ inline void Adafruit_ST7735::CS_LOW(void) {
 	#if defined(USE_FAST_IO)
 	*csport &= ~cspinmask;
 	#else
-	digitalWrite(_cs, LOW);
+	#error this shouldn't happen
+	// digitalWrite(_cs, LOW);
 	#endif
 }
 
@@ -854,116 +673,3 @@ inline void Adafruit_ST7735::DC_LOW(void) {
 	//PORTB &= ~(1 << PINB3);
 	SPCR |= 1 <<SPE;
 }
-
-
-
-////////// stuff not actively being used, but kept for posterity
-/*
-
-uint8_t Adafruit_ST7735::spiread(void) {
-uint8_t r = 0;
-if (_sid > 0) {
-r = shiftIn(_sid, _sclk, MSBFIRST);
-} else {
-//SID_DDR &= ~_BV(SID);
-//int8_t i;
-//for (i=7; i>=0; i--) {
-//  SCLK_PORT &= ~_BV(SCLK);
-//  r <<= 1;
-//  r |= (SID_PIN >> SID) & 0x1;
-//  SCLK_PORT |= _BV(SCLK);
-//}
-//SID_DDR |= _BV(SID);
-
-}
-return r;
-}
-
-
-void Adafruit_ST7735::dummyclock(void) {
-
-if (_sid > 0) {
-digitalWrite(_sclk, LOW);
-digitalWrite(_sclk, HIGH);
-} else {
-// SCLK_PORT &= ~_BV(SCLK);
-//SCLK_PORT |= _BV(SCLK);
-}
-}
-uint8_t Adafruit_ST7735::readdata(void) {
-*portOutputRegister(rsport) |= rspin;
-
-*portOutputRegister(csport) &= ~ cspin;
-
-uint8_t r = spiread();
-
-*portOutputRegister(csport) |= cspin;
-
-return r;
-
-}
-
-uint8_t Adafruit_ST7735::readcommand8(uint8_t c) {
-digitalWrite(_rs, LOW);
-
-*portOutputRegister(csport) &= ~ cspin;
-
-spiwrite(c);
-
-digitalWrite(_rs, HIGH);
-pinMode(_sid, INPUT); // input!
-digitalWrite(_sid, LOW); // low
-spiread();
-uint8_t r = spiread();
-
-
-*portOutputRegister(csport) |= cspin;
-
-
-pinMode(_sid, OUTPUT); // back to output
-return r;
-}
-
-
-uint16_t Adafruit_ST7735::readcommand16(uint8_t c) {
-digitalWrite(_rs, LOW);
-if (_cs)
-digitalWrite(_cs, LOW);
-
-spiwrite(c);
-pinMode(_sid, INPUT); // input!
-uint16_t r = spiread();
-r <<= 8;
-r |= spiread();
-if (_cs)
-digitalWrite(_cs, HIGH);
-
-pinMode(_sid, OUTPUT); // back to output
-return r;
-}
-
-uint32_t Adafruit_ST7735::readcommand32(uint8_t c) {
-digitalWrite(_rs, LOW);
-if (_cs)
-digitalWrite(_cs, LOW);
-spiwrite(c);
-pinMode(_sid, INPUT); // input!
-
-dummyclock();
-dummyclock();
-
-uint32_t r = spiread();
-r <<= 8;
-r |= spiread();
-r <<= 8;
-r |= spiread();
-r <<= 8;
-r |= spiread();
-if (_cs)
-digitalWrite(_cs, HIGH);
-
-pinMode(_sid, OUTPUT); // back to output
-return r;
-}
-
-*/

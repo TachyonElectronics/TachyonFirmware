@@ -151,8 +151,8 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	Adafruit_ST7735(int8_t CS, int8_t RS, int8_t SID, int8_t SCLK, int8_t RST = -1);
 	Adafruit_ST7735(int8_t CS, int8_t RS, int8_t RST = -1);
 
-	void     initB(void),                             // for ST7735B displays
-	initR(uint8_t options = INITR_GREENTAB), // for ST7735R
+	void
+	init(),                         
 	setAddrWindow(uint8_t x0, uint8_t y0, uint8_t x1, uint8_t y1),
 	pushColor(uint16_t color),
 	fillScreen(uint16_t color),
@@ -166,30 +166,22 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	uint16_t Color565(uint8_t r, uint8_t g, uint8_t b);
 	
 
-	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color);
+	//void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color);
 	void drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
 	//Displays a bitmap that is cropped on the side(s)
 	void drawFastBitmapCropped(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
 
-	//Fills the window on the specified position with the inputted data
-	//void writeWindow(uint8_t x,uint8_t y,uint8_t w,uint8_t h,uint8_t* data, uint16_t length);
 
 	private:
-	uint8_t  tabcolor;
-	void     spiwrite(uint8_t),
-	writecommand(uint8_t c),
+	void writecommand(uint8_t c),
 	writedata(uint8_t d),
-	commandList(const uint8_t *addr),
-	commonInit(const uint8_t *cmdList);
-	//uint8_t  spiread(void);
+	commandList(const uint8_t *addr);
 
 
 	inline void CS_HIGH(void);
 	inline void CS_LOW(void);
 	inline void DC_HIGH(void);
 	inline void DC_LOW(void);
-
-	boolean  hwSPI;
 
 	int8_t  _cs, _dc, _rst, _sid, _sclk;
 	uint8_t colstart, rowstart, xstart, ystart; // some displays need this changed

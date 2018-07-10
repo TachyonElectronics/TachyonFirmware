@@ -76,6 +76,7 @@
 #define SCREEN_SYSINFO 255
 //===============================================
 
+//	Not currently used - not that practical and only takes up program memory. This could, however, become a compile-time setting
 //====================Reload modes====================
 #define RLM_AUTO_OR_MANUAL 0 //Either removing the mag (auto) OR pressing the reload button (manual) will reload ammo count
 #define RLM_AUTO_AND_MANUAL 1 //BOTH Manual AND Auto triggers must be activated within a certain time period in order to reload
@@ -83,6 +84,7 @@
 #define RLM_MANUAL_ONLY 3 //self explanatory
 #define RLM_INVERTED 4 //Removing the mag will reload the gun, unless the reload button is pressed first. If it is pressed, the system will ignore the next mag removal (auto trigger)
 //====================================================
+
 
 //====================EEPROM====================
 #define _EEPROM_VERIFY_TAG 0x42 //This is a value that is written into address '0' into EEPROM. Upon device bootup, if the value does not match the tag, the device will overwrite the EEPROM to factory settings (useful to prevent bricking should the EEPROM addressing change after a firmware update)
@@ -112,14 +114,15 @@
 #define BT_LIPO_11V1 5   //11.1v LiPO
 #define BT_StA_9VOLT 6   //Standalone 9v alkaline battery
 
-//Battery discharge curves are fitted with Logit function y=k*(A-log((1/(1-x))-1))
-//Following parameters can be tweaked to fit various battery types
+//Battery percentage calculation is performed through a logistic curve function 
+//Following constants can be tweaked to fit various battery types with different discharge curves
 
-#define MATH_e 2.7182818f
+//Nickel Metal Hydride
+#define NIMH_H_OFFSET 66.21f
+#define NIMH_K 0.01854f
+#define NIMH_BASE 1.872f
+#define NIMH_V_OFFSET 0.002f
 
-#define NIMH_A 19.7f
-#define NIMH_K 0.06263f
-#define NIMH_OFFSET 0.066f 
 
 //=====================================================================
 

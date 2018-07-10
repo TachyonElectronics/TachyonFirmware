@@ -1,0 +1,12 @@
+#ifndef DEFINITIONS_H_
+#define DEFINITIONS_H_
+#include "TachyonFirmware.h"
+
+uint16_t buttonCtrs[_BTN_COUNT] = {};
+DEFINE_BUTTON(BTN_LEFT)
+DEFINE_BUTTON(BTN_CENTER)
+DEFINE_BUTTON(BTN_RIGHT)
+DEFINE_BUTTON(BTN_RLD)
+
+
+#endif /* DEFINITIONS_H_ */

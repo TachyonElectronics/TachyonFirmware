@@ -20,38 +20,42 @@
 #define ARDUINO_ARCH_AVR
 
 //
+//
+void buttonPressed(uint8_t button);
+void buttonHeld(uint8_t button);
 void reloadInterrupt();
 void fire();
-void updateAmmo();
-//
+void updateAmmoCount();
 void reload();
+void onSettings1Select(uint8_t item);
+void onSettings2Select(uint8_t selection);
+void onUISetupSelect(uint8_t item);
+void acceptTime();
+void onEditPreset(uint8_t preset);
+void onChangePresetVal(uint16_t value);
+void onAcceptPreset(uint16_t value);
+void openColorEditor(uint16_t* target);
+void selectColorChannel(uint8_t channel);
+void updateColorEditorSelection();
+void updateTestColor(int16_t value);
+void acceptColorChannel(int16_t _color_UNUSED);
+void openSettingsScreen();
+void openSettingsScreen2();
+void openTimeSetup();
+void printTime();
 void displayMainScreen();
 void updateAmmoBar();
-void updateAmmoCount();
 void setBrightness(uint8_t newBrightness);
 void showBrightnessBar();
 void updateBrightnessBar();
 void hideBrightnessBar();
 void updateBattery();
 void updateCurrentPreset();
-void openSettingsScreen();
-void onSettings1Select(uint8_t item);
-void buttonPressed(uint8_t button);
-void buttonHeld(uint8_t button);
-void onEditPreset(uint8_t preset);
-void onChangePresetVal(uint16_t value);
-void onAcceptPreset(uint16_t value);
+uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);
+void executeCommand(uint8_t cmd);
 void loadSettings();
 void saveSettings();
 void factoryReset();
-void onUISetupSelect(uint8_t item);
-void openColorEditor(uint16_t* target);
-void updateTestColor(int16_t value);
-void acceptColorChannel(int16_t _color_UNUSED);
-void openTimeSetup();
-void printTime();
-void executeCommand(uint8_t cmd);
-void onSettings2Select(uint8_t selection);
 
 #include "pins_arduino.h" 
 #include "arduino.h"
