@@ -1,3 +1,13 @@
+/*===============================================================
+This library is a heavily modified and optimized version of the Adafruit ST7735 library
+Only suitable for Tachyon WCS V1. Unmodified version(s) of the original library are NOT COMPATIBLE!
+https://github.com/adafruit/Adafruit-ST7735-Library
+
+Modified by Martin Hrehor
+=================================================================
+*/
+
+//Original library licensing info:
 /***************************************************
 This is a library for the Adafruit 1.8" SPI display.
 
@@ -21,7 +31,7 @@ Written by Limor Fried/Ladyada for Adafruit Industries.
 MIT license, all text above must be included in any redistribution
 ****************************************************/
 
-#include "Adafruit_ST7735.h"
+#include "Display.h"
 #include <limits.h>
 #include "pins_arduino.h"
 #include "wiring_private.h"
@@ -45,7 +55,7 @@ static uint8_t mySPCR;*/
 
 // Constructor when using software SPI.  All output pins are configurable.
 Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, int8_t rst)
-: Adafruit_GFX(ST7735_TFTWIDTH_128, ST7735_TFTHEIGHT_160)
+: Adafruit_GFX(ST7735_TFTWIDTH, ST7735_TFTHEIGHT)
 {
 	_cs   = cs;
 	_dc   = dc;
@@ -58,7 +68,7 @@ Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, 
 // Constructor when using hardware SPI.  Faster, but must use SPI pins
 // specific to each board type (e.g. 11,13 for Uno, 51,52 for Mega, etc.)
 Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t rst)
-: Adafruit_GFX(ST7735_TFTWIDTH_128, ST7735_TFTHEIGHT_160) {
+: Adafruit_GFX(ST7735_TFTWIDTH, ST7735_TFTHEIGHT) {
 	_cs   = cs;
 	_dc   = dc;
 	_rst  = rst;
@@ -199,8 +209,8 @@ void Adafruit_ST7735::commandList(const uint8_t *addr) {
 void Adafruit_ST7735::init()
 {
 	ystart = xstart = 0;
-	_height = ST7735_TFTHEIGHT_128;
-	_width  = ST7735_TFTWIDTH_128;
+	_height = ST7735_TFTHEIGHT;
+	_width  = ST7735_TFTWIDTH;
 
 	pinMode(_dc, OUTPUT);
 	pinMode(_cs, OUTPUT);

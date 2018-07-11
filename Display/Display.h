@@ -1,3 +1,13 @@
+/*===============================================================
+This library is a heavily modified and optimized version of the Adafruit ST7735 library
+Only suitable for Tachyon WCS V1. Unmodified version(s) of the original library are NOT COMPATIBLE!
+https://github.com/adafruit/Adafruit-ST7735-Library
+
+Modified by Martin Hrehor
+=================================================================
+*/
+
+//Original library licensing info:
 /***************************************************
 This is a library for the Adafruit 1.8" SPI display.
 
@@ -20,21 +30,6 @@ products from Adafruit!
 Written by Limor Fried/Ladyada for Adafruit Industries.
 MIT license, all text above must be included in any redistribution
 ****************************************************/
-
-/*===================================================
-This library has been heavily modified for use with the Tachyon firmware
-Replacing this library with a different version of the Adafruit library will break the functionality of the firmware!
-
-Modified by Martin Hrehor
-
-
-Available rotations (in degrees):
-0 = 0
-1 = 90
-2 = 180
-3 = 270
-===================================================
-*/
 
 #ifndef _ADAFRUIT_ST7735H_
 #define _ADAFRUIT_ST7735H_
@@ -66,26 +61,10 @@ typedef volatile uint32_t RwReg;
 typedef unsigned char prog_uchar;
 #endif
 
-// some flags for initR() :(
-#define INITR_GREENTAB   0x0
-#define INITR_REDTAB     0x1
-#define INITR_BLACKTAB   0x2
 
-#define INITR_18GREENTAB    INITR_GREENTAB
-#define INITR_18REDTAB      INITR_REDTAB
-#define INITR_18BLACKTAB    INITR_BLACKTAB
-#define INITR_144GREENTAB   0x1
-#define INITR_MINI160x80    0x4
+#define ST7735_TFTWIDTH  128
+#define ST7735_TFTHEIGHT 128
 
-
-// for 1.44 and mini
-#define ST7735_TFTWIDTH_128  128
-// for mini
-#define ST7735_TFTWIDTH_80   80
-// for 1.44" display
-#define ST7735_TFTHEIGHT_128 128
-// for 1.8" and mini display
-#define ST7735_TFTHEIGHT_160  160
 
 #define ST7735_NOP     0x00
 #define ST7735_SWRESET 0x01

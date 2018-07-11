@@ -8,7 +8,6 @@ Version 1.x
 #include "FirmwareCore/TachyonFirmware.h"
 #include "FirmwareCore/Definitions.h"
 
-
 void setup()
 {
 	loadSettings();

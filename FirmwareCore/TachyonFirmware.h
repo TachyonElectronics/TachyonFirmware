@@ -1,7 +1,7 @@
 #ifndef TACHYONFIRMWARE_H_
 #define TACHYONFIRMWARE_H_
 #include <Wire.h>
-#include "../Adafruit-ST7735/Adafruit_ST7735.h"
+#include "../Display/Display.h"
 #include <avr/io.h>
 #include <avr/eeprom.h>
 #include "../Bitmaps.h"

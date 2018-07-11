@@ -14,7 +14,7 @@ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Ta
  C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\FirmwareCore/TachyonFirmware.h \
  C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\libraries\Wire\src/Wire.h \
  C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Stream.h \
- c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\adafruit-st7735\adafruit_st7735.h \
+ c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\display\display.h \
  C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Arduino.h \
  C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino/Print.h \
  c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\adafruit-gfx\adafruit_gfx.h \
@@ -25,4 +25,7 @@ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\Ta
  c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\Adafruit-ST7735/Adafruit_ST7735.h \
  c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\Conf.h \
  c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\rtc.h \
- c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\strings.h
+ c:\users\delta-pc\appdata\local\temp\vmbuilds\tachyonfirmware\tachyon\release\strings.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\FirmwareCore/Macros.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\FirmwareCore/Definitions.h \
+ C:\Users\DELTA-PC\AppData\Local\Temp\VMBuilds\TachyonFirmware\tachyon\Release\FirmwareCore/TachyonFirmware.h
