@@ -15,9 +15,14 @@
 #define BRIGHTNESS_STAY_TIME 1000 //How long does the brigtness bar stay visible for (in ms)
 #define CENTER_HOLD_TIME 2500 //How long you have to hold the center button to open the menu (in ms)
 #define INCREMENT_TIME 10 // When a button is held, this will specify how fast the edited value decreases/increases
+#define INCREMENT_TIME_AMMO 100 // Same as above, applies to preset setup when ammo count is < 100
+#define INCREMENT_TIME_AMMO_100 40 // Same as above, applies to preset setup when ammo count is > 100
+#define INCREMENT_TIME_AMMO_500 15 // Same as above, applies to preset setup when ammo count is > 1000
+#define PRESET_EDIT_HOLD_TIME 750 //When the button is held for this amount of millis, the preset editor change speed will increase
 #define BATT_MEASURMENT_INTERVAL 1000 //Interval between battery voltage sampling (in ms)
 #define BUTTON_DEBOUNCE_INTERVAL 4 
 #define _PRESET_COUNT 6 //do not change this
+#define FACTORY_RESET_CONFIRMATIONS 6 //How many times must the factory reset button be pressed in order to activate
 //======================================================
 
 //====================Empty magazine flash setup====================
@@ -110,19 +115,27 @@
 #define BT_RAW_VOLTAGE 0 //Displays measured voltage directly
 #define BT_NIMH_7CELL 1	 //7-Cell Ni-MH (8.4v)
 #define BT_NIMH_8CELL 2  //8-Cell Ni-MH (9.6v)
-#define BT_LIPO_7V4 4    //7.4v LiPO
-#define BT_LIPO_11V1 5   //11.1v LiPO
-#define BT_StA_9VOLT 6   //Standalone 9v alkaline battery
+#define BT_LIPO_7V4 3    //7.4v LiPO (2-Cell)
+#define BT_LIPO_11V1 4   //11.1v LiPO (3-Cell)
+#define BT_StA_9VOLT 5   //Standalone 9v alkaline battery
 
 //Battery percentage calculation is performed through a logistic curve function 
 //Following constants can be tweaked to fit various battery types with different discharge curves
 
 //Nickel Metal Hydride
-#define NIMH_H_OFFSET 66.21f
-#define NIMH_K 0.01854f
-#define NIMH_BASE 1.872f
-#define NIMH_V_OFFSET 0.002f
+#define NIMH_H_OFFSET 66.21f //A
+#define NIMH_K 0.01854f      //k
+#define NIMH_BASE 1.872f	 //b
+#define NIMH_V_OFFSET 0.002f //c
 
+#define LIPO_H_OFFSET 170.1f
+#define LIPO_K 0.02098f
+#define LIPO_BASE 1.287f
+#define LIPO_V_OFFSET 0
+
+//9v Alkaline (Curve approximated to linear)
+#define StA_9V_MAX 9.1f
+#define StA_9V_MIN 6.5f
 
 //=====================================================================
 

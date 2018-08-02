@@ -23,10 +23,11 @@ struct __TachyonSettings
 	uint8_t reloadMode;
 	uint8_t rotation;
 	uint8_t batteryType;
-	bool counterDirection;
+	//bool countUp;
 } settings;
 
 //Variables
+uint8_t factoryResetCtr;
 uint8_t updateAmmoNextLoop;
 uint8_t currentScreen;
 UIElement* focusedUiElement;
@@ -41,6 +42,8 @@ uint16_t ammoColor;
 uint8_t brightness;
 uint16_t* editedColor;
 uint16_t emptyFlashCtr = 0;
+uint16_t presetEditHoldMillis = 0;
+bool presetEditorResetHold;
 bool emptyFlashState = 0;
 bool magOut;
 bool changingPreset;
@@ -87,8 +90,8 @@ UIList settings1 = UIList(&disp,&onSettings1Select,112,12,4,&settings.uiColor,&s
 
 inline void onEditPreset(uint8_t);
 UIList presetList = UIList(&disp,&onEditPreset,66,12,4,&settings.uiColor,&settings.bgColor,PresetLabels,7);
-inline void onAcceptPreset(uint16_t value), onChangePresetVal(uint16_t value);
-UIInvisibleSlider presetSlider = UIInvisibleSlider(&disp,&onAcceptPreset,&onChangePresetVal,0,999,50);
+inline void onAcceptPreset(int16_t value), onChangePresetVal(int16_t value);
+UIInvisibleSlider presetSlider = UIInvisibleSlider(&disp,&onAcceptPreset,&onChangePresetVal,1,999,50);
 
 //UIList reloadModeList = UIList(&disp,[settings](uint8_t val){settings.reloadMode = val;openSettingsScreen();},102,12,4,&settings.uiColor,&settings.bgColor,ReloadModeLabels,5);
 

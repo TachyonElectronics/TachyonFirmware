@@ -27,11 +27,11 @@ const PROGMEM char Str_NextPage[] = "Next page";
 
 const PROGMEM char Str_BatterySetup[] = "Battery setup";
 const PROGMEM char Str_CountDir[] = "Count direction";
-//const PROGMEM char Str_FactoryReset[] = "Factory reset";
+const PROGMEM char Str_FactoryReset[] = "Factory reset";
 const PROGMEM char Str_SysInfo[] = "System Information";
 
 const PROGMEM char* const SettingsLabels[] = {Str_ExitSettings, Str_ManagePresets, Str_SetTime,Str_UISetup,Str_BatterySetup,Str_SetDefaultBrightness,Str_NextPage};
-const PROGMEM char* const Settings2Labels[] = {Str_Back, Str_CountDir,};
+const PROGMEM char* const Settings2Labels[] = {Str_Back, Str_FactoryReset};
 
 const PROGMEM char _Str_p1[] = "1:";
 const PROGMEM char _Str_p2[] = "2:";
