@@ -14,6 +14,7 @@
 #define _RTC_ADDRESS 0b1101111
 #define RTC_MINUTES 0x01
 #define RTC_HOURS 0x02
+#define RTC_CALIBRATION 0x08
 
 class RTC
 {

@@ -719,7 +719,7 @@ void loop()
 		disp.print(F("Version: "));
 		
 		//disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&str));
-		disp.print(PROGMEMSTRING(Str_Version));
+		disp.print(VERSION);
 	}
 
 	void openTimeSetup()
@@ -759,6 +759,7 @@ void loop()
 		updateAmmoBar();
 		updateAmmoCount();
 		updateCurrentPreset();
+		factoryResetCtr = 0;
 	}
 	void updateAmmoBar()
 	{
@@ -897,21 +898,65 @@ void loop()
 	#pragma region USB Interface
 	void executeCommand(uint8_t cmd)
 	{
-		switch(cmd)
+		/*switch(cmd)
 		{
-			case 0x00:
-			Serial.print(PROGMEMSTRING(Str_Version));
-			break;
-			
-			case 0x01: //GET_TIME
+		default:
+		disp.print("UNC");
+		break;
+		
+		case 0:
+		disp.print("GVR");
+		Serial.println(VERSION);
+		break;
+		
+		case 1: //GET_TIME
+		disp.print("GTM");
+		Serial.write(Rtc.seconds);
+		Serial.write(Rtc.minutes);
+		Serial.write(Rtc.hours);
+		break;
+
+		case 5: //SET_RTC_CALIBRATION
+		disp.print("STC");
+		disp.setCursor(20,30);
+		disp.print("Read: ");
+		int8_t calibration = Serial.read();
+		Rtc.Write(RTC_CALIBRATION, calibration);
+		disp.print(calibration, HEX);
+		disp.print(" SET!");
+		break;
+
+		case 4: //GET_RTC_CALIBRATION
+		disp.print("GTC");
+		int8_t currentcalibration = Rtc.Read(RTC_CALIBRATION);
+		disp.setCursor(20,40);
+		disp.print(currentcalibration, HEX);
+		Serial.write(currentcalibration);
+		break;
+		
+		}*/
+		
+		//For some reason the switch above caused problems, where cases below 0x05 were always ignored during compilation (why??!) so instead I used this painful if-else contraption
+		if(cmd == 0x00){ //GVR
+			Serial.println(VERSION);
+		}
+		else if (cmd == 0x01){ //GTM
 			Serial.write(Rtc.seconds);
 			Serial.write(Rtc.minutes);
 			Serial.write(Rtc.hours);
-			break;
-			
-			default:
-			Serial.println(F("UnkCmd"));
-			break;
+		}
+		else if (cmd == 0x04){ //GTC
+			int8_t currentcalibration = Rtc.Read(RTC_CALIBRATION);
+			Serial.write(currentcalibration);
+		}
+		else if (cmd == 0x05){ //STC
+		/*	disp.setCursor(20,30);
+			disp.print("STC: ");*/
+			while(!Serial.available()){} //wait until transmission finishes
+			int8_t calibration = Serial.read();
+			Rtc.Write(RTC_CALIBRATION, calibration);
+			/*disp.print(calibration, HEX);
+			disp.print(" SET!");*/
 		}
 	}
 	#pragma endregion

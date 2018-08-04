@@ -12,7 +12,26 @@ STRINGS File (English)
 #define STRINGS_H_
 
 //PROGMEM strings
-const PROGMEM char Str_Version[] = "x0.1";
+
+/*
+
+			|=====!!!===IMPORTANT===!!!=====|
+			|							    |
+			| When Modifying the firmware,  |
+			| be sure to change the version |
+			| string to prevent confusion   |
+			| and to protect your copyright!|
+			| 							    |
+			|===============================|
+			
+			
+*/
+
+//ALWAYS keep the 'VER?' tag at the beginning!!! This is used by external software (such as Tachyon Utils) to determine the version from a compiled binary file
+const PROGMEM char _Str_Version[] = "VER?ODF 1.0"; //Official Default Firmware
+
+#define VERSION PROGMEMSTRING(_Str_Version + 4) //Macro used to cut off the 'VER?' tag
+
 const PROGMEM char Str_DevMsg[] = "Developed by Martin\nHrehor (c) 2018\n\nPress CENTER to close";
 
 const PROGMEM char Str_Back[] = "<< Back";
