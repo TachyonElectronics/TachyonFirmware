@@ -8,7 +8,7 @@
 
 #ifndef UI_H_
 #define UI_H_
-#include "Adafruit-ST7735/Adafruit_ST7735.h"
+#include "Display/Display.h"
 #include "Conf.h"
 
 class UIElement
