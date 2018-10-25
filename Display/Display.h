@@ -150,6 +150,10 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	//Displays a bitmap that is cropped on the side(s)
 	void drawFastBitmapCropped(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
 
+	inline void CS_HIGH(void);
+	inline void CS_LOW(void);
+	 void DC_HIGH(void);
+	 void DC_LOW(void);
 
 	private:
 	void writecommand(uint8_t c),
@@ -157,10 +161,7 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	commandList(const uint8_t *addr);
 
 
-	inline void CS_HIGH(void);
-	inline void CS_LOW(void);
-	inline void DC_HIGH(void);
-	inline void DC_LOW(void);
+
 
 	int8_t  _cs, _dc, _rst, _sid, _sclk;
 	uint8_t colstart, rowstart, xstart, ystart; // some displays need this changed

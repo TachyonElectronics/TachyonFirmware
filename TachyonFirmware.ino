@@ -225,17 +225,18 @@ void loop()
 			
 			//Battery measurement
 			if(currentMillis > battMeasurementMillis + BATT_MEASURMENT_INTERVAL){
-				updateBattery();
+					updateBattery();
 				disp.setCursor(0,0);
 				if(queuedTimeSave)
 				{
-					disp.print("FAIL");
-					Rtc.SetTime();
-					queuedTimeSave = 0;
+				disp.print("FAIL");
+				Rtc.SetTime();
+				queuedTimeSave = 0;
 				}else
 				Rtc.Update();
 				disp.setCursor(0,0);
 				printTime();
+				battMeasurementMillis = millis();
 			}
 			
 			//Center button at main screen
@@ -806,14 +807,15 @@ void loop()
 	}
 	void updateBattery()
 	{
+
 		uint16_t result = analogRead(6);
 		float voltage = (result * 11 / 1024.0f) *1.127f;
-
+		
 		disp.setCursor(102,3);
 		disp.setFont();
 		//disp.setTextSize(1);
 		disp.setTextColor(settings.uiColor,settings.bgColor);
-		
+
 		if(settings.batteryType)
 		{
 			uint8_t percentage = 255;
@@ -861,9 +863,6 @@ void loop()
 		}
 		else
 		disp.print(voltage,1); //Raw voltage
-		
-		
-		battMeasurementMillis = millis();
 	}
 	void updateCurrentPreset()
 	{
@@ -950,7 +949,7 @@ void loop()
 			Serial.write(currentcalibration);
 		}
 		else if (cmd == 0x05){ //STC
-		/*	disp.setCursor(20,30);
+			/*	disp.setCursor(20,30);
 			disp.print("STC: ");*/
 			while(!Serial.available()){} //wait until transmission finishes
 			int8_t calibration = Serial.read();

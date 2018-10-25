@@ -654,7 +654,7 @@ inline void Adafruit_ST7735::CS_LOW(void) {
 	#endif
 }
 
-inline void Adafruit_ST7735::DC_HIGH(void) {
+ void Adafruit_ST7735::DC_HIGH(void) {
 	
 	SPCR &= ~(1 << SPE);
 	//Set D/C bit to '1'
@@ -669,7 +669,7 @@ inline void Adafruit_ST7735::DC_HIGH(void) {
 	SPCR |= 1 <<SPE;
 }
 
-inline void Adafruit_ST7735::DC_LOW(void) {
+ void Adafruit_ST7735::DC_LOW(void) {
 	
 	SPCR &= ~(1 << SPE);
 	//Set D/C bit to '0'
