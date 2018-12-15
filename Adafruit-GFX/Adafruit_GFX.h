@@ -7,7 +7,7 @@
 #else
 #include "WProgram.h"
 #endif
-#include "gfxfont.h"
+//#include "gfxfont.h"
 
 class Adafruit_GFX : public Print {
 
@@ -100,7 +100,7 @@ class Adafruit_GFX : public Print {
 	setTextSize(uint8_t s),
 	setTextWrap(boolean w),
 	cp437(boolean x=true),
-	setFont(const GFXfont *f = NULL),
+	//setFont(const GFXfont *f = NULL),
 	getTextBounds(char *string, int16_t x, int16_t y,
 	int16_t *x1, int16_t *y1, uint16_t *w, uint16_t *h),
 	getTextBounds(const __FlashStringHelper *s, int16_t x, int16_t y,
@@ -138,8 +138,8 @@ class Adafruit_GFX : public Print {
 	boolean
 	wrap,   // If set, 'wrap' text at right edge of display
 	_cp437; // If set, use correct CP437 charset (default is off)
-	GFXfont
-	*gfxFont;
+/*	GFXfont
+	*gfxFont;*/
 };
 
 class Adafruit_GFX_Button {

@@ -28,7 +28,7 @@ STRINGS File (English)
 */
 
 //ALWAYS keep the 'VER?' tag at the beginning!!! This is used by external software (such as Tachyon Utils) to determine the version from a compiled binary file
-const PROGMEM char _Str_Version[] = "VER?ODF 1.0"; //Official Default Firmware
+const PROGMEM char _Str_Version[] = "VER?ODF 2.0"; //Official Default Firmware
 
 #define VERSION PROGMEMSTRING(_Str_Version + 4) //Macro used to cut off the 'VER?' tag
 
@@ -42,15 +42,16 @@ const PROGMEM char Str_UISetup[] = "UI Settings";
 const PROGMEM char Str_ReloadSetup[] = "Reload behavior";
 const PROGMEM char Str_SetDefaultBrightness[] = "Save brightness";
 const PROGMEM char Str_SetTime[] = "Set time";
-const PROGMEM char Str_NextPage[] = "Next page";
+const PROGMEM char Str_NextPage[] = "Next page >>";
 
 const PROGMEM char Str_BatterySetup[] = "Battery setup";
-const PROGMEM char Str_CountDir[] = "Count direction";
 const PROGMEM char Str_FactoryReset[] = "Factory reset";
-const PROGMEM char Str_SysInfo[] = "System Information";
+const PROGMEM char Str_AmmoBarStyle[] = "Ammo Bar Style";
+const PROGMEM char Str_AmmoBarDir[] = "Ammo bar dir. ";
+const PROGMEM char Str_ToggleEMFlash[] = "Ammo bar flash";
 
 const PROGMEM char* const SettingsLabels[] = {Str_ExitSettings, Str_ManagePresets, Str_SetTime,Str_UISetup,Str_BatterySetup,Str_SetDefaultBrightness,Str_NextPage};
-const PROGMEM char* const Settings2Labels[] = {Str_Back, Str_FactoryReset};
+const PROGMEM char* const Settings2Labels[] = {Str_Back,Str_AmmoBarStyle,Str_AmmoBarDir,Str_ToggleEMFlash, Str_FactoryReset};
 
 const PROGMEM char _Str_p1[] = "1:";
 const PROGMEM char _Str_p2[] = "2:";
@@ -76,6 +77,7 @@ const PROGMEM char Str_CtrColor3[] = "Ammo color (1/3)";
 const PROGMEM char Str_RotateUI[] = "Rotate UI 90 dgrs";
 const PROGMEM char* const UISetupLabels[] = {Str_Back,Str_RotateUI, Str_UIColor,Str_BGColor,Str_CtrColor1,Str_CtrColor2,Str_CtrColor3};
 
+
 const PROGMEM char Str_BT_RAW_VOLTAGE[] = "Raw voltage";
 const PROGMEM char Str_BT_NIMH_7CELL[] = "NiMH 8.4v 7-cell";
 const PROGMEM char Str_BT_NIMH_8CELL[] = "NiMH 9.6v 8-cell";
@@ -84,4 +86,11 @@ const PROGMEM char Str_BT_LIPO_11V1[] = "LiPo 11.4v";
 const PROGMEM char Str_BT_StA_9VOLT[] = "Standalone 9v";
 const PROGMEM char* const BTLabels[] = {Str_BT_RAW_VOLTAGE,Str_BT_NIMH_7CELL,Str_BT_NIMH_8CELL,Str_BT_LIPO_7V4,Str_BT_LIPO_11V1,Str_BT_StA_9VOLT};
 
+
+const PROGMEM char Str_AB_Solid[] = "Solid";
+const PROGMEM char Str_AB_Bullets[] = "Bullets";
+const PROGMEM char Str_AB_Bar[] = "Bar";
+const PROGMEM char Str_AB_Arc[] = "Arc";
+const PROGMEM char Str_AB_Slope[] = "Slope";
+const PROGMEM char* const ABLabels[] = {Str_AB_Solid,Str_AB_Bullets, Str_AB_Bar, Str_AB_Arc/*, Str_AB_Slope*/};
 #endif /* STRINGS_H_ */

@@ -1,8 +1,8 @@
 /*
-	OFFICIAL TACHYON FIRMWARE
-	Version 1.x
-	
-	(c) Martin Hrehor 2018
+OFFICIAL TACHYON FIRMWARE
+Version 1.x
+
+(c) Martin Hrehor 2018
 
 */
 
@@ -10,38 +10,66 @@
 #ifndef CONF_H_
 #define CONF_H_
 
+struct __digitPositioning{
+	uint8_t x, y, spacingx;
+	__digitPositioning(uint8_t _x,uint8_t _y,uint8_t _spacingx) : x(_x), y(_y), spacingx(_spacingx){}
+};
+
+#include <stdint.h>
 //====================Basic settings====================
 #define MIN_BRIGHTNESS 1 //Minimum brigtness level (0-255)
 #define BRIGHTNESS_STAY_TIME 1000 //How long does the brigtness bar stay visible for (in ms)
 #define CENTER_HOLD_TIME 2500 //How long you have to hold the center button to open the menu (in ms)
 #define INCREMENT_TIME 10 // When a button is held, this will specify how fast the edited value decreases/increases
 #define INCREMENT_TIME_AMMO 100 // Same as above, applies to preset setup when ammo count is < 100
-#define INCREMENT_TIME_AMMO_100 40 // Same as above, applies to preset setup when ammo count is > 100
-#define INCREMENT_TIME_AMMO_500 15 // Same as above, applies to preset setup when ammo count is > 1000
+#define INCREMENT_TIME_AMMO_100 20 // Same as above, applies to preset setup when ammo count is > 100
+#define INCREMENT_TIME_AMMO_500 1 // Same as above, applies to preset setup when ammo count is > 1000
 #define PRESET_EDIT_HOLD_TIME 750 //When the button is held for this amount of millis, the preset editor change speed will increase
 #define BATT_MEASURMENT_INTERVAL 1000 //Interval between battery voltage sampling (in ms)
-#define BUTTON_DEBOUNCE_INTERVAL 4 
+#define BUTTON_DEBOUNCE_INTERVAL 4
 #define _PRESET_COUNT 6 //do not change this
 #define FACTORY_RESET_CONFIRMATIONS 6 //How many times must the factory reset button be pressed in order to activate
 //======================================================
+
+//====================Ammo Counter Setup====================
+
+//Style
+//Uncomment to choose
+//#define AC_STYLE_CENTRAL
+#define AC_STYLE_CONTINUOUS
+
+
+/*
+#define ACN_POS_Lx 66
+#define ACN_SPC_Lx 52
+#define ACN_POS_Ly 41
+
+#define ACN_POS_Mx 89
+#define ACN_SPC_Mx 44
+#define ACN_POS_My 46
+*/
+
+//Positioning of digit charsets
+#define ACN_STARTY 41
+const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}};
+
+//==========================================================
 
 //====================Empty magazine flash setup====================
 
 //Uncomment lines to enable, comment lines to disable
 
 //Comment this line to completely disable this function
-#define EMPTY_MAGAZINE_FLASH_INTERVAL 150 
+#define EMPTY_MAGAZINE_FLASH_INTERVAL 150
 
 //Flashes the numeric counter
-//Beware, this feature is a bit buggy and on rare occasions can cause the counter not to be displayed correctly after reload 
+//Beware, this feature is a bit buggy and on rare occasions can cause the counter not to be displayed correctly after reload
 //#define EMF_STYLE_NUMBER_FLASH
 
 // >> can be combined with >>
 
 //Flashes the graphical counter
-//Use only ONE of the following
-#define EMF_STYLE_BOTTOM_BAR
-//#define EMF_STYLE_HAZARDLIGHTS
+#define EMF_STYLE_AMMO_BAR
 
 //Uncomment to make the flashing of the numeric and graphical counter in sync, otherwise, the flashes will be inverted
 //#define EMF_SYNC_NUM_AND_BARS
@@ -59,13 +87,6 @@
 #define BTN_DOWN BTN_LEFT
 
 #define _BTN_COUNT 5
-
-//Pin definitions (better don't change this)
-#define DSP_BL 5
-#define DSP_CS 8
-#define DSP_RST 10
-#define SD_CS 6
-#define RLD 1 //PD1 
 //==========================================================
 
 //====================Screens====================
@@ -78,6 +99,7 @@
 #define SCREEN_TIME 6
 #define SCREEN_SETTINGS2 7
 #define SCREEN_BTSELECT 8
+#define SCREEN_AMMOBARSELECT 9
 #define SCREEN_SYSINFO 255
 //===============================================
 
@@ -92,23 +114,10 @@
 
 
 //====================EEPROM====================
-#define _EEPROM_VERIFY_TAG 0x42 //This is a value that is written into address '0' into EEPROM. Upon device bootup, if the value does not match the tag, the device will overwrite the EEPROM to factory settings (useful to prevent bricking should the EEPROM addressing change after a firmware update)
+#define _EEPROM_VERIFY_TAG 0x02 //This is a value that is written into address '0' into EEPROM. Upon device bootup, if the value does not match the tag, the device will overwrite the EEPROM to factory settings (useful to prevent bricking should the EEPROM addressing change after a firmware update)
 #define EA_BRIGHTNESS 0x01 //EEPROM address for brightness
 #define EA_SETTINGS 0x02 //EEPROM address for combined settings struct
 //==============================================
-
-//====================Factory user settings====================
-#define FACT_PRESET1 30
-#define FACT_PRESET2 350
-#define FACT_UICOLOR 0xFFE0 //Yellow
-#define FACT_CTRCOLOR1 0x07E0 //Green
-#define FACT_CTRCOLOR2 0xFFA0 //Orange
-#define FACT_CTRCOLOR3 0xF800 //Red
-#define FACT_BRIGHTNESS 100
-#define FACT_RLM 0
-#define FACT_UIROTATION 0
-//=============================================================
-
 
 // ====================Battery measurement settings====================
 //Battery types
@@ -119,7 +128,7 @@
 #define BT_LIPO_11V1 4   //11.1v LiPO (3-Cell)
 #define BT_StA_9VOLT 5   //Standalone 9v alkaline battery
 
-//Battery percentage calculation is performed through a logistic curve function 
+//Battery percentage calculation is performed through a logistic curve function
 //Following constants can be tweaked to fit various battery types with different discharge curves
 
 //Nickel Metal Hydride
@@ -138,5 +147,29 @@
 #define StA_9V_MIN 6.5f
 
 //=====================================================================
+
+
+
+//====================Factory user settings====================
+#define FACT_PRESET1 30
+#define FACT_PRESET2 350
+#define FACT_PRESET3 2000
+#define FACT_PRESET4 0
+#define FACT_PRESET5 0
+#define FACT_PRESET6 0
+#define FACT_BATTERY BT_RAW_VOLTAGE
+#define FACT_UICOLOR 0xFFE0 //Yellow
+#define FACT_CTRCOLOR1 0x07E0 //Green
+#define FACT_CTRCOLOR2 0xFFA0 //Orange
+#define FACT_CTRCOLOR3 0xF800 //Red
+#define FACT_BRIGHTNESS 100
+#define FACT_RLM 0
+#define FACT_UIROTATION 2
+#define FACT_AMMOBARDIR 0
+#define FACT_AMMOBAR 1
+#define FACT_EMFLASH true //Empty magazine flash
+//=============================================================
+
+
 
 #endif /* CONF_H_ */

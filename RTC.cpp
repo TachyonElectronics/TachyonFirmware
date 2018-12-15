@@ -2,7 +2,7 @@
 * RTC.cpp
 *
 * Created: 7.5.2018 21:01:38
-*  Author: DELTA-PC
+*  Author: Martin Hrehor
 */
 
 #include "RTC.h"

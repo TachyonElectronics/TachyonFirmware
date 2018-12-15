@@ -2,7 +2,7 @@
 * RTC.h
 *
 * Created: 7.5.2018 21:21:17
-*  Author: DELTA-PC
+*  Author: Martin Hrehor
 */
 
 

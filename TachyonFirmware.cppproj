@@ -85,7 +85,7 @@
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=20000000L</Value>
       <Value>__AVR__</Value>
-      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_TACHYON_V2</Value>
       <Value>ARDUINO_ARCH_AVR</Value>
     </ListValues>
   </avrgcc.compiler.symbols.DefSymbols>
@@ -121,7 +121,7 @@
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=20000000L</Value>
       <Value>__AVR__</Value>
-      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_TACHYON_V2</Value>
       <Value>ARDUINO_ARCH_AVR</Value>
     </ListValues>
   </avrgcccpp.compiler.symbols.DefSymbols>
@@ -429,7 +429,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
         <visualmicro.application.name>arduino16x</visualmicro.application.name>
         <visualmicro.package.name>arduino</visualmicro.package.name>
         <visualmicro.platform.name>avr</visualmicro.platform.name>
-        <vm.upload.useprogrammer>0</vm.upload.useprogrammer>
+        <vm.upload.useprogrammer>1</vm.upload.useprogrammer>
         <vm.programmer_name>stk500</vm.programmer_name>
       </VisualMicroSettings>
     </VisualMicroSettings>
@@ -452,7 +452,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=20000000L</Value>
       <Value>__AVR__</Value>
-      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_TACHYON_V2</Value>
       <Value>ARDUINO_ARCH_AVR</Value>
     </ListValues>
   </avrgcc.compiler.symbols.DefSymbols>
@@ -488,7 +488,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
       <Value>ARDUINO_MAIN</Value>
       <Value>F_CPU=20000000L</Value>
       <Value>__AVR__</Value>
-      <Value>ARDUINO_AVR_UNO</Value>
+      <Value>ARDUINO_TACHYON_V2</Value>
       <Value>ARDUINO_ARCH_AVR</Value>
     </ListValues>
   </avrgcccpp.compiler.symbols.DefSymbols>
@@ -796,7 +796,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
         <visualmicro.application.name>arduino16x</visualmicro.application.name>
         <visualmicro.package.name>arduino</visualmicro.package.name>
         <visualmicro.platform.name>avr</visualmicro.platform.name>
-        <vm.upload.useprogrammer>0</vm.upload.useprogrammer>
+        <vm.upload.useprogrammer>1</vm.upload.useprogrammer>
         <vm.programmer_name>stk500</vm.programmer_name>
       </VisualMicroSettings>
     </VisualMicroSettings>
@@ -862,6 +862,9 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="FirmwareCore\TachyonFirmware.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="Pins.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="RTC.cpp">

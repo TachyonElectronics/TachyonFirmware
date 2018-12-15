@@ -9,6 +9,7 @@
 #include "../UI.h"
 #include "../RTC.h"
 #include "../Strings.h"
+#include "../Pins.h"
 #include "Macros.h"
 
 DECLARE_BUTTON(BTN_LEFT)
@@ -23,39 +24,19 @@ struct __TachyonSettings
 	uint8_t reloadMode;
 	uint8_t rotation;
 	uint8_t batteryType;
+	bool ammoBarDir;
+	uint8_t selectedAmmoBar;
+	bool emptyFlash;
 	//bool countUp;
-} settings;
+};
 
-//Variables
-uint8_t factoryResetCtr;
-uint8_t updateAmmoNextLoop;
-uint8_t currentScreen;
-UIElement* focusedUiElement;
-Adafruit_ST7735 disp = Adafruit_ST7735(DSP_CS,11,DSP_RST);
-unsigned long currentMillis,incrementMillis, hideBrightnessMillis, centerBtnMillis, battMeasurementMillis;
-unsigned long deltaMillis;
-RTC Rtc = RTC();
-//bool queuedTimeSave;
-uint8_t currentPreset, changedPreset;
-int16_t ammo;
-uint16_t ammoColor;
-uint8_t brightness;
-uint16_t* editedColor;
-uint16_t emptyFlashCtr = 0;
-uint16_t presetEditHoldMillis = 0;
-bool presetEditorResetHold;
-bool emptyFlashState = 0;
-bool magOut;
-bool changingPreset;
-bool mainCenterBtnReleased;
-bool adjustingBrightness;
-bool queuedTimeSave;
-bool fireDebounce = 0;
 
 //Functions
 void displayMainScreen(),
 loadSettings(),
 updateAmmoBar(),
+//Size: 128 = 100%
+drawAmmoBar(uint8_t size),
 showBrightnessBar(),
 updateBrightnessBar(),
 updateCurrentPreset(),
@@ -69,9 +50,10 @@ saveSettings(),
 factoryReset(),
 fire(),
 executeCommand(uint8_t cmd),
-reloadInterrupt();
-uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);
+reloadInterrupt(),
+openSimpleListScreen(UIList* _list,char* title,uint8_t _screen,uint8_t _x = 8,uint8_t _y = 12);
 
+uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);
 //inline void soft_reset();
 inline void printTime(),
 openTimeSetup(),
@@ -80,45 +62,7 @@ openSettingsScreen2(),
 updateAmmoCount(),
 openColorEditor(uint16_t* target),
 setBrightness(uint8_t),
-updateColorEditorSelection();
-
-
-//=======================UI========================
-#pragma region UI
-inline void onSettings1Select(uint8_t);
-UIList settings1 = UIList(&disp,&onSettings1Select,112,12,4,&settings.uiColor,&settings.bgColor,SettingsLabels,7);
-
-inline void onEditPreset(uint8_t);
-UIList presetList = UIList(&disp,&onEditPreset,66,12,4,&settings.uiColor,&settings.bgColor,PresetLabels,7);
-inline void onAcceptPreset(int16_t value), onChangePresetVal(int16_t value);
-UIInvisibleSlider presetSlider = UIInvisibleSlider(&disp,&onAcceptPreset,&onChangePresetVal,1,999,50);
-
-//UIList reloadModeList = UIList(&disp,[settings](uint8_t val){settings.reloadMode = val;openSettingsScreen();},102,12,4,&settings.uiColor,&settings.bgColor,ReloadModeLabels,5);
-
-inline void onUISetupSelect(uint8_t);
-UIList uiSetupList = UIList(&disp,&onUISetupSelect,112,12,4,&settings.uiColor,&settings.bgColor,UISetupLabels,7);
-
-uint8_t selectedColorChannel;
-uint16_t testColor;
-inline void updateTestColor(int16_t);
-inline void selectColorChannel(uint8_t channel);
-inline void acceptColorChannel(int16_t);
-UIInvisibleList colorEditorMenu = UIInvisibleList(&disp,&selectColorChannel,4);
-const uint16_t _const_red = ST7735_RED, _const_green = ST7735_GREEN, _const_blue = ST7735_BLUE;
-UIVerticalSlider colorSliderR = UIVerticalSlider(&disp,10,104,&_const_red,&settings.bgColor,&acceptColorChannel,&updateTestColor,0,31,50);
-UIVerticalSlider colorSliderG = UIVerticalSlider(&disp,10,104,&_const_green,&settings.bgColor,&acceptColorChannel,&updateTestColor,0,63,25);
-UIVerticalSlider colorSliderB = UIVerticalSlider(&disp,10,104,&_const_blue,&settings.bgColor,&acceptColorChannel,&updateTestColor,0,31,50);
-
-inline void acceptTime();
-UIInvisibleSlider minuteSlider = UIInvisibleSlider(&disp,&acceptTime,[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
-UIInvisibleSlider hourSlider = UIInvisibleSlider(&disp,[minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);
-
-inline void onSettings2Select(uint8_t);
-
-UIList settings2 = UIList(&disp,&onSettings2Select,112,12,4,&settings.uiColor,&settings.bgColor,Settings2Labels,2);
-
-UIList btList = UIList(&disp,[settings](uint8_t val){settings.batteryType = val;openSettingsScreen();},102,12,4,&settings.uiColor,&settings.bgColor,BTLabels,6);
-#pragma endregion
-//=================================================
+updateColorEditorSelection(),
+updateTime();
 
 #endif /* TACHYONFIRMWARE_H_ */

@@ -2,10 +2,14 @@
 * UI.cpp
 *
 * Created: 17.4.2018 22:29:15
-*  Author: DELTA-PC
+*  Author: Martin Hrehor
 */
 
 #include "UI.h"
+#include "FirmwareCore/TachyonFirmware.h"
+
+extern struct __TachyonSettings settings;
+extern class Adafruit_ST7735 disp;
 
 void UIInvisibleList::selectItem(uint8_t item)
 {
@@ -14,17 +18,17 @@ void UIInvisibleList::selectItem(uint8_t item)
 }
 void UIList::selectItem(uint8_t item)
 {
-	disp->fillRect(x+1,y+1+(itemHeight+spacing)*selectedItem,itemWidth-2,itemHeight-2,*bg);
-	disp->setTextColor(*color,*bg);
-	disp->setCursor(x+2,y+2+(itemHeight+spacing)*selectedItem);
-	disp->print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[selectedItem]));
+	disp.fillRect(x+1,y+1+(itemHeight+spacing)*selectedItem,itemWidth-2,itemHeight-2,settings.bgColor);
+	disp.setCursor(x+2,y+2+(itemHeight+spacing)*selectedItem);
+	disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[selectedItem]));
 	
 	selectedItem = item;
 	
-	disp->fillRect(x,y+(itemHeight+spacing)*selectedItem,itemWidth,itemHeight,*color);
-	disp->setTextColor(*bg,*color);
-	disp->setCursor(x+2,y+2+(itemHeight+spacing)*selectedItem);
-	disp->print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[selectedItem]));
+	disp.fillRect(x,y+(itemHeight+spacing)*selectedItem,itemWidth,itemHeight,settings.uiColor);
+	disp.setTextColor(settings.bgColor, settings.uiColor); //CC
+	disp.setCursor(x+2,y+2+(itemHeight+spacing)*selectedItem);
+	disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[selectedItem]));
+	disp.setTextColor(settings.uiColor,settings.bgColor); //RC
 }
 
 void UIList::draw(int16_t _x, int16_t _y)
@@ -32,23 +36,27 @@ void UIList::draw(int16_t _x, int16_t _y)
 	x = _x;
 	y = _y;
 	
-	//disp->setFont();
-	//disp->setTextSize(1);
+	//disp.setFont();
+	//disp.setTextSize(1);
 	for (uint8_t i = 0; i < itemCount; i++)
 	{
 		if(i == selectedItem)
 		{
-			disp->fillRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,*color);
-			disp->setTextColor(*bg,*color);
+			disp.fillRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,settings.uiColor);
+			disp.setTextColor(settings.bgColor,settings.uiColor); //CC
 		}
 		else
 		{
-			disp->drawRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,*color);
-			disp->setTextColor(*color,*bg);
+			disp.drawRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,settings.uiColor);
 		}
-		disp->setCursor(x+2,y+2+(itemHeight+spacing)*i);
-		disp->print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[i]));
+		disp.setCursor(x+2,y+2+(itemHeight+spacing)*i);
+		disp.print(reinterpret_cast<const __FlashStringHelper *> pgm_read_word(&contents[i]));
+		if(i == selectedItem)
+		{
+			disp.setTextColor(settings.uiColor,settings.bgColor); //RC
+		}
 	}
+	//draw(_x, _y, contents,itemCount);
 }
 
 
@@ -59,23 +67,20 @@ void UIList::draw(int16_t _x, int16_t _y,char* _contents[], uint8_t _itemCount)
 	
 	itemCount = _itemCount;
 
-	disp->setFont();
-	disp->setTextSize(1);
-
 	for (uint8_t i = 0; i < itemCount; i++)
 	{
 		if(i == selectedItem)
 		{
-			disp->fillRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,*color);
-			disp->setTextColor(*bg,*color);
+			disp.fillRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,settings.uiColor);
+			disp.setTextColor(settings.bgColor,settings.uiColor); //CC
 		}
 		else
 		{
-			disp->drawRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,*color);
-			disp->setTextColor(*color,*bg);
+			disp.drawRect(x,y+(itemHeight+spacing)*i,itemWidth,itemHeight,settings.uiColor);
 		}
-		disp->setCursor(x+2,y+2+(itemHeight+spacing)*i);
-		disp->print(_contents[i]);
+		disp.setCursor(x+2,y+2+(itemHeight+spacing)*i);
+		disp.print(_contents[i]);
+		if(i == selectedItem) disp.setTextColor(settings.uiColor,settings.bgColor); //RC
 	}
 }
 
@@ -130,16 +135,16 @@ void UIInvisibleSlider::button_held(uint8_t button, uint16_t* ctr)
 	}
 }
 
-void UIVerticalSlider::draw(uint8_t _x, uint8_t _y)
+void UIColorSlider::draw(uint8_t _x, uint8_t _y)
 {
 	x = _x; y = _y;
-	disp->drawRect(x,y,w,h,*uiColor); //Draw outline
+	disp.drawRect(x,y,w,h,color); //Draw outline
 	update();
 }
 
-void UIVerticalSlider::update()
+void UIColorSlider::update()
 {
 	uint8_t crop = map(value,minValue,maxValue,h-2,0);
-	disp->fillCroppedRect(x+1,y+1,w-2,h-2,*uiColor,*bgColor, 0,-crop);
+	disp.fillCroppedRect(x+1,y+1,w-2,h-2,color,settings.bgColor, 0,-crop);
 }
 

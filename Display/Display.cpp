@@ -415,6 +415,8 @@ uint16_t color) {
 	#endif
 }
 
+// takes up ~500 bytes, can be optimized
+
 void Adafruit_ST7735::fillCroppedRect(int16_t x, int16_t y, int16_t w, int16_t h,
 uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
 
@@ -457,40 +459,9 @@ uint16_t Adafruit_ST7735::Color565(uint8_t r, uint8_t g, uint8_t b) {
 	return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
 }
 
-/*
-void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[],  uint16_t color)
+void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
 {
-int8_t w,  h;
-w = pgm_read_byte(&bitmap[0]);
-h = pgm_read_byte(&bitmap[1]);
-
-setAddrWindow(x, y, x+w-1, y+h-1);
-
-uint8_t xPos = 0, yPos = 0, bitPos = 0;
-uint8_t byte = pgm_read_byte(&bitmap[2]);
-
-for(uint16_t i = 0; i < w * h; i++)
-{
-if(byte & (0x80 >> bitPos))
-{
-drawPixel(x+xPos,y+yPos,color);
-}
-
-if(bitPos < 7)bitPos++;
-else
-{
-bitPos = 0;
-byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
-}
-
-if(xPos < w -1 )xPos++;
-else{ xPos = 0; yPos++;}
-}
-}*/
-
-void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
-{
-	int8_t w,  h;
+	uint8_t w,  h;
 	w = pgm_read_byte(&bitmap[0]);
 	h = pgm_read_byte(&bitmap[1]);
 
@@ -503,9 +474,11 @@ void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[
 	cL = color,
 	bgH = bg >> 8,
 	bgL = bg;
-
+	
+	uint16_t size = w * h;
+	
 	CS_LOW();
-	for(uint16_t i = 0; i < w * h; i++)
+	for(uint16_t i = 0; i < size; i++)
 	{
 		bool b = byte & (0x80 >> bitPos);
 
@@ -529,14 +502,12 @@ void Adafruit_ST7735::drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[
 }
 
 
-void Adafruit_ST7735::drawFastBitmapCropped(int16_t x_in, int16_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
+void Adafruit_ST7735::drawBitmap(int16_t x_in, int16_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
 {
-	int8_t w, h, w_cropped, h_cropped, x, y, cropLeft, cropRight, cropTop, cropBottom;
+	uint8_t w, h, cropLeft, cropRight, cropTop, cropBottom;
 	w = pgm_read_byte(&bitmap[0]);
 	h = pgm_read_byte(&bitmap[1]);
-	w_cropped = w - abs(cropX);
-	h_cropped = h - abs(cropY);
-	
+
 	if(sign16(cropX)){
 		cropLeft = -cropX;
 		cropRight = 0;
@@ -554,10 +525,7 @@ void Adafruit_ST7735::drawFastBitmapCropped(int16_t x_in, int16_t y_in, const ui
 		cropTop = 0;
 	}
 
-	x = x_in;// + cropLeft;
-	y = y_in;// + cropTop;
-
-	setAddrWindow(x, y, x+w-1, y+h-1);
+	setAddrWindow(x_in, y_in, x_in+w-1, y_in+h-1);
 	
 	uint8_t xPos = 0, yPos = 0, bitPos = 0;
 	uint8_t byte = pgm_read_byte(&bitmap[2]);
@@ -567,8 +535,9 @@ void Adafruit_ST7735::drawFastBitmapCropped(int16_t x_in, int16_t y_in, const ui
 	bgH = bg >> 8,
 	bgL = bg;
 
+	uint16_t size = w * h;
 	CS_LOW();
-	for(uint16_t i = 0; i < w * h; i++)
+	for(uint16_t i = 0; i < size; i++)
 	{
 		bool b = (byte & (0x80 >> bitPos)) && !(xPos < cropLeft || xPos >= w-cropRight || yPos < cropTop || yPos >= h-cropBottom);
 		DC_HIGH();
@@ -589,7 +558,90 @@ void Adafruit_ST7735::drawFastBitmapCropped(int16_t x_in, int16_t y_in, const ui
 	CS_HIGH();
 }
 
+/*
+void Adafruit_ST7735::drawBitmap(int16_t x_in, int16_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY,int16_t cutoffX, int16_t cutoffY)
+{
+	uint8_t w, h, x, y, cropLeft, cropRight, cropTop, cropBottom, cutoffLeft, cutoffRight, cutoffTop, cutoffBottom, w_cutoff, h_cutoff;
+	w = pgm_read_byte(&bitmap[0]);
+	h = pgm_read_byte(&bitmap[1]);
 
+	w_cutoff = w - abs(cutoffX);
+	h_cutoff = h - abs(cutoffY);
+
+	if(sign16(cutoffX)){
+		cutoffLeft = -cutoffX;
+		cutoffRight = 0;
+	}
+	else{
+		cutoffRight = cutoffX;
+		cutoffLeft = 0;
+	}
+	if(sign16(cutoffY)){
+		cutoffTop = -cutoffY;
+		cutoffBottom = 0;
+	}
+	else{
+		cutoffBottom = cutoffY;
+		cutoffTop = 0;
+	}
+
+
+	if(sign16(cropX)){
+		cropLeft = -cropX;
+		cropRight = 0;
+	}
+	else{
+		cropRight = cropX;
+		cropLeft = 0;
+	}
+	if(sign16(cropY)){
+		cropTop = -cropY;
+		cropBottom = 0;
+	}
+	else{
+		cropBottom = cropY;
+		cropTop = 0;
+	}
+
+
+	x = x_in;// - cutoffLeft;
+	y = y_in;// - cutoffTop;
+
+	setAddrWindow(x, y, x+w_cutoff-1, y+h_cutoff-1);
+
+	uint8_t xPos = 0, yPos = 0, bitPos = 0;
+	uint8_t byte = pgm_read_byte(&bitmap[2]);
+
+	uint8_t cH = color >> 8,
+	cL = color,
+	bgH = bg >> 8,
+	bgL = bg;
+
+	uint16_t size = w * h;
+	CS_LOW();
+	for(uint16_t i = 0; i < size; i++)
+	{
+		if(xPos >= cutoffLeft && xPos < w-cutoffRight && yPos >= cutoffTop && yPos < h-cutoffBottom){
+			bool b = (byte & (0x80 >> bitPos)) && !(xPos < cropLeft+cutoffLeft || xPos >= w-cropRight-cutoffRight || yPos < cropTop+cutoffTop || yPos >= h-cropBottom-cutoffBottom);
+			DC_HIGH();
+			SPI.transfer(b? cH : bgH);
+			DC_HIGH();
+			SPI.transfer(b? cL : bgL);
+		}
+
+		if(bitPos < 7)bitPos++;
+		else
+		{
+			bitPos = 0;
+			byte = pgm_read_byte(&bitmap[((i+1)/8) + 2]);
+		}
+
+		if(xPos < w -1 )xPos++;
+		else{ xPos = 0; yPos++;}
+	}
+	CS_HIGH();
+}
+*/
 #define MADCTL_MY  0x80
 #define MADCTL_MX  0x40
 #define MADCTL_MV  0x20
@@ -641,7 +693,7 @@ inline void Adafruit_ST7735::CS_HIGH(void) {
 	#if defined(USE_FAST_IO)
 	*csport |= cspinmask;
 	#else
-	 //digitalWrite(_cs, HIGH);
+	//digitalWrite(_cs, HIGH);
 	#endif
 }
 
@@ -654,7 +706,7 @@ inline void Adafruit_ST7735::CS_LOW(void) {
 	#endif
 }
 
- void Adafruit_ST7735::DC_HIGH(void) {
+void Adafruit_ST7735::DC_HIGH(void) {
 	
 	SPCR &= ~(1 << SPE);
 	//Set D/C bit to '1'
@@ -669,7 +721,7 @@ inline void Adafruit_ST7735::CS_LOW(void) {
 	SPCR |= 1 <<SPE;
 }
 
- void Adafruit_ST7735::DC_LOW(void) {
+void Adafruit_ST7735::DC_LOW(void) {
 	
 	SPCR &= ~(1 << SPE);
 	//Set D/C bit to '0'

@@ -1,6 +1,6 @@
 /*===============================================================
 This library is a heavily modified and optimized version of the Adafruit ST7735 library
-Only suitable for Tachyon WCS V1. Unmodified version(s) of the original library are NOT COMPATIBLE!
+Only suitable for Tachyon WCS. Unmodified version(s) of the original library are NOT COMPATIBLE!
 https://github.com/adafruit/Adafruit-ST7735-Library
 
 Modified by Martin Hrehor
@@ -145,10 +145,11 @@ class Adafruit_ST7735 : public Adafruit_GFX {
 	uint16_t Color565(uint8_t r, uint8_t g, uint8_t b);
 	
 
-	//void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color);
-	void drawFastBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
-	//Displays a bitmap that is cropped on the side(s)
-	void drawFastBitmapCropped(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
+	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg);
+	//Displays a bitmap that is cropped on the side(s), with the cropped area being filled with bgcolor
+	void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY);
+	//Displays a bitmap that is cropped on the side(s), with the cropped area being filled with bgcolor, and is cut off at the specified width/height (same as cropping, but the area is left alone insead of being filled with bgcolor
+	//void drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY,int16_t cutoffX, int16_t cutoffY);
 
 	inline void CS_HIGH(void);
 	inline void CS_LOW(void);
