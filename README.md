@@ -1,6 +1,6 @@
 This is the official Tachyon system firmware
 
-To purchase the official Tachyon kit, visit https://www.indiegogo.com/campaigns/tachyon-a-weapon-mounted-computer-for-airsoft-arduino-computers/
+To purchase the official Tachyon kit, visit https://tachyonelectronics.com/
 
 You may freely modify and use this software, as long as this notice is present in the modified version.
 
