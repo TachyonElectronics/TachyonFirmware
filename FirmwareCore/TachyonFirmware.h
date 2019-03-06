@@ -27,7 +27,8 @@ struct __TachyonSettings
 	bool ammoBarDir;
 	uint8_t selectedAmmoBar;
 	bool emptyFlash;
-	//bool countUp;
+	bool centerBtnReload;
+	int8_t clockCalibration;
 };
 
 
@@ -51,6 +52,9 @@ factoryReset(),
 fire(),
 executeCommand(uint8_t cmd),
 reloadInterrupt(),
+printCalibration(),
+timeSetupSlider_OnValueChange(),
+timeSetupSlider_Accept(),
 openSimpleListScreen(UIList* _list,char* title,uint8_t _screen,uint8_t _x = 8,uint8_t _y = 12);
 
 uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);

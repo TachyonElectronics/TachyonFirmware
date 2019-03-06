@@ -22,7 +22,7 @@ Adafruit_ST7735 disp = Adafruit_ST7735(DSP_CS,11,DSP_RST);
 unsigned long currentMillis,incrementMillis, hideBrightnessMillis, centerBtnMillis, battMeasurementMillis;
 unsigned long deltaMillis;
 RTC Rtc = RTC();
-//bool queuedTimeSave;
+uint8_t timeSetupStage = 0;
 uint8_t currentPreset, changedPreset;
 int16_t ammo;
 uint16_t ammoColor;
@@ -72,10 +72,13 @@ inline void acceptTime();
 
 inline void onSettings2Select(uint8_t);
 
-UIList settings2 = UIList(&onSettings2Select,112,12,4,Settings2Labels,5);
+UIList settings2 = UIList(&onSettings2Select,112,12,4,Settings2Labels,6);
 
-UIInvisibleSlider minuteSlider = UIInvisibleSlider(&acceptTime,[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
-UIInvisibleSlider hourSlider = UIInvisibleSlider([minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);
+UIInvisibleSlider timeSetupSlider = UIInvisibleSlider(&timeSetupSlider_Accept,&timeSetupSlider_OnValueChange,-127,127,200);
+/*
+UIInvisibleSlider calibrationSlider = UIInvisibleSlider(&acceptTime,&calibrationSlider_OnValueChange,-127,127,200);
+UIInvisibleSlider minuteSlider = UIInvisibleSlider([calibrationSlider,settings,disp](){focusedUiElement = &calibrationSlider; calibrationSlider.value = settings.clockCalibration;disp.drawFastHLine(68,62,12,settings.bgColor);disp.drawFastHLine(52,88,24,settings.uiColor); },[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
+UIInvisibleSlider hourSlider = UIInvisibleSlider([minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);*/
 
 UIList btList = UIList([settings](uint8_t val){settings.batteryType = val;openSettingsScreen();},102,12,4,BTLabels,6);
 
@@ -132,7 +135,7 @@ void setup()
 	attachInterrupt(BTN_RELOAD_INTERRUPT, &reloadInterrupt, CHANGE);
 	Wire.begin();
 	Rtc.Init();
-	Serial.begin(9600);
+	Rtc.Write(RTC_CALIBRATION,settings.clockCalibration);
 	disp.fillScreen(settings.bgColor);
 	disp.setTextColor(settings.uiColor, settings.bgColor);
 	displayMainScreen();
@@ -170,7 +173,7 @@ void loop()
 			uint8_t* d[5];
 			disp.setCursor(0,0);
 
-			if(settings.presets[currentPreset] > 999){
+			if(settings.presets[currentPreset] > 999 || settings.presets[currentPreset] < 0){
 				charset = 2;
 				
 				_1000 = num / 1000;
@@ -308,6 +311,7 @@ void loop()
 			mainCenterBtnReleased = 1;
 			updateCurrentPreset();
 			centerBtnMillis = millis();
+
 		}
 		if(currentMillis >  centerBtnMillis + CENTER_HOLD_TIME)
 		{
@@ -359,6 +363,8 @@ void buttonPressed(uint8_t button)
 			changingPreset = 1;
 			updateCurrentPresetNextLoop = true;
 			centerBtnMillis = millis();
+			if(settings.centerBtnReload)
+			reload();
 			break;
 			
 			case SCREEN_SYSINFO:
@@ -556,7 +562,15 @@ void onSettings2Select(uint8_t selection) //Settings 2
 		disp.setTextColor(settings.uiColor,settings.bgColor);
 		break;
 		
-		case 4: // Factory reset
+		case 4:
+		settings.centerBtnReload = !settings.centerBtnReload;
+		disp.setCursor(100,78);
+		disp.setTextColor(settings.bgColor, settings.uiColor); //CC
+		disp.print(settings.centerBtnReload? "ON " : "OFF");
+		disp.setTextColor(settings.uiColor,settings.bgColor); //RC
+		break;
+		
+		case 5: // Factory reset
 		factoryResetCtr++;
 		if(factoryResetCtr >= FACTORY_RESET_CONFIRMATIONS)
 		{
@@ -565,7 +579,7 @@ void onSettings2Select(uint8_t selection) //Settings 2
 		}
 		else
 		{
-			disp.setCursor(100,78);
+			disp.setCursor(100,94);
 			disp.setTextColor(settings.bgColor, settings.uiColor); //CC
 			disp.print('>');
 			disp.print(FACTORY_RESET_CONFIRMATIONS - factoryResetCtr);
@@ -611,7 +625,56 @@ void acceptTime()
 	queuedTimeSave = 1;
 	openSettingsScreen();
 }
-
+void timeSetupSlider_OnValueChange()
+{
+	switch(timeSetupStage)
+	{
+		case 0:
+		Rtc.hours = timeSetupSlider.value;
+		disp.setCursor(50,50);
+		printTime();
+		break;
+		
+		case 1:
+		Rtc.minutes = timeSetupSlider.value;
+		disp.setCursor(50,50);
+		printTime();
+		break;
+		
+		case 2:
+		settings.clockCalibration = timeSetupSlider.value;
+		printCalibration();
+		break;
+	}
+	//int8_t value = minuteSlider.value;
+	//settings.clockCalibration = value;
+	printCalibration();
+}
+void timeSetupSlider_Accept()
+{
+	switch(timeSetupStage)
+	{
+		case 0:
+		timeSetupSlider.maxValue = 59;
+		timeSetupSlider.value = Rtc.minutes;
+		disp.drawFastHLine(50,62,12,settings.bgColor);
+		disp.drawFastHLine(68,62,12,settings.uiColor);
+		break;
+		
+		case 1:
+		timeSetupSlider.maxValue = 127;
+		timeSetupSlider.minValue = -127;
+		timeSetupSlider.value = settings.clockCalibration;
+		disp.drawFastHLine(68,62,12,settings.bgColor);
+		disp.drawFastHLine(52,88,24,settings.uiColor);
+		break;
+		
+		default:
+		acceptTime();
+		break;
+	}
+	timeSetupStage++;
+}
 #pragma endregion
 //====================================================
 
@@ -811,13 +874,21 @@ void openSettingsScreen2()
 
 void openTimeSetup()
 {
-	focusedUiElement = &hourSlider;
-	hourSlider.value = Rtc.hours;
+	timeSetupStage = 0;
+	focusedUiElement = &timeSetupSlider;
+	timeSetupSlider.value = Rtc.hours;
+	timeSetupSlider.maxValue = 23;
+	timeSetupSlider.minValue = 0;
 	disp.fillScreen(settings.bgColor);
+	disp.setCursor(50,38);
+	disp.print("HH:MM");
 	disp.setCursor(50,50);
 	//disp.setTextColor(settings.uiColor,settings.bgColor);
 	printTime();
 	disp.drawFastHLine(50,62,12,settings.uiColor);
+	disp.setCursor(30,66);
+	disp.print("Calibration:");
+	printCalibration();
 }
 void printTime()
 {
@@ -828,7 +899,12 @@ void printTime()
 	disp.print(Rtc.minutes);
 
 }
-
+void printCalibration()
+{
+	disp.setCursor(52,78);
+	disp.print(settings.clockCalibration);
+	disp.print(' ');
+}
 #pragma endregion
 //=========================================================
 
@@ -840,8 +916,8 @@ void displayMainScreen()
 	currentScreen = SCREEN_MAIN;
 	disp.fillScreen(settings.bgColor);
 	//disp.setTextColor(settings.uiColor,settings.bgColor);
-	disp.drawBitmap(88,120,IconBattery,settings.uiColor,settings.bgColor);
-	disp.drawBitmap(37,120,IconClock,settings.uiColor,settings.bgColor);
+	disp.drawBitmap(88,112,IconBattery,settings.uiColor,settings.bgColor);
+	disp.drawBitmap(37,112,IconClock,settings.uiColor,settings.bgColor);
 	updateAmmoBar();
 	updateAmmoNextLoop = true;
 	updateCurrentPreset();
@@ -908,10 +984,11 @@ void hideBrightnessBar()
 
 void updateTime()
 {
-	disp.setCursor(6,120);
+	disp.setCursor(6,112);
 	if(queuedTimeSave)
 	{
 		disp.print("FAIL");
+		disp.setCursor(6,112);
 		Rtc.SetTime();
 		queuedTimeSave = 0;
 	}else
@@ -926,7 +1003,7 @@ void updateBattery()
 	uint16_t result = analogRead(BATTERY_ADC_CHANNEL);
 	float voltage = (result * 11 / 1024.0f) *1.127f;
 	
-	disp.setCursor(102,120);
+	disp.setCursor(102,112);
 	//	disp.setFont();
 	//disp.setTextSize(1);
 	//disp.setTextColor(settings.uiColor,settings.bgColor);
@@ -983,7 +1060,7 @@ void updateBattery()
 void updateCurrentPreset()
 {
 	//disp.setTextColor(settings.uiColor, settings.bgColor);
-	disp.setCursor(59,113);
+	disp.setCursor(59,109);
 	disp.setTextSize(2);
 	disp.print(changingPreset? changedPreset+1 : currentPreset+1);
 	disp.setTextSize(1);
@@ -991,9 +1068,9 @@ void updateCurrentPreset()
 	disp.setTextColor(changingPreset? settings.uiColor : settings.bgColor); //CC
 	//uint8_t orgCursorX =  disp.getCursorX();
 	//uint8_t orgCursorY =  disp.getCursorY();
-	disp.setCursor(49,113);
+	disp.setCursor(49,109);
 	disp.print('<');
-	disp.setCursor(73,113);
+	disp.setCursor(73,109);
 	disp.print('>');
 	//disp.setCursor(orgCursorX,orgCursorY);
 	disp.setTextColor(settings.uiColor,settings.bgColor); //RC
@@ -1062,6 +1139,8 @@ void factoryReset()
 	factorySettings.ammoBarDir = FACT_AMMOBARDIR;
 	factorySettings.emptyFlash = FACT_EMFLASH;
 	factorySettings.batteryType = FACT_BATTERY;
+	factorySettings.centerBtnReload = FACT_CENTERBTNRELOAD;
+	factorySettings.clockCalibration = 0;
 	size_t s = sizeof(settings);
 	for (size_t i = 0; i < s; i++)
 	{

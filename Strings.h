@@ -28,7 +28,7 @@ STRINGS File (English)
 */
 
 //ALWAYS keep the 'VER?' tag at the beginning!!! This is used by external software (such as Tachyon Utils) to determine the version from a compiled binary file
-const PROGMEM char _Str_Version[] = "VER?ODF 2.0"; //Official Default Firmware
+const PROGMEM char _Str_Version[] = "VER?ODF 2.1"; //Official Default Firmware
 
 #define VERSION PROGMEMSTRING(_Str_Version + 4) //Macro used to cut off the 'VER?' tag
 
@@ -49,9 +49,10 @@ const PROGMEM char Str_FactoryReset[] = "Factory reset";
 const PROGMEM char Str_AmmoBarStyle[] = "Ammo Bar Style";
 const PROGMEM char Str_AmmoBarDir[] = "Ammo bar dir. ";
 const PROGMEM char Str_ToggleEMFlash[] = "Ammo bar flash";
+const PROGMEM char Str_ToggleCenterBtnReload[] = "Ctr Btn Reload";
 
 const PROGMEM char* const SettingsLabels[] = {Str_ExitSettings, Str_ManagePresets, Str_SetTime,Str_UISetup,Str_BatterySetup,Str_SetDefaultBrightness,Str_NextPage};
-const PROGMEM char* const Settings2Labels[] = {Str_Back,Str_AmmoBarStyle,Str_AmmoBarDir,Str_ToggleEMFlash, Str_FactoryReset};
+const PROGMEM char* const Settings2Labels[] = {Str_Back,Str_AmmoBarStyle,Str_AmmoBarDir,Str_ToggleEMFlash,Str_ToggleCenterBtnReload, Str_FactoryReset};
 
 const PROGMEM char _Str_p1[] = "1:";
 const PROGMEM char _Str_p2[] = "2:";

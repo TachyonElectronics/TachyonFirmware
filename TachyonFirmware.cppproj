@@ -91,6 +91,7 @@
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
+      <Value>../../../TachyonFirmware</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
@@ -98,10 +99,11 @@
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
-      <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
@@ -127,6 +129,7 @@
   </avrgcccpp.compiler.symbols.DefSymbols>
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
+      <Value>../../../TachyonFirmware</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
@@ -134,10 +137,11 @@
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
-      <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
@@ -150,15 +154,15 @@
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.upload.port>COM4</arduino.upload.port>
         <VM_ADDITIONAL_COMPILER_FLAGS>
         </VM_ADDITIONAL_COMPILER_FLAGS>
-        <arduino.board.name>tachyon</arduino.board.name>
-        <arduino.board.desc>Tachyon</arduino.board.desc>
-        <arduino.board.property_bag>name=Tachyon
+        <arduino.board.name>tachyonV2</arduino.board.name>
+        <arduino.board.desc>Tachyon V2</arduino.board.desc>
+        <arduino.board.property_bag>name=Tachyon V2
 vid.0=0x2341
 pid.0=0x0043
 vid.1=0x2341
@@ -181,7 +185,7 @@ bootloader.lock_bits=0x0F
 bootloader.file=optiboot/optiboot_atmega328.hex
 build.mcu=atmega328p
 build.f_cpu=20000000L
-build.board=AVR_UNO
+build.board=TACHYON_V2
 build.core=arduino
 build.variant=standard
 runtime.ide.path=C:\Program Files (x86)\Arduino
@@ -191,9 +195,9 @@ runtime.ide.version=10805
 target_package=arduino
 target_platform=avr
 runtime.hardware.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr
-originalid=tachyon
+originalid=tachyonV2
 intellisense.tools.path={runtime.tools.avr-gcc.path}\
-intellisense.include.paths={intellisense.tools.path}avr\include\;{intellisense.tools.path}avr\include\avr\;{intellisense.tools.path}lib\gcc\avr\4.8.1\include
+intellisense.include.paths={intellisense.tools.path}avr\include;{intellisense.tools.path}avr\include\avr;{intellisense.tools.path}lib\gcc\avr\4.8.1\include;{intellisense.tools.path}lib\gcc\avr\4.9.2\include;{intellisense.tools.path}lib\gcc\avr\4.9.3\include;
 tools.atprogram.cmd.path=%AVRSTUDIO_EXE_PATH%\atbackend\atprogram
 tools.atprogram.cmd.setwinpath=true
 tools.atprogram.program.params.verbose=-v
@@ -277,7 +281,7 @@ tools.avrdude_remote.upload.pattern=/usr/bin/run-avrdude /tmp/sketch.hex {upload
 tools.avrdude.upload.network_pattern="{network_cmd}" -address {serial.port} -port {upload.network.port} -sketch "{build.path}/{build.project_name}.hex" -upload {upload.network.endpoint_upload} -sync {upload.network.endpoint_sync} -reset {upload.network.endpoint_reset} -sync_exp {upload.network.sync_return}
 build.usb_manufacturer="Unknown"
 build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
-vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\wtjzc3si.eia\Micro Platforms\arduino16x
+vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\ox4vepph.w3s\Micro Platforms\arduino16x
 avrisp.name=AVR ISP
 avrisp.communication=serial
 avrisp.protocol=stk500v1
@@ -356,48 +360,57 @@ atmel_ice.protocol=atmelice_isp
 atmel_ice.program.protocol=atmelice_isp
 atmel_ice.program.tool=avrdude
 atmel_ice.program.extra_params=-Pusb
+tools.avrdude.cmd=bin/avrdude.exe
+tools.avrdude.cmd.windows=bin/avrdude.exe
+tools.avrdude.config={runtime.platform.path}/tools/avrdude.conf
+xplainedmini.name=Atmel AVR XplainedMini (ISP mode)
+xplainedmini.communication=usb
+xplainedmini.protocol=xplainedmini
+xplainedmini.program.protocol=
+xplainedmini.program.tool=avrdude
+xplainedmini.program.extra_params=-Pusb
 runtime.tools.avr-gcc.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
-runtime.tools.avr-gcc-4.9.2-atmel3.5.3-arduino.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avr-gcc-5.4.0-atmel3.6.1-arduino2.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
 runtime.tools.avrdude.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
-runtime.tools.avrdude-6.3.0-arduino2.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
+runtime.tools.avrdude-6.3.0-arduino14.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
 runtime.tools.arduinoOTA.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.2.0
-runtime.tools.arduinoOTA-1.1.1.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
 runtime.tools.arduinoOTA-1.2.0.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.2.0
-runtime.tools.avr-gcc-5.4.0-atmel3.6.0-arduino.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
-runtime.vm.boardinfo.id=tachyon
-runtime.vm.boardinfo.name=tachyon
-runtime.vm.boardinfo.desc=Tachyon
+runtime.tools.arduinoOTA-1.1.1.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avrdude-6.3.0-arduino9.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.tools-avr.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.vm.boardinfo.id=tachyonV2
+runtime.vm.boardinfo.name=tachyonV2
+runtime.vm.boardinfo.desc=Tachyon V2
 runtime.vm.boardinfo.src_location=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207
-ide.hint=For all platforms that use Board Manager
+ide.hint=Use installed IDE. Provides built-in hardware, reference/help and libraries.
 ide.location.key=Arduino16x
 ide.location.ide.winreg=Arduino 1.6.x Application
 ide.location.sketchbook.winreg=Arduino 1.6.x Sketchbook
 ide.location.sketchbook.preferences=sketchbook.path
-ide.default.revision_name=1.8.0
+ide.default.revision_name=1.9.0
 ide.default.version=10800
 ide.default.package=arduino
 ide.default.platform=avr
 ide.multiplatform=true
-ide.includes=arduino.h
+ide.includes=Arduino.h
 ide.exe_name=arduino
+ide.recipe.preproc.defines.flags=-w -x c++ -E -dM
 ide.platformswithoutpackage=false
 ide.includes.fallback=wprogram.h
 ide.extension=ino
 ide.extension.fallback=pde
 ide.versionGTEQ=160
 ide.exe=arduino.exe
+ide.builder.exe=arduinobuilder.exe
+ide.builder.name=Arduino Builder
 ide.hosts=atmel
 ide.url=http://arduino.cc/en/Main/Software
 ide.help.reference.path=reference
 ide.help.reference.path2=reference\www.arduino.cc\en\Reference
 ide.help.reference.serial=reference\www.arduino.cc\en\Serial
-vm.debug=true
-software=ARDUINO
-ssh.user.name=root
-ssh.user.default.password=arduino
-ssh.host.wwwfiles.path=/www/sd
-build.working_directory={runtime.ide.path}\java\bin
 ide.location.preferences.portable={runtime.ide.path}\portable
+ide.location.preferences.arduinoData={runtime.sketchbook.path}\ArduinoData
 ide.location.preferences=%VM_APPDATA_LOCAL%\arduino15\preferences.txt
 ide.location.preferences_fallback=%VM_APPDATA_ROAMING%\arduino15\preferences.txt
 ide.location.contributions=%VM_APPDATA_LOCAL%\arduino15
@@ -407,6 +420,12 @@ ide.contributions.boards.ignore_unless_rewrite_found=true
 ide.contributions.libraries.allow=true
 ide.contributions.boards.support.urls.wiki=https://github.com/arduino/Arduino/wiki/Unofficial-list-of-3rd-party-boards-support-urls
 ide.create_platforms_from_boardsTXT.teensy=build.core
+vm.debug=true
+software=ARDUINO
+ssh.user.name=root
+ssh.user.default.password=arduino
+ssh.host.wwwfiles.path=/www/sd
+build.working_directory={runtime.ide.path}\java\bin
 ide.appid=arduino16x
 location.sketchbook=C:\Users\DELTA-PC\Documents\Arduino
 build.core.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino
@@ -415,10 +434,6 @@ vm.boardsource.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\h
 runtime.platform.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207
 vm.platformname.name=avr
 build.arch=AVR
-builder.noino=false
-build.architecture=5.4.0-atmel3.6.1-arduino2
-vmresolved.compiler.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2\bin\
-vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
 </arduino.board.property_bag>
         <arduino.build.mcu>atmega328p</arduino.build.mcu>
         <arduino.build.f_cpu>20000000L</arduino.build.f_cpu>
@@ -458,6 +473,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
   </avrgcc.compiler.symbols.DefSymbols>
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
+      <Value>../../../TachyonFirmware</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
@@ -465,10 +481,11 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
-      <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include</Value>
     </ListValues>
   </avrgcc.compiler.directories.IncludePaths>
   <avrgcc.compiler.optimization.level>Optimize for size (-Os)</avrgcc.compiler.optimization.level>
@@ -494,6 +511,7 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
   </avrgcccpp.compiler.symbols.DefSymbols>
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
+      <Value>../../../TachyonFirmware</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
@@ -501,10 +519,11 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard</Value>
-      <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include</Value>
+      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include</Value>
     </ListValues>
   </avrgcccpp.compiler.directories.IncludePaths>
   <avrgcccpp.compiler.optimization.level>Optimize for size (-Os)</avrgcccpp.compiler.optimization.level>
@@ -517,15 +536,15 @@ vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino
   <avrgcccpp.assembler.debugging.DebugLevel>Default (-Wa,-g)</avrgcccpp.assembler.debugging.DebugLevel>
 </AvrGccCpp>
     </ToolchainSettings>
-    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;</VMSETTING_IncludePaths>
+    <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
         <arduino.upload.port>COM4</arduino.upload.port>
         <VM_ADDITIONAL_COMPILER_FLAGS>
         </VM_ADDITIONAL_COMPILER_FLAGS>
-        <arduino.board.name>tachyon</arduino.board.name>
-        <arduino.board.desc>Tachyon</arduino.board.desc>
-        <arduino.board.property_bag>name=Tachyon
+        <arduino.board.name>tachyonV2</arduino.board.name>
+        <arduino.board.desc>Tachyon V2</arduino.board.desc>
+        <arduino.board.property_bag>name=Tachyon V2
 vid.0=0x2341
 pid.0=0x0043
 vid.1=0x2341
@@ -548,7 +567,7 @@ bootloader.lock_bits=0x0F
 bootloader.file=optiboot/optiboot_atmega328.hex
 build.mcu=atmega328p
 build.f_cpu=20000000L
-build.board=AVR_UNO
+build.board=TACHYON_V2
 build.core=arduino
 build.variant=standard
 runtime.ide.path=C:\Program Files (x86)\Arduino
@@ -558,9 +577,9 @@ runtime.ide.version=10805
 target_package=arduino
 target_platform=avr
 runtime.hardware.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr
-originalid=tachyon
+originalid=tachyonV2
 intellisense.tools.path={runtime.tools.avr-gcc.path}\
-intellisense.include.paths={intellisense.tools.path}avr\include\;{intellisense.tools.path}avr\include\avr\;{intellisense.tools.path}lib\gcc\avr\4.8.1\include
+intellisense.include.paths={intellisense.tools.path}avr\include;{intellisense.tools.path}avr\include\avr;{intellisense.tools.path}lib\gcc\avr\4.8.1\include;{intellisense.tools.path}lib\gcc\avr\4.9.2\include;{intellisense.tools.path}lib\gcc\avr\4.9.3\include;
 tools.atprogram.cmd.path=%AVRSTUDIO_EXE_PATH%\atbackend\atprogram
 tools.atprogram.cmd.setwinpath=true
 tools.atprogram.program.params.verbose=-v
@@ -644,7 +663,7 @@ tools.avrdude_remote.upload.pattern=/usr/bin/run-avrdude /tmp/sketch.hex {upload
 tools.avrdude.upload.network_pattern="{network_cmd}" -address {serial.port} -port {upload.network.port} -sketch "{build.path}/{build.project_name}.hex" -upload {upload.network.endpoint_upload} -sync {upload.network.endpoint_sync} -reset {upload.network.endpoint_reset} -sync_exp {upload.network.sync_return}
 build.usb_manufacturer="Unknown"
 build.usb_flags=-DUSB_VID={build.vid} -DUSB_PID={build.pid} '-DUSB_MANUFACTURER={build.usb_manufacturer}' '-DUSB_PRODUCT={build.usb_product}'
-vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\wtjzc3si.eia\Micro Platforms\arduino16x
+vm.platform.root.path=C:\Program Files (x86)\Atmel\Studio\7.0\Extensions\ox4vepph.w3s\Micro Platforms\arduino16x
 avrisp.name=AVR ISP
 avrisp.communication=serial
 avrisp.protocol=stk500v1
@@ -723,48 +742,57 @@ atmel_ice.protocol=atmelice_isp
 atmel_ice.program.protocol=atmelice_isp
 atmel_ice.program.tool=avrdude
 atmel_ice.program.extra_params=-Pusb
+tools.avrdude.cmd=bin/avrdude.exe
+tools.avrdude.cmd.windows=bin/avrdude.exe
+tools.avrdude.config={runtime.platform.path}/tools/avrdude.conf
+xplainedmini.name=Atmel AVR XplainedMini (ISP mode)
+xplainedmini.communication=usb
+xplainedmini.protocol=xplainedmini
+xplainedmini.program.protocol=
+xplainedmini.program.tool=avrdude
+xplainedmini.program.extra_params=-Pusb
 runtime.tools.avr-gcc.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
-runtime.tools.avr-gcc-4.9.2-atmel3.5.3-arduino.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avr-gcc-5.4.0-atmel3.6.1-arduino2.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
 runtime.tools.avrdude.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
-runtime.tools.avrdude-6.3.0-arduino2.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
+runtime.tools.avrdude-6.3.0-arduino14.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avrdude\6.3.0-arduino14
 runtime.tools.arduinoOTA.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.2.0
-runtime.tools.arduinoOTA-1.1.1.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
 runtime.tools.arduinoOTA-1.2.0.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\arduinoOTA\1.2.0
-runtime.tools.avr-gcc-5.4.0-atmel3.6.0-arduino.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
-runtime.vm.boardinfo.id=tachyon
-runtime.vm.boardinfo.name=tachyon
-runtime.vm.boardinfo.desc=Tachyon
+runtime.tools.arduinoOTA-1.1.1.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avrdude-6.3.0-arduino9.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.avr-gcc-4.9.2-atmel3.5.4-arduino2.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.tools.tools-avr.path=C:\Program Files (x86)\Arduino\hardware\tools\avr
+runtime.vm.boardinfo.id=tachyonV2
+runtime.vm.boardinfo.name=tachyonV2
+runtime.vm.boardinfo.desc=Tachyon V2
 runtime.vm.boardinfo.src_location=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207
-ide.hint=For all platforms that use Board Manager
+ide.hint=Use installed IDE. Provides built-in hardware, reference/help and libraries.
 ide.location.key=Arduino16x
 ide.location.ide.winreg=Arduino 1.6.x Application
 ide.location.sketchbook.winreg=Arduino 1.6.x Sketchbook
 ide.location.sketchbook.preferences=sketchbook.path
-ide.default.revision_name=1.8.0
+ide.default.revision_name=1.9.0
 ide.default.version=10800
 ide.default.package=arduino
 ide.default.platform=avr
 ide.multiplatform=true
-ide.includes=arduino.h
+ide.includes=Arduino.h
 ide.exe_name=arduino
+ide.recipe.preproc.defines.flags=-w -x c++ -E -dM
 ide.platformswithoutpackage=false
 ide.includes.fallback=wprogram.h
 ide.extension=ino
 ide.extension.fallback=pde
 ide.versionGTEQ=160
 ide.exe=arduino.exe
+ide.builder.exe=arduinobuilder.exe
+ide.builder.name=Arduino Builder
 ide.hosts=atmel
 ide.url=http://arduino.cc/en/Main/Software
 ide.help.reference.path=reference
 ide.help.reference.path2=reference\www.arduino.cc\en\Reference
 ide.help.reference.serial=reference\www.arduino.cc\en\Serial
-vm.debug=true
-software=ARDUINO
-ssh.user.name=root
-ssh.user.default.password=arduino
-ssh.host.wwwfiles.path=/www/sd
-build.working_directory={runtime.ide.path}\java\bin
 ide.location.preferences.portable={runtime.ide.path}\portable
+ide.location.preferences.arduinoData={runtime.sketchbook.path}\ArduinoData
 ide.location.preferences=%VM_APPDATA_LOCAL%\arduino15\preferences.txt
 ide.location.preferences_fallback=%VM_APPDATA_ROAMING%\arduino15\preferences.txt
 ide.location.contributions=%VM_APPDATA_LOCAL%\arduino15
@@ -774,6 +802,12 @@ ide.contributions.boards.ignore_unless_rewrite_found=true
 ide.contributions.libraries.allow=true
 ide.contributions.boards.support.urls.wiki=https://github.com/arduino/Arduino/wiki/Unofficial-list-of-3rd-party-boards-support-urls
 ide.create_platforms_from_boardsTXT.teensy=build.core
+vm.debug=true
+software=ARDUINO
+ssh.user.name=root
+ssh.user.default.password=arduino
+ssh.host.wwwfiles.path=/www/sd
+build.working_directory={runtime.ide.path}\java\bin
 ide.appid=arduino16x
 location.sketchbook=C:\Users\DELTA-PC\Documents\Arduino
 build.core.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207\cores\arduino
@@ -782,10 +816,6 @@ vm.boardsource.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\h
 runtime.platform.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\hardware\avr\1.6.207
 vm.platformname.name=avr
 build.arch=AVR
-builder.noino=false
-build.architecture=5.4.0-atmel3.6.1-arduino2
-vmresolved.compiler.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2\bin\
-vmresolved.tools.path=C:\Users\DELTA-PC\AppData\Local\arduino15\packages\arduino\tools\avr-gcc\5.4.0-atmel3.6.1-arduino2
 </arduino.board.property_bag>
         <arduino.build.mcu>atmega328p</arduino.build.mcu>
         <arduino.build.f_cpu>20000000L</arduino.build.f_cpu>

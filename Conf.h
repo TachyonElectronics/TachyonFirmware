@@ -10,6 +10,7 @@ Version 1.x
 #ifndef CONF_H_
 #define CONF_H_
 
+
 struct __digitPositioning{
 	uint8_t x, y, spacingx;
 	__digitPositioning(uint8_t _x,uint8_t _y,uint8_t _spacingx) : x(_x), y(_y), spacingx(_spacingx){}
@@ -37,7 +38,6 @@ struct __digitPositioning{
 //Uncomment to choose
 //#define AC_STYLE_CENTRAL
 #define AC_STYLE_CONTINUOUS
-
 
 /*
 #define ACN_POS_Lx 66
@@ -164,10 +164,17 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 #define FACT_CTRCOLOR3 0xF800 //Red
 #define FACT_BRIGHTNESS 100
 #define FACT_RLM 0
-#define FACT_UIROTATION 2
 #define FACT_AMMOBARDIR 0
 #define FACT_AMMOBAR 1
 #define FACT_EMFLASH true //Empty magazine flash
+
+#define FACT_CENTERBTNRELOAD true;
+
+#if defined(ARDUINO_TACHYON_V2)
+#define FACT_UIROTATION 2
+#else
+#define FACT_UIROTATION 0
+#endif
 //=============================================================
 
 
