@@ -170,6 +170,8 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 
 #define FACT_CENTERBTNRELOAD true;
 
+#define FACT_BATTERYCALIBRATION 0
+
 #if defined(ARDUINO_TACHYON_V2)
 #define FACT_UIROTATION 2
 #else

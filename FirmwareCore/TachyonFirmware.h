@@ -24,6 +24,7 @@ struct __TachyonSettings
 	uint8_t reloadMode;
 	uint8_t rotation;
 	uint8_t batteryType;
+	uint8_t batteryCalibration;
 	bool ammoBarDir;
 	uint8_t selectedAmmoBar;
 	bool emptyFlash;

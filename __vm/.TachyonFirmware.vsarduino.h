@@ -54,6 +54,7 @@ void updateTime();
 void updateBattery();
 void updateCurrentPreset();
 uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);
+void calibrateBattery();
 void loadSettings();
 void saveSettings();
 void factoryReset();

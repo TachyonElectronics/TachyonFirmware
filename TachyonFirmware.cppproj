@@ -92,8 +92,6 @@
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
@@ -130,8 +128,6 @@
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
@@ -157,7 +153,7 @@
     <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
-        <arduino.upload.port>COM4</arduino.upload.port>
+        <arduino.upload.port>COM5</arduino.upload.port>
         <VM_ADDITIONAL_COMPILER_FLAGS>
         </VM_ADDITIONAL_COMPILER_FLAGS>
         <arduino.board.name>tachyonV2</arduino.board.name>
@@ -474,8 +470,6 @@ build.arch=AVR
   <avrgcc.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
@@ -512,8 +506,6 @@ build.arch=AVR
   <avrgcccpp.compiler.directories.IncludePaths>
     <ListValues>
       <Value>../../../TachyonFirmware</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src</Value>
-      <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src</Value>
       <Value>C:/Program Files (x86)/Arduino/libraries</Value>
       <Value>C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries</Value>
       <Value>C:/Users/DELTA-PC/Documents/Arduino/libraries</Value>
@@ -539,7 +531,7 @@ build.arch=AVR
     <VMSETTING_IncludePaths>C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-ST7735-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/Wire/src/utility;C:/Program Files (x86)/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries;C:/Users/DELTA-PC/Documents/Arduino/libraries;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/cores/arduino;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/variants/standard;../../../TachyonFirmware;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr/;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.8.1/include;C:/Users/DELTA-PC/Documents/Arduino/libraries/Adafruit-GFX-Library-master;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/hardware/avr/1.6.207/libraries/SPI/src;C:/Program Files (x86)/Arduino/libraries/SD/src;C:/Program Files (x86)/Arduino/libraries/SD/src/utility;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/avr/include/avr;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.2/include;C:/Users/DELTA-PC/AppData/Local/arduino15/packages/arduino/tools/avr-gcc/5.4.0-atmel3.6.1-arduino2/lib/gcc/avr/4.9.3/include;</VMSETTING_IncludePaths>
     <VisualMicroSettings>
       <VisualMicroSettings>
-        <arduino.upload.port>COM4</arduino.upload.port>
+        <arduino.upload.port>COM5</arduino.upload.port>
         <VM_ADDITIONAL_COMPILER_FLAGS>
         </VM_ADDITIONAL_COMPILER_FLAGS>
         <arduino.board.name>tachyonV2</arduino.board.name>

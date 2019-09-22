@@ -28,7 +28,7 @@ STRINGS File (English)
 */
 
 //ALWAYS keep the 'VER?' tag at the beginning!!! This is used by external software (such as Tachyon Utils) to determine the version from a compiled binary file
-const PROGMEM char _Str_Version[] = "VER?ODF 2.1"; //Official Default Firmware
+const PROGMEM char _Str_Version[] = "VER?ODF 2.2"; //Official Default Firmware
 
 #define VERSION PROGMEMSTRING(_Str_Version + 4) //Macro used to cut off the 'VER?' tag
 
@@ -85,7 +85,8 @@ const PROGMEM char Str_BT_NIMH_8CELL[] = "NiMH 9.6v 8-cell";
 const PROGMEM char Str_BT_LIPO_7V4[] = "LiPo 7.4v";
 const PROGMEM char Str_BT_LIPO_11V1[] = "LiPo 11.4v";
 const PROGMEM char Str_BT_StA_9VOLT[] = "Standalone 9v";
-const PROGMEM char* const BTLabels[] = {Str_BT_RAW_VOLTAGE,Str_BT_NIMH_7CELL,Str_BT_NIMH_8CELL,Str_BT_LIPO_7V4,Str_BT_LIPO_11V1,Str_BT_StA_9VOLT};
+const PROGMEM char Str_BT_Calibrate[] = "  < Calibrate >";
+const PROGMEM char* const BTLabels[] = {Str_BT_RAW_VOLTAGE,Str_BT_NIMH_7CELL,Str_BT_NIMH_8CELL,Str_BT_LIPO_7V4,Str_BT_LIPO_11V1,Str_BT_StA_9VOLT, Str_BT_Calibrate};
 
 
 const PROGMEM char Str_AB_Solid[] = "Solid";

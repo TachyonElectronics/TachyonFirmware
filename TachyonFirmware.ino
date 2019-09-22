@@ -27,6 +27,7 @@ uint8_t currentPreset, changedPreset;
 int16_t ammo;
 uint16_t ammoColor;
 uint8_t brightness;
+int8_t batteryPercentage = 127;
 uint16_t* editedColor;
 uint16_t emptyFlashCtr = 0;
 uint16_t presetEditHoldMillis = 0;
@@ -80,7 +81,7 @@ UIInvisibleSlider calibrationSlider = UIInvisibleSlider(&acceptTime,&calibration
 UIInvisibleSlider minuteSlider = UIInvisibleSlider([calibrationSlider,settings,disp](){focusedUiElement = &calibrationSlider; calibrationSlider.value = settings.clockCalibration;disp.drawFastHLine(68,62,12,settings.bgColor);disp.drawFastHLine(52,88,24,settings.uiColor); },[disp, Rtc, minuteSlider](){Rtc.minutes = minuteSlider.value; disp.setCursor(50,50); printTime();},0,59,250);
 UIInvisibleSlider hourSlider = UIInvisibleSlider([minuteSlider, Rtc, settings, disp](){focusedUiElement = &minuteSlider; minuteSlider.value = Rtc.minutes; disp.drawFastHLine(50,62,12,settings.bgColor);disp.drawFastHLine(68,62,12,settings.uiColor);},[disp, Rtc, settings, hourSlider](){Rtc.hours = hourSlider.value; disp.setCursor(50,50); printTime();},0,23,400);*/
 
-UIList btList = UIList([settings](uint8_t val){settings.batteryType = val;openSettingsScreen();},102,12,4,BTLabels,6);
+UIList btList = UIList([settings](uint8_t val){if(val != 6) settings.batteryType = val; else calibrateBattery(); openSettingsScreen();},102,12,4,BTLabels,7);
 
 UIList abList = UIList([settings](uint8_t val){settings.selectedAmmoBar = val;openSettingsScreen2();},102,12,4,ABLabels,4);
 
@@ -1010,7 +1011,6 @@ void updateBattery()
 
 	if(settings.batteryType)
 	{
-		uint8_t percentage = 255;
 		uint8_t cells = 1;
 		switch(settings.batteryType)
 		{
@@ -1034,23 +1034,25 @@ void updateBattery()
 		{
 			case BT_NIMH_7CELL:
 			case BT_NIMH_8CELL:
-			percentage = calculateBatteryPrecentage(voltage/cells,NIMH_H_OFFSET,NIMH_K, NIMH_BASE, NIMH_V_OFFSET);
+			batteryPercentage = calculateBatteryPrecentage(voltage/cells,NIMH_H_OFFSET,NIMH_K, NIMH_BASE, NIMH_V_OFFSET);
 			break;
 			
 			case BT_LIPO_7V4:
 			case BT_LIPO_11V1:
-			percentage = calculateBatteryPrecentage(voltage/cells,LIPO_H_OFFSET,LIPO_K, LIPO_BASE, LIPO_V_OFFSET);
+			batteryPercentage = calculateBatteryPrecentage(voltage/cells,LIPO_H_OFFSET,LIPO_K, LIPO_BASE, LIPO_V_OFFSET);
 			break;
 			
 			case BT_StA_9VOLT:
-			percentage = max(0, min(100, 100.0f * (voltage - StA_9V_MIN) / (StA_9V_MAX - StA_9V_MIN)));
+			batteryPercentage = max(0, min(100, 100.0f * (voltage - StA_9V_MIN) / (StA_9V_MAX - StA_9V_MIN)));
 			break;
 			
 		}
-		if(percentage < 15) disp.setTextColor(settings.ctrColor3, settings.bgColor); //change color = CC
-		disp.print(percentage,DEC);
+		batteryPercentage = map(batteryPercentage, settings.batteryCalibration, 100, 0, 100);
+		if(batteryPercentage < 0) batteryPercentage = 0;
+		if(batteryPercentage < 15) disp.setTextColor(settings.ctrColor3, settings.bgColor); //change color = CC
+		disp.print(batteryPercentage,DEC);
 		disp.print('%');
-		if(percentage < 15) disp.setTextColor(settings.uiColor, settings.bgColor); //revert change = RC
+		if(batteryPercentage < 15) disp.setTextColor(settings.uiColor, settings.bgColor); //revert change = RC
 		disp.fillRect(disp.getCursorX(),disp.getCursorY(),5,7,settings.bgColor);
 	}
 	else
@@ -1090,6 +1092,10 @@ uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float
 
 //====================System functions====================
 #pragma region System functions
+
+void calibrateBattery(){
+	settings.batteryCalibration = batteryPercentage;
+}
 
 void loadSettings()
 {
@@ -1141,6 +1147,7 @@ void factoryReset()
 	factorySettings.batteryType = FACT_BATTERY;
 	factorySettings.centerBtnReload = FACT_CENTERBTNRELOAD;
 	factorySettings.clockCalibration = 0;
+	factorySettings.batteryCalibration = FACT_BATTERYCALIBRATION;
 	size_t s = sizeof(settings);
 	for (size_t i = 0; i < s; i++)
 	{
