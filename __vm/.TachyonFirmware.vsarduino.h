@@ -5,18 +5,18 @@
 			all non-arduino files created by visual micro and all visual studio project or solution files can be freely deleted and are not required to compile a sketch (do not delete your own code!).
 			note: debugger breakpoints are stored in '.sln' or '.asln' files, knowledge of last uploaded breakpoints is stored in the upload.vmps.xml file. Both files are required to continue a previous debug session without needing to compile and upload again
 	
-	Hardware: Tachyon V2, Platform=avr, Package=arduino
+	Hardware: ATmega328PB Crystal Clock, Platform=avr, Package=m328pb
 */
 
-#define __AVR_ATmega328p__
-#define __AVR_ATmega328P__
+#define __AVR_ATmega328pb__
+#define __AVR_ATmega328PB__
 #define ARDUINO 10805
 #define ARDUINO_MAIN
 #define F_CPU 20000000L
 #define __AVR__
 #define F_CPU 20000000L
 #define ARDUINO 10805
-#define ARDUINO_TACHYON_V2
+#define ARDUINO_AVR_UNO
 #define ARDUINO_ARCH_AVR
 //
 //
@@ -24,36 +24,28 @@ void buttonPressed(uint8_t button);
 void buttonHeld(uint8_t button);
 void reloadInterrupt();
 void fire();
+void fire_delayMeter();
 void reload();
-void onSettings1Select(uint8_t item);
-void onSettings2Select(uint8_t selection);
-void onUISetupSelect(uint8_t item);
-void timeSetupSlider_OnValueChange();
-void timeSetupSlider_Accept();
-void onEditPreset(uint8_t preset);
-void onChangePresetVal(int16_t value);
-void onAcceptPreset(int16_t value);
-void openColorEditor(uint16_t* target);
-void updateColorEditorSelection();
-void updateTestColor(int16_t value);
-void acceptColorChannel(int16_t _color_UNUSED);
-void openSimpleListScreen(UIList* _list,char* title,uint8_t _screen,uint8_t _x,uint8_t _y);
-void openSettingsScreen();
-void openSettingsScreen2();
-void openTimeSetup();
+void menuSelect(uint8_t item);
+void openMenuListScreen(uint8_t screen, uint8_t selectedItem);
 void printTime();
-void printCalibration();
+void switchSelectedListItems(uint8_t deselectedItem, uint8_t selectedItem);
+void openDelayMeter();
 void displayMainScreen();
 void updateAmmoBar();
 void drawAmmoBar(uint8_t size);
 void setBrightness(uint8_t newBrightness);
-void showBrightnessBar();
-void updateBrightnessBar();
-void hideBrightnessBar();
+void updateBrightnessIcon();
 void updateTime();
 void updateBattery();
 void updateCurrentPreset();
+void updateHAssist();
+void updateCompass();
 uint8_t calculateBatteryPrecentage(float voltage, float h_offset, float k, float base, float v_offset);
+void editValue(int *value, int _min, int _max);
+void changeEditedValue();
+inline void stopEditingValue();
+void zeroHA();
 void calibrateBattery();
 void loadSettings();
 void saveSettings();

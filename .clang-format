@@ -1,0 +1,20 @@
+---
+BasedOnStyle: LLVM
+AllowShortBlocksOnASingleLine: 'true'
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: 'false'
+AllowShortLoopsOnASingleLine: 'false'
+BreakBeforeBraces: Allman
+BreakBeforeTernaryOperators: 'false'
+ColumnLimit: '0'
+DisableFormat: 'false'
+ExperimentalAutoDetectBinPacking: 'false'
+IndentWidth: '4'
+SpacesInAngles: 'false'
+SpacesInCStyleCastParentheses: 'false'
+SpacesInContainerLiterals: 'false'
+SpacesInParentheses: 'false'
+TabWidth: '4'
+UseTab: Always
+
+...

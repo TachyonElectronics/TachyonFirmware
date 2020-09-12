@@ -24,15 +24,20 @@
 #define PINREGISTER_BTN_RIGHT PINC
 #define PIN_BTN_RIGHT PINC2
 
-#define BTN_RELOAD_INTERRUPT 0
-#define PINREGISTER_BTN_RELOAD PIND
-#define PIN_BTN_RELOAD PIND2
+#define BTN_UP BTN_RIGHT //These are just aliases
+#define BTN_DOWN BTN_LEFT
+
+#define RELOAD_INTERRUPT 0
+#define RELOAD_PINREGISTER PIND
+#define RELOAD_PORT PORTD
+#define RELOAD_PIN PIND2
 
 #define BATTERY_ADC_CHANNEL 6
 
 #define SENSOR_INTERRUPT 1
-#define PINREGISTER_SENSOR PIND
-#define PIN_SENSOR PIND3
+#define SENSOR_PINREGISTER PIND
+#define SENSOR_PORT PORTD
+#define SENSOR_PIN PIND3
 
 #define DSP_BL 5
 #define DSP_CS 8
@@ -54,23 +59,70 @@
 #define PINREGISTER_BTN_RIGHT PINC
 #define PIN_BTN_RIGHT PINC0
 
-#define BTN_RELOAD_INTERRUPT 0
-#define PINREGISTER_BTN_RELOAD PIND
-#define PIN_BTN_RELOAD PIND2
+#define BTN_UP BTN_RIGHT //These are just aliases
+#define BTN_DOWN BTN_LEFT
+
+#define RELOAD_INTERRUPT 0
+#define RELOAD_PINREGISTER PIND
+#define RELOAD_PORT PORTD
+#define RELOAD_PIN PIND2
 
 #define BATTERY_ADC_CHANNEL 3
 
 #define SENSOR_INTERRUPT 1
-#define PINREGISTER_SENSOR PIND
-#define PIN_SENSOR PIND3
+#define SENSOR_PINREGISTER PIND
+#define SENSOR_PORT PORTD
+#define SENSOR_PIN PIND3
 
 #define DSP_BL 5
 #define DSP_CS 8
 #define DSP_RST 10
 
-//Throw a compilation error if target board is not a Tachyon
+/*====================================================
+							V3
+======================================================*/
+
+//TODO:: 
+//#elif defined(ARDUINO_TACHYON_V2)
 #else
-#error Build target not supported. Please select a compatible Tachyon board
+
+#define PINREGISTER_BTN_CENTER PINC
+#define PIN_BTN_CENTER PINC0
+
+#define PINREGISTER_BTN_LEFT PINE
+#define PIN_BTN_LEFT PINE3
+
+#define PINREGISTER_BTN_RIGHT PINC
+#define PIN_BTN_RIGHT PINC1
+
+#define BTN_UP BTN_RIGHT //These are just aliases
+#define BTN_DOWN BTN_LEFT
+
+#define RELOAD_INTERRUPT 0
+#define RELOAD_PINREGISTER PIND
+
+#define RELOAD_PIN PIND2
+#define RELOAD_PORT PORTD
+#define BATTERY_ADC_CHANNEL 3
+
+#define SENSOR_INTERRUPT 1
+#define SENSOR_PINREGISTER PIND
+#define SENSOR_PORT PORTD
+#define SENSOR_PIN PIND3
+
+#define DSP_BL 5
+#define DSP_CS 8
+#define DSP_RST 10
+
+#define SPCR SPCR0
+#define SPSR SPSR0
+
+#define HAS_MAGNETOMETER
+
+//TODO: uncomment
+//Throw a compilation error if target board is not a Tachyon
+//#else
+//#error Build target not supported. Please select a compatible Tachyon board
 #endif
 
 #endif /* PINS_H_ */

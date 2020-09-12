@@ -10,27 +10,30 @@ Version 1.x
 #ifndef CONF_H_
 #define CONF_H_
 
-
-struct __digitPositioning{
-	uint8_t x, y, spacingx;
-	__digitPositioning(uint8_t _x,uint8_t _y,uint8_t _spacingx) : x(_x), y(_y), spacingx(_spacingx){}
-};
-
 #include <stdint.h>
 //====================Basic settings====================
 #define MIN_BRIGHTNESS 1 //Minimum brigtness level (0-255)
 #define BRIGHTNESS_STAY_TIME 1000 //How long does the brigtness bar stay visible for (in ms)
 #define CENTER_HOLD_TIME 2500 //How long you have to hold the center button to open the menu (in ms)
-#define INCREMENT_TIME 10 // When a button is held, this will specify how fast the edited value decreases/increases
-#define INCREMENT_TIME_AMMO 100 // Same as above, applies to preset setup when ammo count is < 100
-#define INCREMENT_TIME_AMMO_100 20 // Same as above, applies to preset setup when ammo count is > 100
-#define INCREMENT_TIME_AMMO_500 1 // Same as above, applies to preset setup when ammo count is > 1000
-#define PRESET_EDIT_HOLD_TIME 750 //When the button is held for this amount of millis, the preset editor change speed will increase
-#define BATT_MEASURMENT_INTERVAL 1000 //Interval between battery voltage sampling (in ms)
+#define INCREMENT_INTERVAL 100 // When a button is held, this will specify how fast the edited value decreases/increases
+#define BRIGHTNESS_INCREMENT_INTERVAL 10 // When a button is held, this will specify how fast the edited value decreases/increases
+#define VALUE_EDIT_HOLD_TIME 1000 //When the button is held for this amount of millis, the preset editor change speed will increase
+#define BATT_MEASURMENT_INTERVAL 250 //Interval between battery voltage sampling (in ms)
 #define BUTTON_DEBOUNCE_INTERVAL 4
 #define _PRESET_COUNT 6 //do not change this
 #define FACTORY_RESET_CONFIRMATIONS 6 //How many times must the factory reset button be pressed in order to activate
 //======================================================
+
+
+//=================Brightness Settings==================
+const uint8_t BRIGHTNESS_LEVELS[] = {1,10,30,80,140,255};
+#define BRIGHTNESS_SETTINGS_COUNT sizeof(BRIGHTNESS_LEVELS) / sizeof(BRIGHTNESS_LEVELS[0])
+
+#define BRIGHTNESS_ICON_X 89
+#define BRIGHTNESS_ICON_Y 89
+#define BRIGHTNESS_ICON_SIZE 12
+//======================================================
+
 
 //====================Ammo Counter Setup====================
 
@@ -49,9 +52,15 @@ struct __digitPositioning{
 #define ACN_POS_My 46
 */
 
+//Parent struct; ignore this
+struct __digitPositioning{
+	uint8_t x, y, spacingx;
+	__digitPositioning(uint8_t _x,uint8_t _y,uint8_t _spacingx) : x(_x), y(_y), spacingx(_spacingx){}
+};
+
 //Positioning of digit charsets
-#define ACN_STARTY 41
-const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}};
+#define ACN_STARTY 34
+const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,ACN_STARTY+5,44}, {1,ACN_STARTY+14,32}};
 
 //==========================================================
 
@@ -83,9 +92,6 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 #define BTN_CENTER 2
 #define BTN_RLD 255
 
-#define BTN_UP BTN_RIGHT //These are just aliases
-#define BTN_DOWN BTN_LEFT
-
 #define _BTN_COUNT 5
 //==========================================================
 
@@ -94,13 +100,16 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 #define SCREEN_SETTINGS1 1
 #define SCREEN_PRESETS 2
 #define SCREEN_COLOR 3
-#define SCREEN_RELOADMODES 4
-#define SCREEN_UISETUP 5
-#define SCREEN_TIME 6
-#define SCREEN_SETTINGS2 7
-#define SCREEN_BTSELECT 8
-#define SCREEN_AMMOBARSELECT 9
-#define SCREEN_SYSINFO 255
+#define SCREEN_UISETUP 4
+#define SCREEN_TIME 5
+#define SCREEN_SETTINGS2 6
+#define SCREEN_BTSELECT 7
+#define SCREEN_AMMOBARSELECT 8
+#define SCREEN_EDITVALUE 9
+#define SCREEN_MAG_CAL 10
+#define SCREEN_DELAYMETER 11
+#define SCREEN_SETTINGS3 12
+#define SCREEN_COMPASS_SETTINGS 13
 //===============================================
 
 //	Not currently used - not that practical and only takes up program memory. This could, however, become a compile-time setting
@@ -148,7 +157,18 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 
 //=====================================================================
 
+//========================Magnetometer settings========================
+#define COMPASS_TXT_X 48
+#define COMPASS_TXT_Y 88
+//=====================================================================
 
+//======================Hop Up Assist Settings=========================
+#define HA_START_X 114
+#define HA_START_Y 89
+#define HA_SIZE_X 10
+#define HA_SIZE_Y 14
+#define HA_THRESHOLD 0.992F
+//=====================================================================
 
 //====================Factory user settings====================
 #define FACT_PRESET1 30
@@ -162,7 +182,7 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 #define FACT_CTRCOLOR1 0x07E0 //Green
 #define FACT_CTRCOLOR2 0xFFA0 //Orange
 #define FACT_CTRCOLOR3 0xF800 //Red
-#define FACT_BRIGHTNESS 100
+#define FACT_BRIGHTNESS 3
 #define FACT_RLM 0
 #define FACT_AMMOBARDIR 0
 #define FACT_AMMOBAR 1
@@ -172,6 +192,9 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 
 #define FACT_BATTERYCALIBRATION 0
 
+#define FACT_HA_MODE true
+#define FACT_COMPASS_MODE 1
+
 #if defined(ARDUINO_TACHYON_V2)
 #define FACT_UIROTATION 2
 #else
@@ -179,6 +202,18 @@ const __digitPositioning digitPos[3] = {{14,ACN_STARTY,52}, {1,46,44}, {1,55,32}
 #endif
 //=============================================================
 
+//====================Menu Graphics settings===================
+#define LIST_MENU_X 8
+#define LIST_MENU_Y 0
+#define LIST_MENU_W 112
+#define LIST_MENU_H 12
+#define LIST_MENU_S 4
 
+#define EDITVALUE_VAL_X 128/2-20
+#define EDITVALUE_VAL_Y 62
+#define EDITVALUE_MSG_X 30
+#define EDITVALUE_MSG_Y 48
+#define EDITVALUE_BAR_Y 77
+//=============================================================
 
 #endif /* CONF_H_ */

@@ -20,7 +20,7 @@ class RTC
 {
 	
 	public:
-	uint8_t seconds, minutes, hours, lastResult;
+	uint16_t seconds, minutes, hours, lastResult;
 	
 	void Write(uint8_t address, uint8_t data);
 	uint8_t Read(uint8_t addresss);

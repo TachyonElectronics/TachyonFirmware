@@ -13,7 +13,7 @@ class Adafruit_GFX : public Print {
 
 	public:
 
-	Adafruit_GFX(int16_t w, int16_t h); // Constructor
+	Adafruit_GFX(/*int16_t w, int16_t h*/); // Constructor
 
 	// This MUST be defined by the subclass:
 	virtual void drawPixel(int16_t x, int16_t y, uint16_t color) = 0;
@@ -121,14 +121,19 @@ class Adafruit_GFX : public Print {
 	int16_t getCursorX(void) const;
 	int16_t getCursorY(void) const;
 
+#define WIDTH 128
+#define HEIGHT 128
+#define _width WIDTH
+#define _height HEIGHT
+
 	protected:
 	void
 	charBounds(char c, int16_t *x, int16_t *y,
 	int16_t *minx, int16_t *miny, int16_t *maxx, int16_t *maxy);
-	const int16_t
-	WIDTH, HEIGHT;   // This is the 'raw' display w/h - never changes
+	/*const int16_t
+	WIDTH, HEIGHT; */  // This is the 'raw' display w/h - never changes
 	int16_t
-	_width, _height, // Display w/h as modified by current rotation
+	//_width, _height, // Display w/h as modified by current rotation
 	cursor_x, cursor_y;
 	uint16_t
 	textcolor, textbgcolor;
@@ -172,7 +177,7 @@ class Adafruit_GFX_Button {
 
 	boolean currstate, laststate;
 };
-
+/*
 class GFXcanvas1 : public Adafruit_GFX {
 	public:
 	GFXcanvas1(uint16_t w, uint16_t h);
@@ -207,5 +212,5 @@ class GFXcanvas16 : public Adafruit_GFX {
 	private:
 	uint16_t *buffer;
 };
-
+*/
 #endif // _ADAFRUIT_GFX_H

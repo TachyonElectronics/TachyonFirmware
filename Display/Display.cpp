@@ -55,7 +55,7 @@ static uint8_t mySPCR;*/
 
 // Constructor when using software SPI.  All output pins are configurable.
 Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, int8_t rst)
-: Adafruit_GFX(ST7735_TFTWIDTH, ST7735_TFTHEIGHT)
+: Adafruit_GFX(/*ST7735_TFTWIDTH, ST7735_TFTHEIGHT*/)
 {
 	_cs   = cs;
 	_dc   = dc;
@@ -68,7 +68,7 @@ Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t sid, int8_t sclk, 
 // Constructor when using hardware SPI.  Faster, but must use SPI pins
 // specific to each board type (e.g. 11,13 for Uno, 51,52 for Mega, etc.)
 Adafruit_ST7735::Adafruit_ST7735(int8_t cs, int8_t dc, int8_t rst)
-: Adafruit_GFX(ST7735_TFTWIDTH, ST7735_TFTHEIGHT) {
+: Adafruit_GFX(/*ST7735_TFTWIDTH, ST7735_TFTHEIGHT*/) {
 	_cs   = cs;
 	_dc   = dc;
 	_rst  = rst;
@@ -209,8 +209,8 @@ void Adafruit_ST7735::commandList(const uint8_t *addr) {
 void Adafruit_ST7735::init()
 {
 	ystart = xstart = 0;
-	_height = ST7735_TFTHEIGHT;
-	_width  = ST7735_TFTWIDTH;
+	//_height = ST7735_TFTHEIGHT;
+	//_width  = ST7735_TFTWIDTH;
 
 	pinMode(_dc, OUTPUT);
 	pinMode(_cs, OUTPUT);
@@ -314,8 +314,7 @@ void Adafruit_ST7735::drawPixel(int16_t x, int16_t y, uint16_t color) {
 }
 
 
-void Adafruit_ST7735::drawFastVLine(int16_t x, int16_t y, int16_t h,
-uint16_t color) {
+void Adafruit_ST7735::drawFastVLine(uint8_t x, uint8_t y, uint8_t h, uint16_t color) {
 
 	// Rudimentary clipping
 	if((x >= _width) || (y >= _height)) return;
@@ -345,8 +344,7 @@ uint16_t color) {
 }
 
 
-void Adafruit_ST7735::drawFastHLine(int16_t x, int16_t y, int16_t w,
-uint16_t color) {
+void Adafruit_ST7735::drawFastHLine(uint8_t x, uint8_t y, uint8_t w, uint16_t color) {
 
 	// Rudimentary clipping
 	if((x >= _width) || (y >= _height)) return;
@@ -382,8 +380,7 @@ void Adafruit_ST7735::fillScreen(uint16_t color) {
 
 
 // fill a rectangle
-void Adafruit_ST7735::fillRect(int16_t x, int16_t y, int16_t w, int16_t h,
-uint16_t color) {
+void Adafruit_ST7735::fillRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color) {
 
 	// rudimentary clipping (drawChar w/big text requires this)
 	if((x >= _width) || (y >= _height)) return;
@@ -417,14 +414,7 @@ uint16_t color) {
 
 // takes up ~500 bytes, can be optimized
 
-void Adafruit_ST7735::fillCroppedRect(int16_t x, int16_t y, int16_t w, int16_t h,
-uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
-
-	// rudimentary clipping (drawChar w/big text requires this)
-	if((x >= _width) || (y >= _height)) return;
-	if((x + w - 1) >= _width)  w = _width  - x;
-	if((y + h - 1) >= _height) h = _height - y;
-
+void Adafruit_ST7735::fillCroppedRect(uint8_t x, uint8_t y, uint8_t w, uint8_t h, uint16_t color,uint16_t bg, int16_t cropX, int16_t cropY) {
 	setAddrWindow(x, y, x+w-1, y+h-1);
 
 	uint8_t hi = color >> 8, lo = color, bgH = bg >> 8, bgL = bg;
@@ -459,9 +449,10 @@ uint16_t Adafruit_ST7735::Color565(uint8_t r, uint8_t g, uint8_t b) {
 	return ((r & 0xF8) << 8) | ((g & 0xFC) << 3) | (b >> 3);
 }
 
-void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
+void Adafruit_ST7735::drawBitmap(uint8_t x, uint8_t y, const uint8_t bitmap[], uint16_t color, uint16_t bg)
 {
-	uint8_t w,  h;
+	drawBitmap(x,y,bitmap,color,bg,0,0);
+	/*uint8_t w,  h;
 	w = pgm_read_byte(&bitmap[0]);
 	h = pgm_read_byte(&bitmap[1]);
 
@@ -498,11 +489,11 @@ void Adafruit_ST7735::drawBitmap(int16_t x, int16_t y, const uint8_t bitmap[], u
 		if(xPos < w -1 )xPos++;
 		else{ xPos = 0; yPos++;}
 	}
-	CS_HIGH();
+	CS_HIGH();*/
 }
 
 
-void Adafruit_ST7735::drawBitmap(int16_t x_in, int16_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
+void Adafruit_ST7735::drawBitmap(uint8_t x_in, uint8_t y_in, const uint8_t bitmap[], uint16_t color, uint16_t bg, int16_t cropX, int16_t cropY)
 {
 	uint8_t w, h, cropLeft, cropRight, cropTop, cropBottom;
 	w = pgm_read_byte(&bitmap[0]);

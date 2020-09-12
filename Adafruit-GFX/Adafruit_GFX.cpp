@@ -69,11 +69,12 @@ POSSIBILITY OF SUCH DAMAGE.
 #define _swap_int16_t(a, b) { int16_t t = a; a = b; b = t; }
 #endif
 
-Adafruit_GFX::Adafruit_GFX(int16_t w, int16_t h):
-WIDTH(w), HEIGHT(h)
+/*Adafruit_GFX::Adafruit_GFX(int16_t w, int16_t h):
+WIDTH(w), HEIGHT(h)*/
+Adafruit_GFX::Adafruit_GFX()
 {
-	_width    = WIDTH;
-	_height   = HEIGHT;
+	//_width    = WIDTH;
+	//_height   = HEIGHT;
 	rotation  = 0;
 	cursor_y  = cursor_x    = 0;
 	textsize  = 1;
@@ -742,7 +743,7 @@ uint16_t color, uint16_t bg, uint8_t size) {
 
 	startWrite();
 	for(int8_t i=0; i<5; i++ ) { // Char bitmap = 5 columns
-		uint8_t line = pgm_read_byte(&font[c * 5 + i]);
+		uint8_t line = pgm_read_byte(&font[(c-32) * 5 + i]);
 		for(int8_t j=0; j<8; j++, line >>= 1) {
 			if(line & 1) {
 				if(size == 1)
@@ -919,13 +920,13 @@ size_t Adafruit_GFX::write(uint8_t c) {
 		switch(rotation) {
 			case 0:
 			case 2:
-			_width  = WIDTH;
-			_height = HEIGHT;
+			//_width  = WIDTH;
+			//_height = HEIGHT;
 			break;
 			case 1:
 			case 3:
-			_width  = HEIGHT;
-			_height = WIDTH;
+			//_width  = HEIGHT;
+			//_height = WIDTH;
 			break;
 		}
 	}
@@ -1150,7 +1151,7 @@ size_t Adafruit_GFX::write(uint8_t c) {
 	boolean Adafruit_GFX_Button::isPressed() { return currstate; }
 	boolean Adafruit_GFX_Button::justPressed() { return (currstate && !laststate); }
 	boolean Adafruit_GFX_Button::justReleased() { return (!currstate && laststate); }
-
+/*
 	// -------------------------------------------------------------------------
 
 	// GFXcanvas1, GFXcanvas8 and GFXcanvas16 (currently a WIP, don't get too
@@ -1366,4 +1367,4 @@ size_t Adafruit_GFX::write(uint8_t c) {
 			}
 		}
 	}
-
+*/

@@ -36,7 +36,7 @@ uint16_t Adafruit_SPITFT::color565(uint8_t r, uint8_t g, uint8_t b) {
 Adafruit_SPITFT::Adafruit_SPITFT(uint16_t w, uint16_t h,
 				 int8_t cs, int8_t dc, int8_t mosi,
 				 int8_t sclk, int8_t rst, int8_t miso) 
-  : Adafruit_GFX(w, h) {
+  : Adafruit_GFX(/*w, h*/) {
     _cs   = cs;
     _dc   = dc;
     _rst  = rst;
@@ -65,7 +65,7 @@ Adafruit_SPITFT::Adafruit_SPITFT(uint16_t w, uint16_t h,
 
 Adafruit_SPITFT::Adafruit_SPITFT(uint16_t w, uint16_t h,
 				 int8_t cs, int8_t dc, int8_t rst) 
-  : Adafruit_GFX(w, h) {
+  : Adafruit_GFX(/*w, h*/) {
     _cs   = cs;
     _dc   = dc;
     _rst  = rst;
